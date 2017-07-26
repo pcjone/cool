@@ -1,0 +1,53 @@
+<#assign bathPath=springMacroRequestContext.getContextPath() />
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>后台管理登录</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="${bathPath}/resources/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/animate.css" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/style.css" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/login.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script src="${bathPath}/resources/js/jquery-1.7.2.min.js"></script>
+    <script src="${bathPath}/resources/js/jquery.form.js"></script>
+    <script src="${bathPath}/resources/js/login/login.js"></script>
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+    </script>
+
+</head>
+
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-12">
+            		<form id="formId" action="login" method="post">
+                    <h4 class="no-margins">登录：</h4>
+                    <p class="m-t-md">后台管理平台</p>
+                    <input type="text" id="account" name="account" class="form-control uname" placeholder="用户名" />
+                    <input type="password" id="password" name="password" class="form-control pword m-b" placeholder="密码" />
+                    <a href="">忘记密码了？</a>
+                    <button class="btn btn-success btn-block" onclick="login()">登录</button>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; pl
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

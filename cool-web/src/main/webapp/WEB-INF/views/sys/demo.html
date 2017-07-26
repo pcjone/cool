@@ -1,0 +1,84 @@
+<#assign bathPath=springMacroRequestContext.getContextPath() />
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>标题</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+<link rel="shortcut icon" href="favicon.ico">
+<link href="${bathPath}/resources/assets/css/bootstrap.min.css?v=3.3.6"
+	rel="stylesheet">
+<link href="${bathPath}/resources/assets/css/font-awesome.css?v=4.4.0"
+	rel="stylesheet">
+<link
+	href="${bathPath}/resources/assets/css/plugins/bootstrap-table/bootstrap-table.min.css"
+	rel="stylesheet">
+<link href="${bathPath}/resources/assets/css/animate.css"
+	rel="stylesheet">
+<link href="${bathPath}/resources/assets/css/style.css?v=4.1.0"
+	rel="stylesheet">
+
+
+</head>
+
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="ibox float-e-margins">
+
+			<div class="ibox-title">
+				<h5>基本</h5>
+				<div class="ibox-tools">
+					<a class="collapse-link" href="#data-list-table"> <i class="fa fa-chevron-up"></i>
+					</a> 
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <i
+						class="fa fa-wrench"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-user">
+						<li><a href="#">选项1</a></li>
+						<li><a href="#">选项2</a></li>
+					</ul>
+					<a class="close-link"> <i class="fa fa-times"></i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<div class="btn-group-horizontal" id="toolbar">
+					<button id="add" class="btn btn-primary " type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;新增</button>
+					<button id="edit" class="btn btn-info " type="button"><i class="fa fa-paste"></i> 编辑</button>
+					<button id="delete" class="btn btn-danger " type="button"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+				</div>
+				<table id="data-list-table">
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+<!-- 全局js -->
+<script src="${bathPath}/resources/assets/js/jquery.min.js?v=2.1.4"></script>
+<script src="${bathPath}/resources/assets/js/bootstrap.min.js?v=3.3.6"></script>
+
+<!-- 自定义js -->
+<script src="${bathPath}/resources/assets/js/content.js?v=1.0.0"></script>
+
+<!-- Bootstrap table -->
+<script
+	src="${bathPath}/resources/assets/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script
+	src="${bathPath}/resources/assets/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script
+	src="${bathPath}/resources/assets/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<!-- 自定义js -->
+<script src="${bathPath}/resources/js/sys/demo.js"></script>
+</html>

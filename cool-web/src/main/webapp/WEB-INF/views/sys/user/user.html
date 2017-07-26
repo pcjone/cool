@@ -1,0 +1,163 @@
+<#assign bathPath=springMacroRequestContext.getContextPath() />
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	
+	<title>用户管理</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+
+	<link rel="shortcut icon" href="favicon.ico"> 
+    <link href="${bathPath}/resources/assets/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/animate.css" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="${bathPath}/resources/assets/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<!-- Sweet Alert -->
+	<link href="${bathPath}/resources/assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="ibox float-e-margins">
+
+			<div class="ibox-title">
+				<h5>用户管理</h5>
+				<div class="ibox-tools">
+					<a class="collapse-link" href="#data-list-table"> <i
+						class="fa fa-chevron-up"></i>
+					</a> <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <i
+						class="fa fa-wrench"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-user">
+						<li><a href="#">选项1</a></li>
+						<li><a href="#">选项2</a></li>
+					</ul>
+					<a class="close-link"> <i class="fa fa-times"></i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<div class="btn-group-horizontal" id="toolbar">
+					<button id="add" class="btn btn-primary " type="button">
+						<i class="glyphicon glyphicon-plus"></i>&nbsp;新增
+					</button>
+					<button id="edit" class="btn btn-info " type="button">
+						<i class="fa fa-paste"></i> 编辑
+					</button>
+					<button id="delete" class="btn btn-danger " type="button">
+						<i class="glyphicon glyphicon-trash"></i> 删除
+					</button>
+				</div>
+				<table id="data-list-table">
+
+				</table>
+				
+				
+			</div>
+		</div>
+	</div>
+	<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated fadeIn">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h1 class="modal-title">新增用户</h1>
+				</div>
+				<div class="modal-body">
+					 <form class="form-horizontal m-t" action="add" method="post" id="signupForm">
+					 		<input id="id" name="id" type="hidden"/>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">账户：</label>
+                                <div class="col-sm-8">
+                                    <input id="account" name="account" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">密码：</label>
+                                <div class="col-sm-8">
+                                    <input id="password" name="password" class="form-control" type="password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">确认密码：</label>
+                                <div class="col-sm-8">
+                                    <input id="confirm_password" name="confirm_password" class="form-control" type="password">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请再次输入您的密码</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户名：</label>
+                                <div class="col-sm-8">
+                                    <input id="userName" name="userName" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">性别：</label>
+                                <div class="col-sm-8">
+                                    <div class="radio col-sm-4">
+                                        <label>
+                                            <input type="radio" checked="" value="1" id="sex1" name="sex">男</label>
+                                    </div>
+                                    <div class="radio col-sm-4">
+                                        <label>
+                                            <input type="radio" value="2" id="sex2" name="sex">女</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户类型：</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control m-b" name="userType">
+                                        <option value="1">普通用户</option>
+                                        <option value="2" selected>管理员</option>
+                                        <option value="3">系统用户</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">E-mail：</label>
+                                <div class="col-sm-8">
+                                    <input id="email" name="email" class="form-control" type="email">
+                                </div>
+                            </div>
+                        </form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="save">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 全局js -->
+    <script src="${bathPath}/resources/assets/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${bathPath}/resources/assets/js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="${bathPath}/resources/assets/js/content.js?v=1.0.0"></script>
+	<!-- Bootstrap table -->
+	<script src="${bathPath}/resources/assets/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+	<script src="${bathPath}/resources/assets/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+	<script src="${bathPath}/resources/assets/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<!-- iCheck -->
+    <script src="${bathPath}/resources/assets/js/plugins/iCheck/icheck.min.js"></script>
+	<!-- Sweet alert -->
+	<script src="${bathPath}/resources/assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+	 <!-- jQuery Validation plugin javascript-->
+    <script src="${bathPath}/resources/assets/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${bathPath}/resources/assets/js/plugins/validate/messages_zh.min.js"></script>
+	
+	<script src="${bathPath}/resources/js/jquery.form.js"></script>
+	<script src="${bathPath}/resources/js/sys/sysUser.js"></script>
+</body>
+</html>

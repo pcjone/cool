@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cool.dao.SysUserMapper">
+	<resultMap type="com.cool.model.SysUser" id="resultMap">
+		<id column="id" property="id"/>
+		<result column="account" property="account"/>
+		<result column="password" property="password"/>
+		<result column="user_type" property="userType"/>
+		<result column="user_name" property="userName"/>
+		<result column="name_pinyin" property="namePinyin"/>
+		<result column="sex" property="sex"/>
+		<result column="avatar" property="avatar"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="id_card" property="idCard"/>
+		<result column="wei_xin" property="weiXin"/>
+		<result column="wei_bo" property="weiBo"/>
+		<result column="qq" property="qq"/>
+		<result column="birth_day" property="birthDay"/>
+		<result column="dept_id" property="deptId"/>
+		<result column="position" property="position"/>
+		<result column="address" property="address"/>
+		<result column="staff_no" property="staffNo"/>
+		<result column="enable" property="enable"/>
+		<result column="remark" property="remark"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_by" property="updateBy"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	
+	<sql id="allField">
+		id,account,password,user_type,user_name,name_pinyin,sex,avatar,phone,
+		email,id_card,wei_xin,wei_bo,qq,birth_day,dept_id,position,address,
+		staff_no,enable,remark,create_by,create_time,update_by,update_time
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+				1 = 1
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="account != null and account != ''">
+				and account = #{account}
+			</if>
+			<if test="password != null and password != ''">
+				and password = #{password}
+			</if>
+			<if test="userType != null">
+				and user_type = #{userType}
+			</if>
+			<if test="userName != null and userName != ''">
+				and user_name like concat("%",concat(#{userName},"%"))
+			</if>
+			<if test="sex != null">
+				and sex = #{sex}
+			</if>
+			<if test="avatar != null and avatar != ''">
+				and avatar = #{avatar}
+			</if>
+			<if test="phone != null and phone != ''">
+				and phone like concat("%",concat(#{phone},"%"))
+			</if>
+		</where>
+	</sql>
+	
+	<select id="queryForList" parameterType= "Object" resultMap="resultMap">
+		select 
+			<include refid="allField"></include>
+		from sys_user 
+			<include refid="whereSql"></include>
+	</select>
+	
+	<select id="queryUserByName" parameterType="Object" resultMap="resultMap">
+		select 
+			<include refid="allField"></include>
+		from sys_user 
+			<include refid="whereSql"></include>
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="Object" resultMap="resultMap">
+		select 
+			<include refid="allField"></include>
+		from sys_user where id = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="Object">
+		insert into sys_user 
+		(account,password,user_name,email,sex,user_type,enable,create_time,create_by) 
+		values 
+		(#{account},#{password},#{userName},#{email},#{sex},#{userType},#{enable},#{createTime},#{createBy})
+	</insert>
+</mapper>
