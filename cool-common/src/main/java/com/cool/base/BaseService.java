@@ -23,10 +23,16 @@ public interface BaseService <T extends BaseModel>{
 	public T updateDB(T record) throws ServiceException;
 
 	@Transactional
-	public void deleteDBAndCache(Long[] ids, String account) throws ServiceException;
+	public void deleteDBAndCache(Long[] ids) throws ServiceException;
 
 	@Transactional
-	public void deleteDB(Long[] ids, String account) throws ServiceException;
+	public void deleteDB(Long[] ids) throws ServiceException;
+	
+	@Transactional
+	public void cancelDBAndCache(Long[] ids, String account) throws ServiceException;
+
+	@Transactional
+	public void cancelDB(Long[] ids, String account) throws ServiceException;
 
 	public T queryDBById(Long id) throws ServiceException;
 

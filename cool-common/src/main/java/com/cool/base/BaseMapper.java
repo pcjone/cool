@@ -19,7 +19,7 @@ public interface BaseMapper<T extends BaseModel> {
 	/** 实时条件分页查询 */
 	Page<T> queryForList(Map<String, Object> params);
 
-	int deleteByPrimaryKey(@Param(value = "id") Long id);
+	void deleteByPrimaryKey(@Param(value = "id") Long id);
 
 	T selectByPrimaryKey(@Param(value = "id") Long id);
 
@@ -30,4 +30,6 @@ public interface BaseMapper<T extends BaseModel> {
 	int updateByPrimaryKey(T record);
 
 	void updateAllByPrimaryKey(Map<String, Object> paramMap);
+	
+	void deleteAllByPrimaryKey(List<Long> list);
 }

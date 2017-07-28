@@ -14,15 +14,16 @@ public class SysMenu extends BaseModel{
 	/** 
 	* @Fields serialVersionUID : 序列化
 	*/ 
-	private static final long serialVersionUID = -4922695040599977515L;
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 菜单名称
 	 */
 	private String menuName;
 	/**
-	 * 菜单类型(0:CURD;1:系统菜单;2:业务菜单;)
+	 * 菜单类型(0:CURD;1:系统菜单;)
 	 */
-	private Boolean menuType;
+	private Long menuType;
 	/**
 	 * 上级菜单编号
 	 */
@@ -38,7 +39,7 @@ public class SysMenu extends BaseModel{
 	/**
 	 * 展开状态(1:展开;0:收缩)
 	 */
-	private Boolean expand;
+	private Long expand;
 	/**
 	 * 排序号
 	 */
@@ -46,22 +47,21 @@ public class SysMenu extends BaseModel{
 	/**
 	 * 叶子节点(0:树枝节点;1:叶子节点)
 	 */
-	private Boolean isShow;
+	private Long isShow;
 	/**
 	 * 权限标识
 	 */
 	private String permission;
-	
 	public String getMenuName() {
 		return menuName;
 	}
 	public void setMenuName(String menuName) {
 		this.menuName = menuName;
 	}
-	public Boolean getMenuType() {
+	public Long getMenuType() {
 		return menuType;
 	}
-	public void setMenuType(Boolean menuType) {
+	public void setMenuType(Long menuType) {
 		this.menuType = menuType;
 	}
 	public Long getParentId() {
@@ -82,10 +82,10 @@ public class SysMenu extends BaseModel{
 	public void setRequest(String request) {
 		this.request = request;
 	}
-	public Boolean getExpand() {
+	public Long getExpand() {
 		return expand;
 	}
-	public void setExpand(Boolean expand) {
+	public void setExpand(Long expand) {
 		this.expand = expand;
 	}
 	public Integer getSortNo() {
@@ -94,10 +94,10 @@ public class SysMenu extends BaseModel{
 	public void setSortNo(Integer sortNo) {
 		this.sortNo = sortNo;
 	}
-	public Boolean getIsShow() {
+	public Long getIsShow() {
 		return isShow;
 	}
-	public void setIsShow(Boolean isShow) {
+	public void setIsShow(Long isShow) {
 		this.isShow = isShow;
 	}
 	public String getPermission() {
@@ -106,4 +106,5 @@ public class SysMenu extends BaseModel{
 	public void setPermission(String permission) {
 		this.permission = permission;
 	}
+	
 }

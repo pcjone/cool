@@ -33,9 +33,9 @@ public interface Constants {
 	/**收费员CODE*/
 	public final static String CODE_TYPE_COLL_CODE = "COLL_CODE";
 
-	/**是否删除*/
-	public static final Integer DELETED_YES = 1;
-	public static final Integer DELETED_NO = 0;
+	/**是否锁定*/
+	public static final Integer ENABLE_YES = 1;//锁定
+	public static final Integer ENABLE_NO = 0;//未锁定
 	/**启用状态*/
 	public static final Integer STATUS_ENABLE = 1;
 	public static final Integer STATUS_DISABLE = 0;

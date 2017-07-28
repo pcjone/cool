@@ -11,6 +11,7 @@
 			<list>
 				<value>classpath:config/jdbc.properties</value>
 				<value>classpath:config/dubbo.properties</value>
+				<value>classpath:config/redis.properties</value>
 			</list>
 		</property>
 		<property name="properties">
@@ -29,4 +30,5 @@
 	<import resource="spring/dataSource.xml"/>
 	<import resource="spring/mybatis.xml"/>
 	<import resource="spring/dubbo-server.xml"/>
+	<import resource="spring/redis.xml"/>
 </beans>

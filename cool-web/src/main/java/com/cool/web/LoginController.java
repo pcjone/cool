@@ -78,7 +78,7 @@ public class LoginController extends BaseController {
 		sendFailureMessage(response,LoginConstants.USER_NOT_EXIST);
 	}
 	
-	@PostMapping("/logout")
+	@RequestMapping("/logout")
 	public Object logout(HttpServletRequest request, ModelMap modelMap) {
 		SecurityUtils.getSubject().logout();
 		Map<String,Object> context = getRootMap();

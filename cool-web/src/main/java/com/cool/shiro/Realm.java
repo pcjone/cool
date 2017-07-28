@@ -96,9 +96,13 @@ public class Realm extends AuthorizingRealm{
 		//根据用户id查询权限菜单
 		List<SysMenu> sysMenuList = sysMenuService.querySysMenuByUserId(user.getId());
 		List<String> permissionList = new ArrayList<String>();
+		logger.info("==============用户权限开始==============");
+		logger.info("当前用户：{}", user.getAccount());
 		for(SysMenu menu : sysMenuList) {
+			logger.info(menu.getPermission());
 			permissionList.add(menu.getPermission());
 		}
+		logger.info("==============用户权限结束==============");
 		userSession.setPermissionList(permissionList);
 		RedisUtil.setNoExpiry(userSession.getAccount(), userSession);
 		return userSession.getAccount();

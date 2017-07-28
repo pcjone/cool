@@ -19,4 +19,10 @@
 	<dubbo:reference id="sysUserMenuService" interface="com.cool.api.SysUserMenuService" ></dubbo:reference>
 
 	<dubbo:reference id="sysMenuService" interface="com.cool.api.SysMenuService"></dubbo:reference>
+	
+	<dubbo:reference id="sysRoleService" interface="com.cool.api.SysRoleService"></dubbo:reference>
+	
+	<dubbo:reference id="sysDicService" interface="com.cool.api.SysDicService"></dubbo:reference>
+	
+	<dubbo:reference id="sysParamService" interface="com.cool.api.SysParamService"></dubbo:reference>
 </beans>

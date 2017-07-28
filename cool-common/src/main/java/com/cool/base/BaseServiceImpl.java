@@ -1,5 +1,6 @@
 package com.cool.base;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -167,14 +168,49 @@ public abstract class BaseServiceImpl<T extends BaseModel> {
 	/**
 	 * 数据删除，并删除redis缓存中的数据
 	 * @param ids ID集合
-	 * @param account 用户ID
 	 */
 	@Transactional
-	public void deleteDBAndCache(Long[] ids, String account) {
+	public void deleteDBAndCache(Long[] ids) {
+		try {
+			List<Long> list = new ArrayList<Long>();
+			for (Long id : ids) {
+				list.add(id);
+				RedisUtil.del(getCacheKey(id));
+			}
+			getMapper().deleteAllByPrimaryKey(list);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * 数据库数据删除,无需刷新缓存
+	 * @param ids ID集合
+	 */
+	@Transactional
+	public void deleteDB(Long[] ids) {
+		try {
+			List<Long> list = new ArrayList<Long>();
+			for(Long id : ids) {
+				list.add(id);
+			}
+			getMapper().deleteAllByPrimaryKey(list);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * 数据删除，并删除redis缓存中的数据
+	 * @param ids ID集合
+	 * @param account 用户
+	 */
+	@Transactional
+	public void cancelDBAndCache(Long[] ids, String account) {
 		try {
 			for (Long id : ids) {
 				T record = queryCacheById(id);
-				record.setEnable(Constants.DELETED_YES);
+				record.setEnable(Constants.ENABLE_YES);
 				record.setUpdateTime(new Date());
 				record.setUpdateBy(account);
 				getMapper().updateByPrimaryKey(record);
@@ -188,14 +224,14 @@ public abstract class BaseServiceImpl<T extends BaseModel> {
 	/**
 	 * 数据库数据删除,无需刷新缓存
 	 * @param ids ID集合
-	 * @param account 用户ID
+	 * @param account 用户
 	 */
 	@Transactional
-	public void deleteDB(Long[] ids, String account) {
+	public void cancelDB(Long[] ids, String account) {
 		try {
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("ids", ids);
-			paramMap.put("deleted", Constants.DELETED_YES);
+			paramMap.put("enable", Constants.ENABLE_YES);
 			paramMap.put("updateTime", DateUtil.getCurrentDate());
 			paramMap.put("updateBy", account);
 			getMapper().updateAllByPrimaryKey(paramMap);
@@ -249,12 +285,18 @@ public abstract class BaseServiceImpl<T extends BaseModel> {
 
 	@Transactional
 	public T insert(T record) {
+		record.setEnable(Constants.ENABLE_NO);
+		record.setCreateTime(new Date());
 		getMapper().insert(record);
 		return record;
 	}
 	
 	@Transactional
 	public int insertBatch(List<T> list) {
+		for(T record : list) {
+			record.setEnable(Constants.ENABLE_NO);
+			record.setCreateTime(new Date());
+		}
 		return getMapper().insertBatch(list);
 	}
 

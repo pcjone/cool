@@ -2,6 +2,7 @@ package com.cool.model;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.cool.base.BaseModel;
 /**
  * 
@@ -72,6 +73,7 @@ public class SysUser extends BaseModel{
 	/**
 	 * 生日
 	 */
+	@JSONField(format = "yyyy-MM-dd")
 	private Date birthDay;
 	/**
 	 * 部门id

@@ -13,4 +13,170 @@
 		<result column="update_by" property="updateBy"/>
 		<result column="update_time" property="updateTime"/>
 	</resultMap>
+	
+	<sql id="allFields">
+		id,role_name,dept_id,role_type,enable,remark,create_by,create_time,update_by,update_time
+	</sql>
+	
+	<insert id="insert" parameterType="Object">
+		insert into sys_role
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="roleName != null and roleName != ''">
+					role_name,
+				</if>
+				<if test="deptId != null">
+					dept_id,
+				</if>
+				<if test="roleType != null">
+					role_type,
+				</if>
+				<if test="enable != null">
+					enable,
+				</if>
+				<if test="remark != null and remark != ''">
+					remark,
+				</if>
+				<if test="createBy != null and createBy != ''">
+					create_by,
+				</if>
+				<if test="createTime != null">
+					create_time,
+				</if>
+			</trim>		
+		values
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="roleName != null and roleName != ''">
+					#{roleName},
+				</if>
+				<if test="deptId != null">
+					#{deptId},
+				</if>
+				<if test="roleType != null">
+					#{roleType},
+				</if>
+				<if test="enable != null">
+					#{enable},
+				</if>
+				<if test="remark != null and remark != ''">
+					#{deptremarkId},
+				</if>
+				<if test="createBy != null and createBy != ''">
+					#{createBy},
+				</if>
+				<if test="createTime != null">
+					#{createTime},
+				</if>
+			</trim>
+	</insert>
+	
+	
+	<select id="validateName" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> from sys_role where role_name = #{roleName}
+	</select>
+	
+	<!-- 删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from sys_role where id = #{id}
+	</delete>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from sys_role where id = #{id}
+	</select>
+
+	<!-- 列表总数-->
+	<select id="query" resultType="java.lang.Long"  parameterType="Object">
+		select id from sys_role
+		<include refid="whereSql"></include>
+	</select>
+	
+	<select id="deleteAllByPrimaryKey" parameterType="Object">
+		delete from sys_role
+		where id in
+		<foreach item="id" collection="list" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="queryForList" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from sys_role 
+		<include refid="whereSql"></include>
+	</select>
+	
+	<update id="updateByPrimaryKey" parameterType="Object">
+		update sys_role
+		<trim prefix="set" suffixOverrides=",">
+			<if test="roleName != null and roleName != '' ">
+				<![CDATA[ role_name = #{roleName}, ]]>
+			</if>
+			
+			<if test="deptId != null and deptId != '' ">
+				<![CDATA[ dept_id = #{deptId}, ]]>
+			</if>
+			
+			<if test="roleType != null and roleType != '' ">
+				<![CDATA[ role_type = #{roleType},]]>
+			</if>
+			
+			<if test="enable != null">
+				<![CDATA[ enable = #{enable},]]>
+			</if>
+			
+			<if test="remark != null and remark != '' ">
+				<![CDATA[ remark = #{remark},]]>
+			</if>
+			
+			<if test="updateBy != null and updateBy != '' ">
+				<![CDATA[ update_by = #{updateBy},]]>
+			</if>
+			
+			<if test="updateTime != null">
+				<![CDATA[ update_time = #{updateTime},]]>
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateAllByPrimaryKey" parameterType="Object">
+		update sys_role
+		<trim prefix="set" suffixOverrides=",">
+		    <if test="enable != null " >
+		  	<![CDATA[  enable = #{enable}, ]]>
+		    </if>
+		    <if test="updateBy != null and updateBy != '' " >
+		  	<![CDATA[  update_by = #{updateBy}, ]]>
+		    </if>
+		    <if test="updateTime != null " >
+		  	<![CDATA[  update_time = #{updateTime}, ]]>
+		    </if>
+		</trim>
+	    where id in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		    #{id }
+		</foreach>
+	</update>
+	
+	<sql id="whereSql">
+		<where>
+			1=1
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="roleName != null and roleName != ''">
+				and role_name = #{roleName}
+			</if>
+			<if test="deptId != null">
+				and dept_id = #{deptId}
+			</if>
+			<if test="roleType != null">
+				and role_type = #{roleType}
+			</if>
+			<if test="enable != null">
+				and enable = #{enable}
+			</if>
+		</where>
+	</sql>
 </mapper>

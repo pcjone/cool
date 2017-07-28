@@ -24,8 +24,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 	
 	@Override
 	public PageInfo<SysMenu> query(Map<String, Object> params) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		this.startPage(params);
+		return getPageByDB(sysMenuMapper.queryForList(params));
 	}
 
 	@Override

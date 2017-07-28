@@ -16,29 +16,50 @@ public class SysDic extends BaseModel {
 	 * @Fields serialVersionUID : 序列化
 	 */
 	private static final long serialVersionUID = -7492985842283756943L;
-
-	private String type;
-	private String code;
+	/**
+	 * 类型
+	 */
+	private String category;
+	/**
+	 * 描述
+	 */
+	private String categoryName;
+	/**
+	 * 属性值
+	 */
+	private String codeValue;
+	/**
+	 * 属性名称
+	 */
 	private String codeText;
+	/**
+	 * 排序
+	 */
 	private Integer sortNo;
 	private Boolean editable;
-	private String parentType;
-	private String parentCode;
 
-	public String getType() {
-		return type;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
-	public String getCode() {
-		return code;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getCodeValue() {
+		return codeValue;
+	}
+
+	public void setCodeValue(String codeValue) {
+		this.codeValue = codeValue;
 	}
 
 	public String getCodeText() {
@@ -65,20 +86,5 @@ public class SysDic extends BaseModel {
 		this.editable = editable;
 	}
 
-	public String getParentType() {
-		return parentType;
-	}
-
-	public void setParentType(String parentType) {
-		this.parentType = parentType;
-	}
-
-	public String getParentCode() {
-		return parentCode;
-	}
-
-	public void setParentCode(String parentCode) {
-		this.parentCode = parentCode;
-	}
-
+	
 }

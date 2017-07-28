@@ -109,9 +109,9 @@ var TableInit = function() {
 				field : 'birthDay',
 				title : '生日',
 				align: 'center',
-//				formatter : function(value, row, index) {
-//
-//				}
+				formatter : function(value, row, index) {
+					return value;
+				}
 			},{
 				field : 'enable',
 				title : '状态',

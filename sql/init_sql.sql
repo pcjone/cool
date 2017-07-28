@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   `enable` tinyint(1) DEFAULT '1',
   `remark` varchar(1024) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
-  `create_by` bigint(20) DEFAULT NULL,
+  `create_by` varchar(50) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `update_by` bigint(20) DEFAULT NULL,
+  `update_by` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `account` (`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户管理';
@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS `sys_user_menu` (
   `permission` varchar(50) NOT NULL COMMENT '权限标识',
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   `remark` varchar(5000) DEFAULT NULL,
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_user_menu_key1` (`user_id`,`menu_id`,`permission`)
@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS `sys_user_role` (
   `role_id` bigint(20) NOT NULL,
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   `remark` varchar(5000) DEFAULT NULL,
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_role_id` (`user_id`,`role_id`)
@@ -64,9 +64,9 @@ CREATE TABLE IF NOT EXISTS `sys_role_menu` (
   `permission` varchar(50) NOT NULL COMMENT '权限标识',
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   `remark` varchar(5000) DEFAULT NULL,
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sys_role_menu_key1` (`role_id`,`menu_id`,`permission`)
@@ -81,27 +81,26 @@ CREATE TABLE IF NOT EXISTS `sys_dept` (
   `leaf` int(1) DEFAULT NULL COMMENT '叶子节点(0:树枝节点;1:叶子节点)',
   `enable` tinyint(1) DEFAULT NULL COMMENT '启用状态',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门';
 
 CREATE TABLE IF NOT EXISTS `sys_dic` (
   `id` bigint(20) NOT NULL,
-  `type` varchar(50) NOT NULL,
-  `code` varchar(50) DEFAULT NULL,
-  `code_text` varchar(100) DEFAULT NULL,
-  `parent_type` varchar(50) DEFAULT NULL,
-  `parent_code` varchar(50) DEFAULT NULL,
+  `category` varchar(50) NOT NULL COMMENT '字典类型',
+  `category_name` varchar(50) NOT NULL COMMENT '字典名称',
+  `code_value` varchar(50) DEFAULT NULL COMMENT '编码',
+  `code_text` varchar(100) DEFAULT NULL COMMENT '属性名称',
   `sort_no` int(2) DEFAULT NULL,
   `editable` tinyint(1) NOT NULL DEFAULT '1',
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   `remark` varchar(500) DEFAULT NULL,
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `type__code` (`type`,`code`)
@@ -120,9 +119,9 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `permission` varchar(50) DEFAULT NULL COMMENT '权限标识',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
   `enable` tinyint(1) DEFAULT '1',
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单';
@@ -134,9 +133,9 @@ CREATE TABLE IF NOT EXISTS `sys_param` (
   `catalog_id` bigint(20) DEFAULT NULL,
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
   `enable` tinyint(1) DEFAULT '1',
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='全局参数表';
@@ -148,9 +147,9 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   `role_type` int(1) NOT NULL DEFAULT '1' COMMENT '角色类型(1:业务角色;2:管理角色 ;3:系统内置角色)',
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
-  `create_by` bigint(20) NOT NULL,
+  `create_by` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` bigint(20) NOT NULL,
+  `update_by` varchar(50) NOT NULL,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色信息表';

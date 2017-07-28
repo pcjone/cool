@@ -14,7 +14,7 @@ public abstract class BaseModel implements Serializable {
 	 */
 	protected Long id;
 	/**
-	 * 是否删除,0为正常，1为删除
+	 * 是否锁定,0为正常，1为锁定
 	 */
 	protected Integer enable;
 	/**

@@ -76,12 +76,8 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 
-	<!-- 资源重定向(仅作为后台使用不提供静态资源) -->
-	<!-- <mvc:resources mapping="upload/**" location="/WEB-INF/upload/"
-		cache-period="300" />
-	<mvc:resources mapping="/resources/**" location="/resources/" /> -->
 	<mvc:default-servlet-handler/>
 
 	<!-- 打开aop 注解 -->
-	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
 </beans>

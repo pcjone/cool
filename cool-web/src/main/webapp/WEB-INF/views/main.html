@@ -56,7 +56,7 @@
                     </li>
                     <#list menuTree as menu>   
 	                  	<li>
-	                  	<a href="${menu.request}"><i class="fa fa-edit"></i> 
+	                  	<a href="${menu.request}"><i class="${menu.iconcls}"></i> 
 		                  	<span class="nav-label">${menu.menuName}</span>
 		                  	<span class="fa arrow"></span>
 	                  	</a>
@@ -64,7 +64,7 @@
 	                        		<ul class="nav nav-second-level">
 	                        		<#list (menu.childSysMenuTree) as child> 
 			                        	<li>
-		                                <a class="J_menuItem" href="${child.request}">${child.menuName}</a>
+		                                <a class="J_menuItem" href="${child.request}"><i class="${child.iconcls}"></i>${child.menuName}</a>
 		                            </li>
 	                        		</#list>
 	                        		</ul>
@@ -154,7 +154,7 @@
                                 <li class="divider"></li>
                                 <li>
                                     <div class="text-center link-block">
-                                        <a class="J_menuItem" href="notifications.html">
+                                        <a class="J_menuItem" href="${bathPath}/logout">
                                             <strong>查看所有 </strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>

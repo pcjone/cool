@@ -96,12 +96,195 @@
 		)
 	</select>
 	
+	<insert id="insert" parameterType="Object">
+		insert into sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				id,
+			</if>
+			<if test="menuName != null and menuName != ''">
+				 menu_name,
+			</if>
+			<if test="menuType != null and menuType != ''">
+				 menu_type,
+			</if>
+			<if test="parentId != null and parentId != ''">
+				 parent_id,
+			</if>
+			<if test="iconcls != null and iconcls != ''">
+				 iconcls,
+			</if>
+			<if test="request != null and request != ''">
+				 request,
+			</if>
+			<if test="expand != null">
+				 expand,
+			</if>
+			<if test="sortNo != null">
+				 sort_no,
+			</if>
+			<if test="isShow != null">
+				 is_show,
+			</if>
+			<if test="permission != null and permission != ''">
+				 permission,
+			</if>
+			<if test="enable != null">
+				 enable,
+			</if>
+			<if test="remark != null and remark != ''">
+				remark,
+			</if>
+			<if test="createBy != null and createBy != ''">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		values 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="menuName != null and menuName != ''">
+				 #{menuName},
+			</if>
+			<if test="menuType != null and menuType != ''">
+				 #{menuType},
+			</if>
+			<if test="parentId != null and parentId != ''">
+				 #{parentId},
+			</if>
+			<if test="iconcls != null and iconcls != ''">
+				 #{iconcls},
+			</if>
+			<if test="request != null and request != ''">
+				 #{request},
+			</if>
+			<if test="expand != null">
+				 #{expand},
+			</if>
+			<if test="sortNo != null">
+				 #{sortNo},
+			</if>
+			<if test="isShow != null">
+				 #{isShow},
+			</if>
+			<if test="permission != null and permission != ''">
+				 #{permission},
+			</if>
+			<if test="enable != null">
+				 #{enable},
+			</if>
+			<if test="remark != null and remark != ''">
+				#{remark},
+			</if>
+			<if test="createBy != null and createBy != ''">
+				#{createBy},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+	<!-- 删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from sys_menu where id = #{id}
+	</delete>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from sys_menu
+		 where id = #{id}
+	</select>
+
+	<!-- 列表总数-->
+	<select id="query" resultType="java.lang.Long"  parameterType="Object">
+		select id from sys_menu
+		<include refid="whereSql"></include>
+	</select>
+	
 	<select id="queryForList" parameterType="Object" resultMap="resultMap">
 		select 
 			<include refid="allFields"></include>
 		from sys_menu
 			<include refid="whereSql"></include>
 	</select>
+	
+	<select id="deleteAllByPrimaryKey" parameterType="Object">
+		delete from sys_menu
+		where id in
+		<foreach item="id" collection="list" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+	</select>
+	
+	<update id="updateByPrimaryKey" parameterType="Object">
+		update sys_menu
+		<trim prefix="set" suffixOverrides=",">
+			<if test="menuName != null and menuName != ''">
+				menu_name = #{menuName},
+			</if>
+			<if test="menuType != null and menuType != ''">
+				menu_type = #{menuType},
+			</if>
+			<if test="parentId != null and parentId != ''">
+				parent_id = #{parentId},
+			</if>
+			<if test="iconcls != null and iconcls != ''">
+				iconcls = #{iconcls},
+			</if>
+			<if test="request != null and request != ''">
+				request = #{request},
+			</if>
+			<if test="expand != null">
+				expand = #{expand},
+			</if>
+			<if test="sortNo != null">
+				sort_no = #{sortNo},
+			</if>
+			<if test="isShow != null">
+				is_show = #{isShow},
+			</if>
+			<if test="permission != null and permission != ''">
+				permission = #{permission},
+			</if>
+			<if test="enable != null">
+				<![CDATA[ enable = #{enable},]]>
+			</if>			
+			<if test="remark != null and remark != '' ">
+				<![CDATA[ remark = #{remark},]]>
+			</if>		
+			<if test="updateBy != null and updateBy != '' ">
+				<![CDATA[ update_by = #{updateBy},]]>
+			</if>			
+			<if test="updateTime != null">
+				<![CDATA[ update_time = #{updateTime},]]>
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateAllByPrimaryKey" parameterType="Object">
+		update sys_menu
+		<trim prefix="set" suffixOverrides=",">
+		    <if test="enable != null " >
+		  	<![CDATA[  enable = #{enable}, ]]>
+		    </if>
+		    <if test="updateBy != null and updateBy != '' " >
+		  	<![CDATA[  update_by = #{updateBy}, ]]>
+		    </if>
+		    <if test="updateTime != null " >
+		  	<![CDATA[  update_time = #{updateTime}, ]]>
+		    </if>
+		</trim>
+	    where id in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		    #{id }
+		</foreach>
+	</update>
 	
 	<select id="queryMenuListByUserId" parameterType="Object" resultMap="resultMap">
 		select 

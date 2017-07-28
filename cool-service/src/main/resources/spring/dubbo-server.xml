@@ -13,10 +13,16 @@
 	default-lazy-init="false">
 	
 	<import resource="dubbo.xml"/>
-	
+	<!-- 系统用户服务 -->
 	<dubbo:service interface="com.cool.api.SysUserService" ref="sysUserServiceImpl"></dubbo:service>
-	
+	<!-- 系统用户-权限服务 -->
 	<dubbo:service interface="com.cool.api.SysUserMenuService" ref="sysUserMenuServiceImpl"></dubbo:service>
-	
+	<!-- 系统权限服务 -->
 	<dubbo:service interface="com.cool.api.SysMenuService" ref="sysMenuServiceImpl"></dubbo:service>
+	<!-- 系统角色服务 -->
+	<dubbo:service interface="com.cool.api.SysRoleService" ref="sysRoleServiceImpl"></dubbo:service>
+	<!-- 数据字典服务 -->
+	<dubbo:service interface="com.cool.api.SysDicService" ref="sysDicServiceImpl"></dubbo:service>
+	<!-- 参数服务 -->
+	<dubbo:service interface="com.cool.api.SysParamService" ref="sysParamServiceImpl"></dubbo:service>
 </beans>
