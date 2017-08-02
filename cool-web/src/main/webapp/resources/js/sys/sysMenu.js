@@ -8,16 +8,76 @@ $(function() {
 	//初始化其他页面功能
 	initOtherFunction();
 	
+	$('#collapseTwo').on('hide.bs.collapse', function () {
+		$(".fa.fa-chevron-up.a").attr("class","fa fa-chevron-down a");
+	});
+	$('#collapseTwo').on('show.bs.collapse', function () {
+		$(".fa.fa-chevron-down.a").attr("class","fa fa-chevron-up a");
+	})
 	$('#collapseOne').on('hide.bs.collapse', function () {
-		$(".fa.fa-chevron-up").attr("class","fa fa-chevron-down");
+		$(".fa.fa-chevron-up.b").attr("class","fa fa-chevron-down b");
 	});
 	$('#collapseOne').on('show.bs.collapse', function () {
-		$(".fa.fa-chevron-down").attr("class","fa fa-chevron-up");
+		$(".fa.fa-chevron-down.b").attr("class","fa fa-chevron-up b");
 	})
 	$(".fa.fa-times").click(function(){
 		$(".gray-bg").hide();
 	});
+	$("#chooseIcons").click(function(){
+		$("#iconModal").modal("show");
+	});
+	
+	treeViewInit();
+	
 });
+
+function treeViewInit(){
+	$.ajax({
+        type: "post",
+        url: "getTreeView",
+        dataType: "json",
+        success: function (result) {
+        		$("#treeview").treeview({
+                enableLinks: true,
+                color: "gray",
+                nodeIcon: "",
+                //showIcon: false, 
+                highlightSearchResults:true,//是否高亮搜索结果 默认true
+                highlightSelected:true,     //是否选中高亮显示
+                onhoverColor: "#f5f5f5",    //鼠标滑过的颜色
+                levels: 3 ,                 //设置初始化展开几级菜单 默认为2
+                //selectedIcon: 'check-circle-o',
+               // selectedBackColor: 'black',  //设置被选中的节点背景颜色
+                selectedColor : 'blue',      //设置被选择节点的字体、图标颜色
+                showBorder:true,                //是否显示边框
+                showCheckbox:true,              //是否显示多选框
+                //uncheckedIcon:'',             //设置未选择节点的图标
+                data:result,
+                onNodeSelected : function(event,node){//选中节点
+                		$("#title").html(node.text);
+                		$("#curParentId").val(node.value);
+                		$("#data-list-table").bootstrapTable('refresh',{query:{page:1}});
+                },
+                onNodeUnchecked : function(event, node) { //取消选中节点
+                		//do nothing
+                },
+            });
+        },
+        error: function () {
+        		swal("菜单树加载失败", "", "error");
+        }
+    });
+}
+
+function getTree(node){
+	$("#curParentId").val(node);
+	$("#data-list-table").bootstrapTable('refresh',{query:{page:1}});
+}
+
+function setIconValue(value){
+	$("#iconcls").val(value);
+	$("#iconModal").modal("hide");
+}
 
 /**
  * 初始化table数据
@@ -136,7 +196,7 @@ var TableInit = function() {
 			pageNum : params.pageNumber, // 页码
 			sort : params.sortName,
 			order : params.sortOrder,
-			parentId : $("#parentId").val(),
+			parentId : $("#curParentId").val(),
 		};
 		return temp;
 	}
@@ -150,20 +210,10 @@ var TableInit = function() {
 var ButtonInit = function() {
 	var oButtonInit = new Object();
 	//初始化Table
-	oButtonInit.Init = function() {
-		$("#searchBtn").click(function(){
-			$("#data-list-table").bootstrapTable('refresh',{query:{page:1}});
-		});
-		
-		$("#reset").click(function(){
-			$("#category_search").val("");
-			$("#enable_search").val("");
-		});
-		
-		
+	oButtonInit.Init = function() {	
 		//新增功能
 		$("#add").click(function(){
-			$(".modal-title").html("新增数据字典");
+			$(".modal-title").html("新增菜单");
 			$('#signupForm')[0].reset();
 			$("#myModal").modal('show');
 		});
@@ -176,12 +226,14 @@ var ButtonInit = function() {
 				return;
 			}
 			$("#id").val(rows[0].id);
-			$("#category").val(rows[0].category);
-			$("#categoryName").val(rows[0].categoryName);
-			$("#codeText").val(rows[0].codeText);
-			$("#codeValue").val(rows[0].codeValue);
+			$("#menuName").val(rows[0].menuName);
+			$("#menuType").val(rows[0].menuType);
+			$("#parentId").val(rows[0].parentId);
+			$("#iconcls").val(rows[0].iconcls);
+			$("#request").val(rows[0].request);
+			$("#permission").val(rows[0].permission);
 			$("#sortNo").val(rows[0].sortNo);
-			$(".modal-title").html("编辑数据字典");
+			$(".modal-title").html("编辑菜单");
 			$("#myModal").modal('show');
 		});
 		
@@ -259,7 +311,8 @@ var ButtonInit = function() {
 			    			success:function(data){
 			    				if (data.success) {
 			    					$('#data-list-table').bootstrapTable('refresh');
-			    					 swal("删除成功！", "您已经永久删除了这"+length+"条信息。", "success");
+			    					treeViewInit();
+			    					swal("删除成功！", "您已经永久删除了这"+length+"条信息。", "success");
 			    				} else {
 			    					swal(data.msg, "", "error");
 			    				}
@@ -278,6 +331,8 @@ var ButtonInit = function() {
 
 function initOtherFunction(){
 	$("#save").click(function() {
+		var parentId = $("#curParentId").val();
+		$("#parentId").val(parentId);
 		var options = {
 			url:"save",
 			dataType:'json',
@@ -285,29 +340,26 @@ function initOtherFunction(){
 			clearForm : true, // 表示成功提交后清除所有表单字段值
 			resetForm : true,// 表示成功提交后重置所有字段
 			beforeSubmit:function(){
-				var category = $("#category").val();
-				if(category == ""){
-					swal("请输入字典类型", "", "warning");
+				
+				var menuName = $("#menuName").val();
+				if(menuName == ""){
+					swal("请输入菜单名称", "", "warning");
 					return false;
 				}	
-				var categoryName = $("#categoryName").val();
-				if(categoryName == ""){
-					swal("请输入字典描述", "", "warning");
+				
+				var request = $("#request").val();
+				if(request == ""){
+					swal("请输入请求地址", "", "warning");
 					return false;
 				}
-				var codeValue = $("#codeValue").val();
-				if(codeValue == ""){
-					swal("请输入字典属性", "", "warning");
-					return false;
-				}
-				var codeText = $("#codeText").val();
-				if(codeText == ""){
-					swal("请输入字典含义", "", "warning");
+				var permission = $("#permission").val();
+				if(permission == ""){
+					swal("请输入权限", "", "warning");
 					return false;
 				}
 				var sortNo = $("#sortNo").val();
 				if(sortNo == ""){
-					swal("请输入字典排序", "", "warning");
+					swal("请输入排序", "", "warning");
 					return false;
 				}
 			},

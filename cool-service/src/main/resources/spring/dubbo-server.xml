@@ -19,6 +19,8 @@
 	<dubbo:service interface="com.cool.api.SysUserMenuService" ref="sysUserMenuServiceImpl"></dubbo:service>
 	<!-- 系统权限服务 -->
 	<dubbo:service interface="com.cool.api.SysMenuService" ref="sysMenuServiceImpl"></dubbo:service>
+	<!-- 系统角色-菜单服务 -->
+	<dubbo:service interface="com.cool.api.SysRoleMenuService" ref="sysRoleMenuServiceImpl"></dubbo:service>
 	<!-- 系统角色服务 -->
 	<dubbo:service interface="com.cool.api.SysRoleService" ref="sysRoleServiceImpl"></dubbo:service>
 	<!-- 数据字典服务 -->

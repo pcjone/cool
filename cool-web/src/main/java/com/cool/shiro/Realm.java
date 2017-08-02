@@ -19,6 +19,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cool.Constants;
 import com.cool.api.SysMenuService;
 import com.cool.api.SysUserMenuService;
 import com.cool.api.SysUserService;
@@ -94,7 +95,14 @@ public class Realm extends AuthorizingRealm{
 		userSession.setAccount(user.getAccount());
 		userSession.setUserType(user.getUserType());
 		//根据用户id查询权限菜单
-		List<SysMenu> sysMenuList = sysMenuService.querySysMenuByUserId(user.getId());
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("userId", user.getId());
+		params.put("enable", Constants.ENABLE_NO);
+		//顶级目录
+		params.put("parentId", 0);
+		//全部权限（操作+菜单）
+		params.put("menuType", -1);
+		List<SysMenu> sysMenuList = sysMenuService.querySysMenuByUserId(params);
 		List<String> permissionList = new ArrayList<String>();
 		logger.info("==============用户权限开始==============");
 		logger.info("当前用户：{}", user.getAccount());

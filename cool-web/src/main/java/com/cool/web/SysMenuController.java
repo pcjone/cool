@@ -1,5 +1,8 @@
 package com.cool.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSON;
+import com.cool.Constants;
 import com.cool.api.SysMenuService;
 import com.cool.base.BaseController;
 import com.cool.model.SysMenu;
+import com.cool.model.expand.TreeView;
 import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
@@ -29,6 +35,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @RequestMapping("menu")
 public class SysMenuController extends BaseController{
+	
 	private final Logger logger = Logger.getLogger(BaseController.class);
 	@Autowired
 	private SysMenuService sysMenuService;
@@ -61,7 +68,7 @@ public class SysMenuController extends BaseController{
 	public void dataList(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> params = WebUtil.getParameterMap(request);
 		if(params.get("parentId") == null || params.get("parentId").equals("")) {
-			params.put("parentId", 0);
+			params.put("parentId", Constants.PERMISSION_ZERO);
 		}
 		PageInfo<SysMenu> pageList = sysMenuService.query(params);
 		HtmlUtil.writerJson(response,pageList);
@@ -127,6 +134,8 @@ public class SysMenuController extends BaseController{
 		SysMenu record = Request2ModelUtil.covert(SysMenu.class,request);
 		if(record != null) {
 			if(record.getId() == null) {
+				record.setExpand(0l);
+				record.setIsShow(1l);
 				record.setCreateBy(getCurrUser());
 				sysMenuService.insert(record);
 				sendSuccessMessage(response,"新增成功");
@@ -136,5 +145,52 @@ public class SysMenuController extends BaseController{
 				sendSuccessMessage(response,"更新成功");
 			}
 		}
+	}
+	
+	/**
+	 * 
+	* @Title: getTreeView 
+	* @Description: 获取菜单列表
+	* @param @param request
+	* @param @param response     
+	* @return void    
+	* @throws
+	 */
+	@RequestMapping(value = "/getTreeView", method = RequestMethod.POST)
+	public void getTreeView(HttpServletRequest request,HttpServletResponse response) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		//顶级目录
+		params.put("parentId", Constants.PERMISSION_ZERO);
+		//查询菜单(!=0)
+		params.put("menuType", 0);
+		List<SysMenu> trees = sysMenuService.queryListMenuTree(params);
+		TreeView treeView = new TreeView();
+		treeView.setText("全部");
+		treeView.setValue(Constants.PERMISSION_ZERO);
+		createTreeview(treeView,trees);
+		HtmlUtil.writerJson(response,"["+JSON.toJSONString(treeView)+"]");
+	}
+	
+	/**
+	 * 
+	* @Title: createTreeview 
+	* @Description: 创建菜单树
+	* @param @param treeView
+	* @param @param trees     
+	* @return void    
+	* @throws
+	 */
+	private void createTreeview(TreeView treeView,List<SysMenu> trees) {
+		List<TreeView> nodes = new ArrayList<TreeView>();
+		for(SysMenu menu : trees) {
+			TreeView treeViewChild = new TreeView();
+			treeViewChild.setText(menu.getMenuName());
+			treeViewChild.setValue(menu.getId());
+			if(menu.isHasChild()) {
+				createTreeview(treeViewChild,menu.getChildSysMenu());
+			}			
+			nodes.add(treeViewChild);
+		}
+		treeView.setNodes(nodes);
 	}
 }

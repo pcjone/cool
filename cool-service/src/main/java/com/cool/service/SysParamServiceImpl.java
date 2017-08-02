@@ -29,7 +29,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParam> implements Sy
 	@Override
 	public PageInfo<SysParam> query(Map<String, Object> params) throws ServiceException {
 		this.startPage(params);
-		return getPageByDB(sysParamMapper.queryForList(params));
+		return getPageByDB(getMapper().queryForList(params));
 	}
 
 	@Override

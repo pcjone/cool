@@ -1,5 +1,7 @@
 package com.cool.web;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cool.Constants;
 import com.cool.api.SysUserService;
 import com.cool.base.BaseController;
 import com.cool.common.HttpCode;
+import com.cool.common.Md5;
 import com.cool.constants.LoginConstants;
 import com.cool.model.SysUser;
 /**
@@ -47,7 +52,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "login", method= {RequestMethod.POST})
 	public void login(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "account", required = false) String account,
-			@RequestParam(value = "password", required = false) String password) {
+			@RequestParam(value = "password", required = false) String password) throws AuthenticationException, NoSuchAlgorithmException, IOException {
 		//SysUser sysUser = Request2ModelUtil.covert(SysUser.class, request);
 		if(!StringUtils.isNotBlank(account)) {
 			sendFailureMessage(response,LoginConstants.ACCOUNT_IS_NULL);
@@ -61,13 +66,13 @@ public class LoginController extends BaseController {
 		params.put("account", account);
 		SysUser user = sysUserService.queryUserByName(params);
 		if(user != null) {
-			if(user.getPassword().equals(password) && user.getEnable() == 1) {
+			if(user.getPassword().equals(Md5.EncoderByMd5(password)) && user.getEnable() == Constants.ENABLE_NO) {
 				Subject subject = SecurityUtils.getSubject();
-				UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(account, password);
+				UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(account, Md5.EncoderByMd5(password));
 				subject.login(usernamePasswordToken);
 				sendSuccessMessage(response,LoginConstants.SUCCESS,user);			
 			}else {
-				if(user.getPassword().equals(password)) {
+				if(user.getPassword().equals(Md5.EncoderByMd5(password))) {
 					sendFailureMessage(response,LoginConstants.USER_ENABLED);	
 				}else {
 					sendFailureMessage(response,LoginConstants.USER_WRONG);	

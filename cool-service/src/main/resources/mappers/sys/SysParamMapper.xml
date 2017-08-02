@@ -89,13 +89,13 @@
 		<include refid="whereSql"></include>
 	</select>
 	
-	<select id="deleteAllByPrimaryKey" parameterType="Object">
+	<delete id="deleteAllByPrimaryKey" parameterType="Object">
 		delete from sys_param
 		where id in
 		<foreach item="id" collection="list" open="(" close=")" separator=",">
              #{id}
         </foreach>
-	</select>
+	</delete>
 
 	<update id="updateByPrimaryKey" parameterType="Object">
 		update sys_param

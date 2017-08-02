@@ -27,32 +27,32 @@
 
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
-	<div class="col-sm-2">
+	<div class="col-sm-3">
 		<div class="ibox float-e-margins">
 			<div class="ibox-title">
-                    <h5>权限树</h5>
+                    <h5>${title}</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
+                        <a class="collapse-link" data-toggle="collapse" href="#collapseTwo">
+                            <i class="fa fa-chevron-up a"></i>
                         </a>
                         <a class="close-link">
                             <i class="fa fa-times"></i>
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content">
+                <div id="collapseTwo" class="ibox-content collapse in">
                     <div id="treeview" class="test"></div>
                 </div>
             </div>
 	</div>
-	<input id="parentId" value="1" name ="parentId"/>
-	<div class="col-sm-10">
+	<input id="curParentId" value="0" type="hidden"/>
+	<div class="col-sm-9">
 		<div class="ibox float-e-margins">
 			<div class="ibox-title">
-				<h5>${title}</h5>
+				<h5 id="title">全部</h5>
 				<div class="ibox-tools">
 					<a class="collapse-link" data-toggle="collapse" href="#collapseOne"> <i
-						class="fa fa-chevron-up"></i>
+						class="fa fa-chevron-up b"></i>
 					</a>
 					<a class="close-link"> <i class="fa fa-times"></i>
 					</a>
@@ -66,15 +66,15 @@
 					<button id="edit" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
 					</button>
-					<button id="cancel" type="button" class="btn btn-outline btn-default">
+					<!-- <button id="cancel" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-					</button>
+					</button> -->
 					<button id="delete" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>
 					</button>
 				</div>
 				<table id="data-list-table">
-
+				
 				</table>
 			</div>
 		</div>
@@ -91,27 +91,63 @@
 					<h1 class="modal-title"></h1>
 				</div>
 				<div class="modal-body">
-					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm">
-					 		<input id="id" name="id" type="text" style="display:none"/>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">参数名：</label>
-                                <div class="col-sm-8">
-                                    <input id="paramKey" name="paramKey" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">参数值：</label>
-                                <div class="col-sm-8">
-                                    <input id="paramValue" name="paramValue" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">备注：</label>
-                                <div class="col-sm-8">
-                                    <input id="remark" name="remark" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
-                                </div>
-                            </div>
-                        </form>
+					<form class="form-horizontal m-t" action="save" method="post"
+						id="signupForm">
+						<input id="id" name="id" type="text" style="display: none" />
+						<input id="parentId" name="parentId" type="text" style="display: block" />
+						<div class="form-group">
+							<label class="col-sm-4 control-label">菜单名称：</label>
+							<div class="col-sm-8">
+								<input id="menuName" name="menuName" class="form-control"
+									type="text" aria-required="true" aria-invalid="true"
+									class="error">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">类型：</label>
+							<div class="col-sm-8">
+							 		<select class="form-control" id="menuType" name = "menuType">
+                                         <option value="1">系统菜单</option>
+                                         <option value="0">操作菜单</option>
+                                    </select>
+							 	</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">图标样式：</label>
+							<div class="col-sm-8">
+								<div class="input-group">
+									<input id="iconcls" name="iconcls" type="text" class="form-control"> <span
+										class="input-group-btn">
+										<button type="button" class="btn btn-primary" id="chooseIcons">选择</button>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">请求地址：</label>
+							<div class="col-sm-8">
+								<input id="request" name="request" class="form-control"
+									type="text" aria-required="true" aria-invalid="true"
+									class="error">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">权限控制：</label>
+							<div class="col-sm-8">
+								<input id="permission" name="permission" class="form-control"
+									type="text" aria-required="true" aria-invalid="true"
+									class="error">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">排序：</label>
+							<div class="col-sm-8">
+								<input id="sortNo" name="sortNo" class="form-control"
+									type="text" aria-required="true" aria-invalid="true"
+									class="error">
+							</div>
+						</div>
+					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
@@ -120,7 +156,75 @@
 			</div>
 		</div>
 	</div>
-	
+
+
+	<div class="modal inmodal" id="iconModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated fadeIn">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h1 class="modal-title">图标选择</h1>
+				</div>
+				<div class="modal-body">
+					<div class="row fontawesome-icon-list">
+						<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-cog')"><i class="glyphicon glyphicon-cog"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-user')"><i class="glyphicon glyphicon-user"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-flag')"><i class="glyphicon glyphicon-flag"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-list')"><i class="glyphicon glyphicon-list"></i></a></div> 
+                        
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-tags')"><i class="glyphicon glyphicon-tags"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-earphone')"><i class="glyphicon glyphicon-earphone"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-book')"><i class="glyphicon glyphicon-book"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-wrench')"><i class="glyphicon glyphicon-wrench"></i></a></div> 
+                    		
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-fire')"><i class="glyphicon glyphicon-fire"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-random')"><i class="glyphicon glyphicon-random"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-file')"><i class="glyphicon glyphicon-file"></i></a></div>
+                    		<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-pencil')"><i class="glyphicon glyphicon-pencil"></i></a></div> 
+                    		
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-search')"><i class="glyphicon glyphicon-search"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-th')"><i class="glyphicon glyphicon-th"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-th-large')"><i class="glyphicon glyphicon-th-large"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-home')"><i class="glyphicon glyphicon-home"></i></a></div> 
+                        
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-envelope')"><i class="glyphicon glyphicon-envelope"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-bell')"><i class="glyphicon glyphicon-bell"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-plus')"><i class="glyphicon glyphicon-plus"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-music')"><i class="glyphicon glyphicon-music"></i></a></div>   
+                        
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-film')"><i class="glyphicon glyphicon-film"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-download-alt')"><i class="glyphicon glyphicon-download-alt"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-time')"><i class="glyphicon glyphicon-time"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-inbox')"><i class="glyphicon glyphicon-inbox"></i></a></div>                            
+                     
+                     	<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-heart')"><i class="glyphicon glyphicon-heart"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-glass')"><i class="glyphicon glyphicon-glass"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-list-alt')"><i class="glyphicon glyphicon-list-alt"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-lock')"><i class="glyphicon glyphicon-lock"></i></a></div> 
+                     
+                     	<div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-book')"><i class="glyphicon glyphicon-book"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-facetime-video')"><i class="glyphicon glyphicon-facetime-video"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-print')"><i class="glyphicon glyphicon-print"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-camera')"><i class="glyphicon glyphicon-camera"></i></a></div> 
+                        
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-pause')"><i class="glyphicon glyphicon-pause"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-phone')"><i class="glyphicon glyphicon-phone"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-shopping-cart')"><i class="glyphicon glyphicon-shopping-cart"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-calendar')"><i class="glyphicon glyphicon-calendar"></i></a></div> 
+                        
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-plane')"><i class="glyphicon glyphicon-plane"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-leaf')"><i class="glyphicon glyphicon-leaf"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-gift')"><i class="glyphicon glyphicon-gift"></i></a></div>
+                        <div class="fa-hover col-md-3 col-sm-4"><a onclick="setIconValue('glyphicon glyphicon-send')"><i class="glyphicon glyphicon-send"></i></a></div> 
+                     </div>					
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- 全局js -->
     <script src="${bathPath}/resources/assets/js/jquery.min.js?v=2.1.4"></script>
     <script src="${bathPath}/resources/assets/js/bootstrap.min.js?v=3.3.6"></script>

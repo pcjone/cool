@@ -29,7 +29,7 @@ public class SysDicServiceImpl extends BaseServiceImpl<SysDic> implements SysDic
 	@Override
 	public PageInfo<SysDic> query(Map<String, Object> params) throws ServiceException {
 		this.startPage(params);
-		return getPageByDB(sysDicMapper.queryForList(params));
+		return getPageByDB(getMapper().queryForList(params));
 	}
 
 	@Override

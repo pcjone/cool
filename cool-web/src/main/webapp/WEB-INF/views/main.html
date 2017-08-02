@@ -62,7 +62,7 @@
 	                  	</a>
 	                        <#if (menu.hasChild == true)>
 	                        		<ul class="nav nav-second-level">
-	                        		<#list (menu.childSysMenuTree) as child> 
+	                        		<#list (menu.childSysMenu) as child> 
 			                        	<li>
 		                                <a class="J_menuItem" href="${child.request}"><i class="${child.iconcls}"></i>${child.menuName}</a>
 		                            </li>

@@ -17,7 +17,37 @@ $(function() {
 	$(".fa.fa-times").click(function(){
 		$(".gray-bg").hide();
 	});
+	//初始化整个权限树
+	jsTreeInit();
 });
+
+function jsTreeInit() {
+	$.ajax({
+        type: "post",
+        url: "roleMenuTree",
+        data:{},
+        dataType: "json",
+        success: function (result) {
+	        	$("#roleTree").jstree({
+	        		'plugins' : [ "wholerow", "checkbox", "types" ],
+	        		'core' : {
+	        			'data' : result,
+	        		},
+	        		"types" : {
+	        			"default" : {
+	        				"icon" : "fa fa-folder icon-state-warning icon-lg"
+	        			},
+	        			"file" : {
+	        				"icon" : "fa fa-file icon-state-warning icon-lg"
+	        			}
+	        		}
+	        	});
+        },
+        error: function (result) {
+    			swal("角色权限树加载失败", "", "error");
+        }
+	});
+}
 
 /**
  * 初始化table数据
@@ -250,6 +280,48 @@ var ButtonInit = function() {
 		       
 		    });
 		});
+		
+
+		$("#roleManager").click(function(){
+			var rows = $('#data-list-table').bootstrapTable(
+			'getAllSelections');
+			if (rows == null || rows.length <= 0 || rows.length > 1) {
+				swal("请选择一条记录", "", "warning");
+				return;
+			}
+			var roleId = rows[0].id;
+			$.ajax({
+				url : 'queryRoleInfo',
+				type : 'post',
+				async : false,
+				data : {
+					"roleId" : roleId
+				},
+				dataType:'json',
+				traditional : true,
+				success : function(result) {
+					if(result!=null){
+						$("#curRoleId").val(roleId);
+						$('#roleTree').jstree("close_all");
+						$('#roleTree').jstree("deselect_all");
+						//遍历该角色已有权限
+						var menuIds = result.menuIds;
+						$.each(menuIds, function(i, value) {
+							var selectedNode = $('#roleTree').jstree('get_node', value);
+							if(selectedNode.children == ''){
+								$('#roleTree').jstree("select_node", selectedNode,true);
+							}
+						});
+						$("#treeModal").modal("show");
+					}else{
+						swal("请求错误",'', "error");
+					}
+				},
+				error : function(data) {
+					swal("请求异常", "", "error");
+				}
+			});
+		});
 	}
 	return oButtonInit;
 }
@@ -285,4 +357,54 @@ function initOtherFunction(){
 		};
 		$("#signupForm").ajaxSubmit(options);
 	});
+	
+	$("#treeSave").click(function(){
+		var checked = $("#roleTree").jstree().get_selected();
+		var roleId = $("#curRoleId").val();
+		var menuIds = [] ;
+		for(var i = 0; i<checked.length; i++){
+			var item = checked[i];
+			if(item != '-1'){
+				if(menuIds.indexOf(item)==-1){
+					menuIds.push(item);
+				}
+				findParent(menuIds,item);
+			}
+		}
+		$.ajax({
+			type: "post",
+	        url: "updateRoleMenu",
+	        data:{
+	        		"menuIds":menuIds,
+	        		"roleId":roleId
+	        	},
+	        traditional : true,
+	        success : function(data) {
+				if (data.success) {
+					$("#treeModal").modal("hide");
+					swal(data.msg, "", "success");					
+				} else {
+					swal(data.msg, "", "error");
+				}
+			},
+	        error : function(){
+	        		swal('异常提交', "", "error");
+	        }
+		});
+	});
+	
+}
+
+function findParent(menuIds,item){
+	//查看是否有父级节点
+	if($('#roleTree').jstree().get_parent(item)){
+		//数组中元素是否重复
+		if(menuIds.indexOf(item)==-1){
+			//系统最上级元素不添加到数组中
+			if(item != "-1"){
+				menuIds.push(item);
+			}
+		}
+		findParent(menuIds,$('#roleTree').jstree().get_parent(item))
+	}
 }

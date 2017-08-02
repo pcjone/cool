@@ -20,25 +20,6 @@
 		<result column="update_time" property="updateTime"/>
 	</resultMap>
 	
-	<resultMap type="com.cool.model.expand.SysMenuTree" id="resultTreeMap">
-		<id column="id" property="id"/>
-		<result column="menu_name" property="menuName"/>
-		<result column="menu_type" property="menuType"/>
-		<result column="parent_id" property="parentId"/>
-		<result column="iconcls" property="iconcls"/>
-		<result column="request" property="request"/>
-		<result column="expand" property="expand"/>
-		<result column="sort_no" property="sortNo"/>
-		<result column="is_show" property="isShow"/>
-		<result column="permission" property="permission"/>
-		<result column="enable" property="enable"/>
-		<result column="remark" property="remark"/>
-		<result column="create_by" property="createBy"/>
-		<result column="create_time" property="createTime"/>
-		<result column="update_by" property="updateBy"/>
-		<result column="update_time" property="updateTime"/>
-	</resultMap>
-	
 	<sql id="allFields">
 		id,menu_name,menu_type,parent_id,iconcls,request,expand,sort_no,is_show,
 		permission,enable,remark,create_by,create_time,update_by,update_time
@@ -87,12 +68,12 @@
 		select 
 			<include refid="allFields"></include>
 		from sys_menu
-		where enable = 1 and id in (
+		where enable = 0 and id in (
 			select srm.menu_id 
-				from sys_role_menu srm where enable = 1 and exists (
+				from sys_role_menu srm where enable = 0 and exists (
 				select sr.id from sys_user_role sur 
 					left join sys_role sr on sur.role_id = sr.id 
-				where sur.enable = 1 and sur.id = #{userId} and sur.id = srm.role_id)
+				where sur.enable = 0 and sur.id = #{userId} and sur.id = srm.role_id)
 		)
 	</select>
 	
@@ -105,10 +86,10 @@
 			<if test="menuName != null and menuName != ''">
 				 menu_name,
 			</if>
-			<if test="menuType != null and menuType != ''">
+			<if test="menuType != null">
 				 menu_type,
 			</if>
-			<if test="parentId != null and parentId != ''">
+			<if test="parentId != null">
 				 parent_id,
 			</if>
 			<if test="iconcls != null and iconcls != ''">
@@ -150,10 +131,10 @@
 			<if test="menuName != null and menuName != ''">
 				 #{menuName},
 			</if>
-			<if test="menuType != null and menuType != ''">
+			<if test="menuType != null">
 				 #{menuType},
 			</if>
-			<if test="parentId != null and parentId != ''">
+			<if test="parentId != null">
 				 #{parentId},
 			</if>
 			<if test="iconcls != null and iconcls != ''">
@@ -213,13 +194,13 @@
 			<include refid="whereSql"></include>
 	</select>
 	
-	<select id="deleteAllByPrimaryKey" parameterType="Object">
+	<delete id="deleteAllByPrimaryKey" parameterType="Object">
 		delete from sys_menu
 		where id in
 		<foreach item="id" collection="list" open="(" close=")" separator=",">
              #{id}
         </foreach>
-	</select>
+	</delete>
 	
 	<update id="updateByPrimaryKey" parameterType="Object">
 		update sys_menu
@@ -227,10 +208,10 @@
 			<if test="menuName != null and menuName != ''">
 				menu_name = #{menuName},
 			</if>
-			<if test="menuType != null and menuType != ''">
+			<if test="menuType != null">
 				menu_type = #{menuType},
 			</if>
-			<if test="parentId != null and parentId != ''">
+			<if test="parentId != null">
 				parent_id = #{parentId},
 			</if>
 			<if test="iconcls != null and iconcls != ''">
@@ -286,26 +267,40 @@
 		</foreach>
 	</update>
 	
+	
+	<!-- ==================================分割线================================== -->
 	<select id="queryMenuListByUserId" parameterType="Object" resultMap="resultMap">
 		select 
 			<include refid="allFields"></include>
-		from sys_menu where enable = 1 and id in (
-			select menu_id from sys_user_menu where user_id = #{userId} and enable = 1
-		)
-	</select>
-	
-	<select id="queryMenuTree" parameterType="Object" resultMap="resultTreeMap">
-		select 
-			<include refid="allFields"></include>
 		from sys_menu
-		where enable = #{enable} and menu_type != 0 
+		where enable = #{enable} and menu_type != #{menuType} 
 			and id in (
 			select srm.menu_id 
-				from sys_role_menu srm where enable = 1 and exists (
+				from sys_role_menu srm where srm.enable = #{enable} and exists (
 				select sr.id from sys_user_role sur 
 					left join sys_role sr on sur.role_id = sr.id 
 				where sur.enable = #{enable} and sur.id = #{userId} and sur.id = srm.role_id)
 		)
+	</select>
+	
+	<select id="querySysMenuByRoleId"  parameterType="Object" resultMap="resultMap">
+		select 
+			<include refid="allFields"></include>
+		from sys_menu
+		where enable = #{enable} and menu_type != #{menuType} 
+		and id in (
+			select srm.menu_id from sys_role_menu srm where srm.role_id = #{roleId} 
+			and srm.enable = #{enable}
+		)
+	</select>
+	
+	<select id="queryListMenuTree" parameterType="Object" resultMap="resultMap">
+		select 
+			<include refid="allFields"></include>
+		from sys_menu where 1=1 
+		<if test="menuType != null">
+		 and menu_type != #{menuType} 
+		</if>
 	</select>
 	
 </mapper>

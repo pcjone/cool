@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.cool.Constants;
 import com.cool.api.SysMenuService;
-import com.cool.model.expand.SysMenuTree;
+import com.cool.model.SysMenu;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:Spring-config-Test.xml")
@@ -26,15 +27,15 @@ public class SysMenuTest {
 	public void test() {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("userId", 1);
-		params.put("enable", 1);
+		params.put("enable", Constants.ENABLE_NO);
 		//顶级目录
-		params.put("parentId", 0);
-		sysMenuService.querySysMenuTree(params);
-		List<SysMenuTree> tree = sysMenuService.querySysMenuTree(params);
+		params.put("parentId", Constants.PERMISSION_ZERO);
+		sysMenuService.querySysMenuByUserId(params);
+		List<SysMenu> tree = sysMenuService.queryListMenuTree(params);
 		System.out.println("---------------------------");
-		for(SysMenuTree t : tree) {
+		for(SysMenu t : tree) {
 			if(t.isHasChild()) {
-				for(SysMenuTree l : t.getChildSysMenuTree()) {
+				for(SysMenu l : t.getChildSysMenu()) {
 					System.out.println(l.getMenuName());
 				}
 			}else {

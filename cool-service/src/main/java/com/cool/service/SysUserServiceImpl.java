@@ -35,7 +35,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 	@Override
 	public PageInfo<SysUser> query(Map<String, Object> params) throws ServiceException {
 		this.startPage(params);
-		return getPageByDB(sysUserMapper.queryForList(params));
+		return getPageByDB(getMapper().queryForList(params));
 	}
 
 	@Override

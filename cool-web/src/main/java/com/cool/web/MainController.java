@@ -12,11 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cool.Constants;
 import com.cool.api.SysMenuService;
 import com.cool.api.SysUserService;
 import com.cool.base.BaseController;
 import com.cool.model.SysUser;
-import com.cool.model.expand.SysMenuTree;
+import com.cool.model.SysMenu;
 import com.cool.session.UserSession;
 import com.cool.util.WebUtil;
 
@@ -46,12 +47,13 @@ public class MainController extends BaseController{
 		Map<String,Object> params = new HashMap<String,Object>();
 		Long userId = userSession.getId();
 		params.put("userId", userId);
-		params.put("enable", 1);
+		params.put("enable", Constants.ENABLE_NO);
 		//顶级目录
-		params.put("parentId", 0);
-		List<SysMenuTree> tree = sysMenuService.querySysMenuTree(params);
+		params.put("parentId", Constants.PERMISSION_ZERO);
+		//!=0 菜单权限
+		params.put("menuType", 0);
+		List<SysMenu> tree = sysMenuService.querySysMenuByUserId(params);
 		context.put("menuTree", tree);
-		System.out.println(tree.size());
 		SysUser user = sysUserService.queryDBById(userId);
 		context.put("user", user);
 		return forword("main",context);

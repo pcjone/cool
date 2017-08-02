@@ -19,10 +19,101 @@
 		id,user_id,menu_id,permission,enable,remark,create_by,create_time,update_by,update_time
 	</sql>
 	
-	<select id="queryPermissionsByUserId" parameterType="Object" resultMap="resultMap">
-		select 
-			<include refid="allFields"></include> 
-		from sys_user_menu 
-		where user_id = #{userId}
+	<insert id="insert">
+		inert into sys_user_menu 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="menuId != null">
+				menu_id,
+			</if>
+			<if test="permission != null and permission != ''">
+				permission,
+			</if>
+			<if test="enable != null">
+				enable,
+			</if>
+			<if test="remark != null and remark != ''">
+				remark,
+			</if>
+			<if test="createBy != null and createBy != ''">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="menuId != null">
+				#{menuId},
+			</if>
+			<if test="permission != null and permission != ''">
+				#{permission},
+			</if>
+			<if test="enable != null">
+				#{enable},
+			</if>
+			<if test="remark != null and remark != ''">
+				#{deptremarkId},
+			</if>
+			<if test="createBy != null and createBy != ''">
+				#{createBy},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from sys_user_menu where id = #{id}
 	</select>
+	
+	<delete id="deleteAllByPrimaryKey" parameterType="Object">
+		delete from sys_user_menu
+		where id in
+		<foreach item="id" collection="list" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+	</delete>
+	
+	<!-- 根据userId查询 -->
+	<select id="selectByUserId"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		from sys_user_menu where user_id = #{userId}
+	</select>
+	
+	<!-- 根据userIds查询 -->
+	<select id="selectAllByUserIds"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		where user_id in
+		<foreach item="userId" collection="list" open="(" close=")" separator=",">
+             #{userId}
+        </foreach>
+	</select>
+	
+	<!-- 根据userIds删除记录 -->
+	<delete id="deleteAllByUserIds" parameterType="Object">
+		delete from sys_user_menu
+		where user_id in
+		<foreach item="userId" collection="list" open="(" close=")" separator=",">
+             #{userId}
+        </foreach>
+	</delete>
+	
+	<!-- 根据menuIds删除记录 -->
+	<delete id="deleteAllByMenuIds" parameterType="Object">
+		delete from sys_user_menu
+		where menu_id in
+		<foreach item="menuId" collection="list" open="(" close=")" separator=",">
+             #{menuId}
+        </foreach>
+	</delete>
 </mapper>

@@ -30,11 +30,5 @@ public class SysUserMenuServiceImpl extends BaseServiceImpl<SysUserMenu> impleme
 	protected BaseMapper<SysUserMenu> getMapper() {
 		return sysUserMenuMapper;
 	}
-
-	@Override
-	public List<SysUserMenu> queryPermissionsByUserId(Long userId) {
-		return sysUserMenuMapper.queryPermissionsByUserId(userId);
-	}
-
 	
 }
