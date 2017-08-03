@@ -29,11 +29,195 @@
 		<result column="update_time" property="updateTime"/>
 	</resultMap>
 	
-	<sql id="allField">
+	<sql id="allFields">
 		id,account,password,user_type,user_name,name_pinyin,sex,avatar,phone,
 		email,id_card,wei_xin,wei_bo,qq,birth_day,dept_id,position,address,
 		staff_no,enable,remark,create_by,create_time,update_by,update_time
 	</sql>
+
+	<select id="queryUserByName" parameterType="Object" resultMap="resultMap">
+		select 
+			<include refid="allFields"></include>
+		from sys_user 
+			<include refid="whereSql"></include>
+	</select>
+	
+	<insert id="insert" parameterType="Object">
+		insert into sys_user 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="account != null and account != ''">
+					account,
+				</if>
+				<if test="avatar != null and avatar != '' ">
+					avatar,
+				</if>
+				<if test="password != null and password != ''">
+					password,
+				</if>
+				<if test="userName != null and userName != ''">
+					user_name,
+				</if>
+				<if test="phone != null and phone != ''">
+					phone,
+				</if>
+				<if test="email != null and email != ''">
+					email,
+				</if>
+				<if test="sex != null">
+					sex,
+				</if>
+				<if test="userType != null">
+					user_type,
+				</if>
+				<if test="enable != null">
+					enable,
+				</if>
+				<if test="remark != null and remark != ''">
+					remark,
+				</if>
+				<if test="createBy != null and createBy != ''">
+					create_by,
+				</if>
+				<if test="createTime != null">
+					create_time,
+				</if>
+			</trim>		
+		values 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="account != null and account != ''">
+					#{account},
+				</if>
+				<if test="avatar != null and avatar != '' ">
+					#{avatar},
+				</if>
+				<if test="password != null and password != ''">
+					#{password},
+				</if>
+				<if test="userName != null and userName != ''">
+					#{userName},
+				</if>
+				<if test="phone != null and phone != ''">
+					#{phone},
+				</if>
+				<if test="email != null and email != ''">
+					#{email},
+				</if>
+				<if test="sex != null">
+					#{sex},
+				</if>
+				<if test="userType != null">
+					#{userType},
+				</if>
+				<if test="enable != null">
+					#{enable},
+				</if>
+				<if test="remark != null and remark != ''">
+					#{remark},
+				</if>
+				<if test="createBy != null and createBy != ''">
+					#{createBy},
+				</if>
+				<if test="createTime != null">
+					#{createTime},
+				</if>
+		</trim>
+	</insert>
+	
+	<!-- 删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from sys_user where id = #{id}
+	</delete>
+	
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from sys_user where id = #{id}
+	</select>
+	
+	<!-- 列表总数-->
+	<select id="query" resultType="java.lang.Long"  parameterType="Object">
+		select id from sys_user
+		<include refid="whereSql"></include>
+	</select>
+	
+	<select id="queryForList" parameterType= "Object" resultMap="resultMap">
+		select 
+			<include refid="allFields"></include>
+		from sys_user 
+			<include refid="whereSql"></include>
+	</select>
+	
+	<delete id="deleteAllByPrimaryKey" parameterType="Object">
+		delete from sys_user
+		where id in
+		<foreach item="id" collection="list" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+	</delete>
+	
+	<update id="updateByPrimaryKey" parameterType="Object">
+		update sys_user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="password != null and password != '' ">
+				<![CDATA[ password = #{password}, ]]>
+			</if>
+			
+			<if test="userType != null ">
+				<![CDATA[ user_type = #{userType}, ]]>
+			</if>
+			
+			<if test="userName != null and userName != '' ">
+				<![CDATA[ user_name = #{userName},]]>
+			</if>
+			<if test="sex != null">
+				<![CDATA[ sex = #{sex},]]>
+			</if>
+			<if test="avatar != null and avatar != '' ">
+				<![CDATA[ avatar = #{avatar},]]>
+			</if>
+			<if test="phone != null and phone != '' ">
+				<![CDATA[ phone = #{phone},]]>
+			</if>
+			<if test="email != null and email != '' ">
+				<![CDATA[ email = #{email},]]>
+			</if>
+			<if test="enable != null">
+				<![CDATA[ enable = #{enable},]]>
+			</if>
+			
+			<if test="remark != null and remark != '' ">
+				<![CDATA[ remark = #{remark},]]>
+			</if>
+			
+			<if test="updateBy != null and updateBy != '' ">
+				<![CDATA[ update_by = #{updateBy},]]>
+			</if>
+			
+			<if test="updateTime != null">
+				<![CDATA[ update_time = #{updateTime},]]>
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateAllByPrimaryKey" parameterType="Object">
+		update sys_user
+		<trim prefix="set" suffixOverrides=",">
+		    <if test="enable != null " >
+		  	<![CDATA[  enable = #{enable}, ]]>
+		    </if>
+		    <if test="updateBy != null and updateBy != '' " >
+		  	<![CDATA[  update_by = #{updateBy}, ]]>
+		    </if>
+		    <if test="updateTime != null " >
+		  	<![CDATA[  update_time = #{updateTime}, ]]>
+		    </if>
+		</trim>
+	    where id in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		    #{id }
+		</foreach>
+	</update>
 	
 	<sql id="whereSql">
 		<where>
@@ -62,33 +246,9 @@
 			<if test="phone != null and phone != ''">
 				and phone like concat("%",concat(#{phone},"%"))
 			</if>
+			<if test="email != null and email != ''">
+				and email like concat("%",concat(#{email},"%"))
+			</if>
 		</where>
 	</sql>
-	
-	<select id="queryForList" parameterType= "Object" resultMap="resultMap">
-		select 
-			<include refid="allField"></include>
-		from sys_user 
-			<include refid="whereSql"></include>
-	</select>
-	
-	<select id="queryUserByName" parameterType="Object" resultMap="resultMap">
-		select 
-			<include refid="allField"></include>
-		from sys_user 
-			<include refid="whereSql"></include>
-	</select>
-
-	<select id="selectByPrimaryKey" parameterType="Object" resultMap="resultMap">
-		select 
-			<include refid="allField"></include>
-		from sys_user where id = #{id}
-	</select>
-	
-	<insert id="insert" parameterType="Object">
-		insert into sys_user 
-		(account,password,user_name,email,sex,user_type,enable,create_time,create_by) 
-		values 
-		(#{account},#{password},#{userName},#{email},#{sex},#{userType},#{enable},#{createTime},#{createBy})
-	</insert>
 </mapper>

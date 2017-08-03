@@ -23,10 +23,6 @@ public class SysRoleMenu extends BaseModel{
 	 * 菜单id
 	 */
 	private Long menuId;
-	/**
-	 * 权限
-	 */
-	private String permission;
 	public Long getRoleId() {
 		return roleId;
 	}
@@ -39,12 +35,5 @@ public class SysRoleMenu extends BaseModel{
 	public void setMenuId(Long menuId) {
 		this.menuId = menuId;
 	}
-	public String getPermission() {
-		return permission;
-	}
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
-	
 	
 }

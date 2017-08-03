@@ -27,41 +27,85 @@
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox float-e-margins">
-
 			<div class="ibox-title">
-				<h5>用户管理</h5>
+				<h5>${title}</h5>
 				<div class="ibox-tools">
-					<a class="collapse-link" href="#data-list-table"> <i
+					<a class="collapse-link" data-toggle="collapse" href="#collapseOne"> <i
 						class="fa fa-chevron-up"></i>
-					</a> <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <i
-						class="fa fa-wrench"></i>
 					</a>
-					<ul class="dropdown-menu dropdown-user">
-						<li><a href="#">选项1</a></li>
-						<li><a href="#">选项2</a></li>
-					</ul>
 					<a class="close-link"> <i class="fa fa-times"></i>
 					</a>
 				</div>
 			</div>
-			<div class="ibox-content">
-				<div class="btn-group-horizontal" id="toolbar">
-				
+			<div id="collapseOne" class="ibox-content collapse in">
+				<div class="row">
+					<form method="post" class="form-horizontal" id="searchForm">
+						<div class="col-sm-3 col-md-3">
+							<div class="form-group">
+                                <label class="col-sm-4 control-label">账号</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="account_search" name="account">
+                                </div>
+                            </div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="form-group">
+							 	<label class="col-sm-4 control-label">用户类型</label>
+							 	<div class="col-sm-8">
+							 		<select class="form-control" id=userType_search" name = "userType">
+							 			<option value="" selected>全部</option>
+							 			<option value="1">普通用户</option>
+                                         <option value="2" selected>管理员</option>
+                                         <option value="3">系统用户</option>
+                                    </select>
+							 	</div>
+							 </div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							 <div class="form-group">
+							 	<label class="col-sm-4 control-label">状态</label>
+							 	<div class="col-sm-8">
+							 		<select class="form-control" id="enable_search" name = "enable">
+							 			<option value="" selected>全部</option>
+                                         <option value="0">有效</option>
+                                         <option value="1">锁定</option>
+                                    </select>
+							 	</div>
+							 </div>
+						</div>
+						
+						<div class="col-sm-3 col-md-3">
+							<div style="float: right;">
+								<button type="button" class="btn btn-sm btn-success" id="searchBtn">
+									&nbsp;查询 <i class="fa fa-arrow-right icon-on-right"></i>
+								</button>
+								<button type="button" class="btn btn-sm btn-reset" id="reset">
+									&nbsp;重置 <i class="fa fa-undo"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+					
+				</div>
+				<hr>
+				<div class="btn-group-horizontal" id="toolbar"  role="group">				
 					<@shiro.hasPermission name="sys.user.add"> 
-					<button id="add" class="btn btn-primary " type="button">
-						<i class="glyphicon glyphicon-plus"></i>&nbsp;新增
-					</button>
 					</@shiro.hasPermission>
-					<@shiro.hasPermission name="sys.user.update"> 
-					<button id="edit" class="btn btn-info " type="button">
-						<i class="fa fa-paste"></i> 编辑
+					<button id="add" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增
 					</button>
-					</@shiro.hasPermission>
-					<@shiro.hasPermission name="sys.user.delete"> 
-					<button id="delete" class="btn btn-danger " type="button">
-						<i class="glyphicon glyphicon-trash"></i> 删除
+					<button id="edit" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>编辑
 					</button>
-					</@shiro.hasPermission>
+					<button id="cancel" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>锁定
+					</button>
+					<button id="delete" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>删除
+					</button>
+					<button id="roleManager" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>权限管理
+					</button>
 				</div>
 				<table id="data-list-table">
 
@@ -82,25 +126,12 @@
 					<h1 class="modal-title">新增用户</h1>
 				</div>
 				<div class="modal-body">
-					 <form class="form-horizontal m-t" action="add" method="post" id="signupForm">
-					 		<input id="id" name="id" type="hidden"/>
+					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm">
+					 		<input id="id" name="id" style="display:none"/>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">账户：</label>
                                 <div class="col-sm-8">
                                     <input id="account" name="account" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">密码：</label>
-                                <div class="col-sm-8">
-                                    <input id="password" name="password" class="form-control" type="password">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">确认密码：</label>
-                                <div class="col-sm-8">
-                                    <input id="confirm_password" name="confirm_password" class="form-control" type="password">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请再次输入您的密码</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -125,7 +156,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">用户类型：</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control m-b" name="userType">
+                                    <select class="form-control m-b" id="userType" name="userType">
                                         <option value="1">普通用户</option>
                                         <option value="2" selected>管理员</option>
                                         <option value="3">系统用户</option>
@@ -133,9 +164,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">电话：</label>
+                                <div class="col-sm-8">
+                                    <input id="phone" name="phone" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">E-mail：</label>
                                 <div class="col-sm-8">
-                                    <input id="email" name="email" class="form-control" type="email">
+                                    <input id="email" name="email" class="form-control" type="text">
                                 </div>
                             </div>
                         </form>
@@ -147,6 +184,31 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal inmodal" id="treeModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated fadeIn">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h1 class="modal-title">权限编辑</h1>
+				</div>
+				<div class="modal-body">
+					<input id="curUserId" type="hidden"/>
+					<form class="form-horizontal m-t">
+						<div id="roleTree"></div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="treeSave">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- 全局js -->
     <script src="${bathPath}/resources/assets/js/jquery.min.js?v=2.1.4"></script>
     <script src="${bathPath}/resources/assets/js/bootstrap.min.js?v=3.3.6"></script>

@@ -113,11 +113,11 @@
 				<![CDATA[ role_name = #{roleName}, ]]>
 			</if>
 			
-			<if test="deptId != null and deptId != '' ">
+			<if test="deptId != null ">
 				<![CDATA[ dept_id = #{deptId}, ]]>
 			</if>
 			
-			<if test="roleType != null and roleType != '' ">
+			<if test="roleType != null">
 				<![CDATA[ role_type = #{roleType},]]>
 			</if>
 			

@@ -89,7 +89,7 @@ public class SysRoleController extends BaseController{
 	@RequestMapping(value="/cancel",method = RequestMethod.POST)
 	public void cancel(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
 		sysRoleService.cancelDBAndCache(ids, getCurrUser());
-		sendSuccessMessage(response,"删除成功");
+		sendSuccessMessage(response,"锁定成功");
 	}
 	
 	/**
@@ -194,7 +194,7 @@ public class SysRoleController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping(value="/roleMenuTree",method = RequestMethod.POST)
-	public void getRoleMenuTree(Long roleId,HttpServletRequest request,
+	public void getRoleMenuTree(HttpServletRequest request,
 			HttpServletResponse response) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		//顶级目录
@@ -203,8 +203,6 @@ public class SysRoleController extends BaseController{
 		//查询所有权限菜单(!=-1)
 		params.put("menuType", -1);
 		List<SysMenu> sysMenus = sysMenuService.queryListMenuTree(params);
-		//params.put("roleId", roleId);
-		//List<SysMenu> roleTrees = sysMenuService.querySysMenuByRolerId(params);
 		JsTree jsTree = new JsTree();
 		jsTree.setText("全部");
 		jsTree.setId(-1l);

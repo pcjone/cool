@@ -4,13 +4,13 @@ import com.cool.base.BaseModel;
 
 /**
  * 
-* @ClassName: SysUserMenu 
-* @Description: 用户和菜单关系
+* @ClassName: SysUserRole 
+* @Description: 用户和角色关系
 * @author panlei
 * @date 2017年7月18日 下午6:16:09 
 *
  */
-public class SysUserMenu extends BaseModel{
+public class SysUserRole extends BaseModel{
 	/** 
 	* @Fields serialVersionUID : 序列化
 	*/ 
@@ -20,9 +20,9 @@ public class SysUserMenu extends BaseModel{
 	 */
 	private Long userId;
 	/**
-	 * 菜单id
+	 * 角色id
 	 */
-	private Long menuId;
+	private Long roleId;
 	
 	public Long getUserId() {
 		return userId;
@@ -30,10 +30,10 @@ public class SysUserMenu extends BaseModel{
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Long getMenuId() {
-		return menuId;
+	public Long getRoleId() {
+		return roleId;
 	}
-	public void setMenuId(Long menuId) {
-		this.menuId = menuId;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 }

@@ -7,34 +7,61 @@ $(function() {
 	oButton.Init();
 	//初始化其他页面功能
 	initOtherFunction();
+	
+	$('#collapseOne').on('hide.bs.collapse', function () {
+		$(".fa.fa-chevron-up").attr("class","fa fa-chevron-down");
+	});
+	$('#collapseOne').on('show.bs.collapse', function () {
+		$(".fa.fa-chevron-down").attr("class","fa fa-chevron-up");
+	})
+	$(".fa.fa-times").click(function(){
+		$(".gray-bg").hide();
+	});
+	
+	//初始化整个权限树
+	jsTreeInit();
 });
+
+
+function jsTreeInit() {
+	$.ajax({
+        type: "post",
+        url: "roleTree",
+        data:{},
+        dataType: "json",
+        success: function (result) {
+	        	$("#roleTree").jstree({
+	        		'plugins' : [ "wholerow", "checkbox", "types" ],
+	        		'core' : {
+	        			'data' : result,
+	        		},
+	        		"types" : {
+	        			"default" : {
+	        				"icon" : "fa fa-folder icon-state-warning icon-lg"
+	        			},
+	        			"file" : {
+	        				"icon" : "fa fa-file icon-state-warning icon-lg"
+	        			}
+	        		}
+	        	});
+        },
+        error: function (result) {
+    			swal("角色权限树加载失败", "", "error");
+        }
+	});
+}
 
 /**
  * 初始化table数据
  */
 var TableInit = function() {
 	$('#data-list-table').bootstrapTable('showLoading');	
-	var operator = '<div class="btn-group">'+
-	                   '<button data-toggle="dropdown" class="btn btn-warning btn-xs dropdown-toggle">操作 <span class="caret"></span>'+
-	                   '</button>'+
-	                   '<ul class="dropdown-menu">'+
-		                   '<li><a href="buttons.html#">置顶</a>'+
-		                   '</li>'+
-		                   '<li><a href="buttons.html#" class="font-bold">修改</a>'+
-		                   '</li>'+
-		                   '<li><a href="buttons.html#">禁用</a>'+
-		                   '</li>'+
-		                   '<li class="divider"></li>'+
-		                   '<li><a href="buttons.html#">删除</a>'+
-		                   '</li>'+
-	                   '</ul>'+
-                   '</div>';
 
 	var oTableInit = new Object();
 	// 初始化Table
 	oTableInit.Init = function() {
 		$('#data-list-table').bootstrapTable({
-			url : 'list', // 请求后台的URL（*）
+			url : 'dataList', // 请求后台的URL（*）
 			method : 'post', // 请求方式（*）
 			toolbar : '#toolbar', // 工具按钮用哪个容器
 			exportDataType : 'selected', //导出类型
@@ -51,17 +78,16 @@ var TableInit = function() {
 			search : false, // 是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
 			strictSearch : false,
 			showHeader : true,//是否显示列头
-			showFooter : true,//是否显示列脚
+			showFooter : false,//是否显示列脚
 			showColumns : true, // 是否显示所有的列
-			showRefresh : true, // 是否显示刷新按钮
-			showToggle : true,//是否显示 切换试图（table/card）按钮
+			showRefresh : false, // 是否显示刷新按钮
 			minimumCountColumns : 2, // 最少允许的列数
 			clickToSelect : true, // 是否启用点击选中行
 			singleSelect : false,
 			height: 500, // 行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
 			idField:'id',
 			uniqueId : "id", // 每一行的唯一标识，一般为主键列
-			showToggle : true, // 是否显示详细视图和列表视图的切换按钮
+			showToggle : false, // 是否显示详细视图和列表视图的切换按钮
 			cardView : false, // 是否显示详细视图
 			detailView : false, // 是否显示父子表
 			// 设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
@@ -75,22 +101,23 @@ var TableInit = function() {
 			{
 				field : 'id',
 				title : '序号',
-				align: 'center',
 				valign: 'middle',
 			}, {
 				field : 'account',
 				title : '账号',
-				align: 'center',
 				valign: 'middle',
 			}, {
+				field : 'avator',
+				title : '头像',
+				valign: 'middle',
+				visible : false
+			},{
 				field : 'userName',
 				title : '姓名',
-				align: 'center',
 				valign: 'middle',
 			},{
 				field : 'sex',
 				title : '性别',
-				align: 'center',
 				valign: 'middle',
 				formatter : function(value, row, index) {
 					if(value == 0){
@@ -104,34 +131,28 @@ var TableInit = function() {
 			}, {
 				field : 'phone',
 				title : '电话',
-				align: 'center',
+				valign: 'middle',
+			},{
+				field : 'email',
+				title : '邮箱',
+				valign: 'middle',
 			},{
 				field : 'birthDay',
 				title : '生日',
-				align: 'center',
-				formatter : function(value, row, index) {
-					return value;
-				}
+				valign: 'middle',
+				visible : false
 			},{
 				field : 'enable',
 				title : '状态',
-				align: 'center',
 				valign: 'middle',
 				formatter : function(value, row, index) {
-					if(value == 0){
-						return "锁定";
-					}else if(value == 1){
-						return "有效";
+					if(value == 1){
+						return "<a class='btn btn-danger btn-rounded btn-xs'>锁定<a>";
+					}else if(value == 0){
+						return "<a class='btn btn-success btn-rounded btn-xs'>有效<a>";
 					}
 				}
-			},{
-				field : 'do',
-				title : '操作',
-				align: 'center',
-				formatter : function(value, row, index) {
-					return operator;
-				}
-			} ],
+			}],
 			detailFormatter : function(index, row) {
 			},
 			onExpandRow : function(index, row, detail) {
@@ -144,6 +165,9 @@ var TableInit = function() {
 			pageNum : params.pageNumber, // 页码
 			sort : params.sortName,
 			order : params.sortOrder,
+			userType : $("#userType_search").val(),
+			account : $("#account_search").val(),
+			enable : $("#enable_search").val(),
 		};
 		return temp;
 	}
@@ -158,9 +182,19 @@ var ButtonInit = function() {
 	var oButtonInit = new Object();
 	//初始化Table
 	oButtonInit.Init = function() {
+		$("#searchBtn").click(function(){
+			$("#data-list-table").bootstrapTable('refresh',{query:{page:1}});
+		});
+		
+		$("#reset").click(function(){
+			$("#account_search").val("");
+			$("#userType_search").val("");
+			$("#enable_search").val("");
+		});
 		//新增功能
 		$("#add").click(function(){
 			$('#signupForm')[0].reset();
+			$("#account").attr("readonly",false);
 			$("#myModal").modal('show');
 		});
 		
@@ -173,7 +207,56 @@ var ButtonInit = function() {
 			}
 			$("#id").val(rows[0].id);
 			$("#account").val(rows[0].account);
+			$("#phone").val(rows[0].phone);
+			$("#account").attr("readonly",true);
+			$("#userName").val(rows[0].userName);
+			$(":radio[name='sex'][value='"+rows[0].sex+"']").attr("checked",true);
+			$("#userType").val(rows[0].userType);
+			$("#email").val(rows[0].email);
 			$("#myModal").modal('show');
+		});
+		
+		$("#cancel").click(function(){
+			var rows = $('#data-list-table').bootstrapTable('getAllSelections');
+			if (rows == null || rows.length <= 0) {
+				swal("请选择一条记录", "", "warning");
+				return;
+			}
+			var ids = [];
+			for (var i = 0; i < rows.length; i++) {
+				ids.push(rows[i].id);
+			}
+			var length = ids.length;
+			swal({
+		        title: "您确定要锁定这"+length+"条信息吗",
+		        type: "warning",
+		        showCancelButton: true,
+		        showLoaderOnConfirm: true,
+		        closeOnConfirm: false
+		    }, function (isConfirm) {
+		    		if(isConfirm){
+			    		$.ajax({
+			    			url:"cancel",
+			    			type : 'post',
+						async : false,
+						data : {
+							"ids" : ids
+						},
+						traditional : true,
+			    			success:function(data){
+			    				if (data.success) {
+			    					$('#data-list-table').bootstrapTable('refresh');
+			    					swal("锁定成功！", "您已经锁定了这"+length+"条信息。", "success");					
+			    				} else {
+			    					swal(data.msg, "", "error");
+			    				}
+			    			},
+			    			error : function(){
+			    				swal('异常提交', "", "error");
+			    			}
+			    		});
+		    		}
+		    });
 		});
 		
 		$("#delete").click(function(){
@@ -194,9 +277,41 @@ var ButtonInit = function() {
 		        showCancelButton: true,
 		        showLoaderOnConfirm: true,
 		        closeOnConfirm: false
-		    }, function () {
-		        swal("删除成功！", "您已经永久删除了这"+length+"条信息。", "success");
+		    }, function (isConfirm) {
+			    	if(isConfirm){
+			    		$.ajax({
+			    			url:"delete",
+			    			type : 'post',
+						async : false,
+						data : {
+							"ids" : ids
+						},
+						traditional : true,
+			    			success:function(data){
+			    				if (data.success) {
+			    					$('#data-list-table').bootstrapTable('refresh');
+			    					 swal("删除成功！", "您已经永久删除了这"+length+"条信息。", "success");
+			    				} else {
+			    					swal(data.msg, "", "error");
+			    				}
+			    			},
+			    			error : function(){
+			    				swal('异常提交', "", "error");
+			    			}
+			    		});
+		    		}
+		       
 		    });
+		});
+		
+		$("#roleManager").click(function(){
+			var rows = $('#data-list-table').bootstrapTable(
+			'getAllSelections');
+			if (rows == null || rows.length <= 0 || rows.length > 1) {
+				swal("请选择一条记录", "", "warning");
+				return;
+			}
+			var userId = rows[0].id;
 		});
 	}
 	return oButtonInit;
@@ -205,6 +320,7 @@ var ButtonInit = function() {
 function initOtherFunction(){
 	$("#save").click(function() {
 		var options = {
+			url:"save",
 			dataType:'json',
 			type : 'post', // get和post两种方式
 			clearForm : true, // 表示成功提交后清除所有表单字段值
@@ -213,16 +329,6 @@ function initOtherFunction(){
 				var account = $("#account").val();
 				if(account == ""){
 					swal("账号不能为空", "", "warning");
-					return false;
-				}	
-				var password = $("#password").val();
-				var confirm_password = $("#confirm_password").val();
-				if(password == "" || confirm_password == ""){
-					swal("请输入密码", "", "warning");
-					return false;
-				}
-				if(password != confirm_password){
-					swal("两次输入的密码不一致", "", "warning");
 					return false;
 				}
 			},
