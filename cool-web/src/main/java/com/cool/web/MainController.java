@@ -17,6 +17,7 @@ import com.cool.api.SysMenuService;
 import com.cool.api.SysUserService;
 import com.cool.base.BaseController;
 import com.cool.model.SysUser;
+import com.cool.model.expand.SysMenuExpand;
 import com.cool.model.SysMenu;
 import com.cool.session.UserSession;
 import com.cool.util.WebUtil;
@@ -48,11 +49,9 @@ public class MainController extends BaseController{
 		Long userId = userSession.getId();
 		params.put("userId", userId);
 		params.put("enable", Constants.ENABLE_NO);
-		//顶级目录
-		params.put("parentId", Constants.PERMISSION_ZERO);
 		//!=0 菜单权限
 		params.put("menuType", 0);
-		List<SysMenu> tree = sysMenuService.querySysMenuByUserId(params);
+		List<SysMenuExpand> tree = sysMenuService.queryMenuListByUserId(params);
 		context.put("menuTree", tree);
 		SysUser user = sysUserService.queryDBById(userId);
 		context.put("user", user);

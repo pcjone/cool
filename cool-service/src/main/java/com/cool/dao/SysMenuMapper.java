@@ -16,7 +16,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
 	* @return List<SysMenuTree>    
 	* @throws
 	 */
-	public List<SysMenu> querySysMenuByUserId(Map<String,Object> params);
+	public List<SysMenu> queryMenuListByUserId(Map<String,Object> params);
 	/**
 	 * 
 	* @Title: querySysMenuByRoleId 

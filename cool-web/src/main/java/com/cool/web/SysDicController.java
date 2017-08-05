@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,7 @@ public class SysDicController extends BaseController{
 	* @return Object    
 	* @throws
 	 */
+	@RequiresPermissions("sys.dic.list")
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public Object list(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> context = getRootMap();
@@ -57,6 +59,7 @@ public class SysDicController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.dic.dataList")
 	@RequestMapping(value="/dataList",method = RequestMethod.POST)
 	public void dataList(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> params = WebUtil.getParameterMap(request);
@@ -73,6 +76,7 @@ public class SysDicController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.dic.cancel")
 	@RequestMapping(value="/cancel",method = RequestMethod.POST)
 	public void cancel(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
 		sysDicService.cancelDBAndCache(ids, getCurrUser());
@@ -89,6 +93,7 @@ public class SysDicController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.dic.delete")
 	@RequestMapping(value="/delete",method = RequestMethod.POST)
 	public void detete(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
 		sysDicService.deleteDBAndCache(ids);

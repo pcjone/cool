@@ -15,10 +15,14 @@
 	<import resource="dubbo.xml"/>
 	<!-- 系统用户服务 -->
 	<dubbo:service interface="com.cool.api.SysUserService" ref="sysUserServiceImpl"></dubbo:service>
+	<!-- 系统用户-角色服务 -->
+	<dubbo:service interface="com.cool.api.SysUserRoleService" ref="sysUserRoleServiceImpl"></dubbo:service>
 	<!-- 系统用户-权限服务 -->
 	<dubbo:service interface="com.cool.api.SysUserMenuService" ref="sysUserMenuServiceImpl"></dubbo:service>
 	<!-- 系统权限服务 -->
 	<dubbo:service interface="com.cool.api.SysMenuService" ref="sysMenuServiceImpl"></dubbo:service>
+	<!-- 部门服务 -->
+	<dubbo:service interface="com.cool.api.SysDeptService" ref="sysDeptServiceImpl"></dubbo:service>
 	<!-- 系统角色-菜单服务 -->
 	<dubbo:service interface="com.cool.api.SysRoleMenuService" ref="sysRoleMenuServiceImpl"></dubbo:service>
 	<!-- 系统角色服务 -->

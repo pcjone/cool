@@ -159,6 +159,19 @@
 		</foreach>
 	</update>
 	
+	<select id="queryAll" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from sys_role 
+		<include refid="whereSql"></include>
+	</select>
+	
+	<select id="queryByUserId" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from sys_role where id in (
+			select role_id from sys_user_role where user_id = #{userId}
+		)		
+	</select>
+
 	<sql id="whereSql">
 		<where>
 			1=1

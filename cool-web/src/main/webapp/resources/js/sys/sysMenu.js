@@ -267,6 +267,7 @@ var ButtonInit = function() {
 			    			success:function(data){
 			    				if (data.success) {
 			    					$('#data-list-table').bootstrapTable('refresh');
+			    					treeViewInit();
 			    					swal("锁定成功！", "您已经锁定了这"+length+"条信息。", "success");					
 			    				} else {
 			    					swal(data.msg, "", "error");
@@ -366,6 +367,7 @@ function initOtherFunction(){
 			success : function(data) {
 				if (data.success) {
 					$("#myModal").modal('hide');
+					treeViewInit();
 					$('#data-list-table').bootstrapTable('refresh');
 					swal(data.msg, "", "success");
 					

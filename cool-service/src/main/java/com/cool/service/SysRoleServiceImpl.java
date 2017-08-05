@@ -97,14 +97,19 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 			sysRoleMenu.setCreateTime(new Date());
 			addSysRoleMenus.add(sysRoleMenu);
 		}
-		sysRoleMenuMapper.insertBatch(addSysRoleMenus);
+		if(addSysRoleMenus!= null && addSysRoleMenus.size()>0) {
+			sysRoleMenuMapper.insertBatch(addSysRoleMenus);
+		}
 		for(Long menu : deleteMenuIds) {
 			SysRoleMenu sysRoleMenu = new SysRoleMenu();
 			sysRoleMenu.setMenuId(menu);
 			sysRoleMenu.setRoleId(roleId);
-			sysRoleMenu.setCreateBy(createBy);
-			sysRoleMenu.setCreateTime(new Date());
 			sysRoleMenuMapper.deleteByRecord(sysRoleMenu);
 		}
+	}
+
+	@Override
+	public List<SysRole> queryAll(Map<String, Object> params) {
+		return sysRoleMapper.queryAll(params);
 	}
 }

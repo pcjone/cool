@@ -1,9 +1,11 @@
 package com.cool.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import com.cool.dao.SysRoleMenuMapper;
 import com.cool.dao.SysUserMenuMapper;
 import com.cool.exception.ServiceException;
 import com.cool.model.SysMenu;
+import com.cool.model.expand.SysMenuExpand;
 import com.github.pagehelper.PageInfo;
 
 @Service
@@ -67,8 +70,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 	}
 
 	@Override
-	public List<SysMenu> querySysMenuByUserId(Map<String, Object> params) {
-		List<SysMenu> sysMenuList = sysMenuMapper.querySysMenuByUserId(params);
+	public List<SysMenuExpand> queryMenuListByUserId(Map<String, Object> params) {
+		List<SysMenu> sysMenuList = sysMenuMapper.queryMenuListByUserId(params);
 		return getChild(sysMenuList,Constants.PERMISSION_ZERO);
 	}
 	
@@ -79,12 +82,14 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 	}
 	
 	@Override
-	public List<SysMenu> queryListMenuTree(Map<String, Object> params) {
+	public List<SysMenuExpand> queryListMenuTree(Map<String, Object> params) {
 		List<SysMenu> sysMenuList = sysMenuMapper.queryListMenuTree(params);
 		return getChild(sysMenuList,Constants.PERMISSION_ZERO);
 	}
 	
 	/**
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
 	 * 
 	* @Title: getChild 
 	* @Description: 对list进行组装成tree结构list
@@ -94,21 +99,34 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 	* @return List<SysMenu>    
 	* @throws
 	 */
-	public List<SysMenu> getChild(List<SysMenu> sysMenuList,Long parentId){
-		List<SysMenu> returnSysMenu = new ArrayList<SysMenu>();
+	public List<SysMenuExpand> getChild(List<SysMenu> sysMenuList,Long parentId){
+		List<SysMenuExpand> returnSysMenu = new ArrayList<SysMenuExpand>();
 		//循环查询parentId相等的
 		for(SysMenu tree : sysMenuList) {
+			SysMenuExpand treeExpand = new SysMenuExpand();
+			try {
+				BeanUtils.copyProperties(treeExpand,tree);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
 			if(tree.getParentId().equals(parentId)) {
-				List<SysMenu> child = getChild(sysMenuList,tree.getId());			
+				List<SysMenuExpand> child = getChild(sysMenuList,tree.getId());			
 				if(child != null && child.size()>0) {
-					tree.setChildSysMenu(child);
-					tree.setHasChild(true);
+					treeExpand.setChildSysMenu(child);
+					treeExpand.setHasChild(true);
 				}else {
-					tree.setHasChild(false);
+					treeExpand.setHasChild(false);
 				}
-				returnSysMenu.add(tree);
+				returnSysMenu.add(treeExpand);
 			}
 		}
 		return returnSysMenu;
+	}
+
+	@Override
+	public List<SysMenu> queryPermissionByUserId(Map<String, Object> params) {
+		return sysMenuMapper.queryMenuListByUserId(params);
 	}
 }

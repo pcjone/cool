@@ -1,6 +1,7 @@
 package com.cool.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cool.base.BaseMapper;
 import com.cool.model.SysUserRole;
@@ -26,6 +27,16 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole>{
 	* @throws
 	 */
 	public List<SysUserRole> selectAllByUserIds(List<Long> list);
+	/**
+	 * 
+	* @Title: queryRoleInfo 
+	* @Description: 根据userId查询roleIds
+	* @param @param params
+	* @param @return     
+	* @return List<Long>    
+	* @throws
+	 */
+	public List<Long> queryRoleInfo(Map<String, Object> params);
 	
 	/**
 	 * 
@@ -46,4 +57,7 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole>{
 	* @throws
 	 */
 	public void deleteAllByRoleIds(List<Long> list);
+	
+	
+	public int deleteByRecord(SysUserRole sysUserRole);
 }

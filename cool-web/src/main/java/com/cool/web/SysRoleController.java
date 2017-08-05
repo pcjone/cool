@@ -26,6 +26,7 @@ import com.cool.model.SysMenu;
 import com.cool.model.SysRole;
 import com.cool.model.expand.JsTree;
 import com.cool.model.expand.State;
+import com.cool.model.expand.SysMenuExpand;
 import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
@@ -54,6 +55,7 @@ public class SysRoleController extends BaseController{
 	* @return Object    
 	* @throws
 	 */
+	@RequiresPermissions("sys.role.list")
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public Object listGet(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> context = getRootMap();
@@ -70,6 +72,7 @@ public class SysRoleController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.role.dataList")
 	@RequestMapping(value="/dataList",method = RequestMethod.POST)
 	public void listPost(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> params = WebUtil.getParameterMap(request);
@@ -86,6 +89,7 @@ public class SysRoleController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.role.cancel")
 	@RequestMapping(value="/cancel",method = RequestMethod.POST)
 	public void cancel(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
 		sysRoleService.cancelDBAndCache(ids, getCurrUser());
@@ -102,6 +106,7 @@ public class SysRoleController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.role.delete")
 	@RequestMapping(value="/delete",method = RequestMethod.POST)
 	public void detete(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
 		sysRoleService.deleteDBAndCache(ids);
@@ -154,13 +159,15 @@ public class SysRoleController extends BaseController{
 			HttpServletResponse response) {
 		List<Long> oldMenuIds = sysRoleMenuService.queryMenuIdByRoleId(roleId);
 		List<Long> addMenuIds = new ArrayList<Long>();
-		for(Long id : menuIds) {
-			if(oldMenuIds.contains(id)) {
-				//删除已有的权限，找出需要删掉的权限
-				oldMenuIds.remove(id);
-			}else {
-				//找到新增的权限
-				addMenuIds.add(id);
+		if(menuIds !=null && menuIds.length>0) {
+			for(Long id : menuIds) {
+				if(oldMenuIds.contains(id)) {
+					//删除已有的权限，找出需要删掉的权限
+					oldMenuIds.remove(id);
+				}else {
+					//找到新增的权限
+					addMenuIds.add(id);
+				}
 			}
 		}
 		sysRoleService.addOrDeleteSysRoleMenu(addMenuIds,oldMenuIds,roleId,WebUtil.getCurrentUser());
@@ -193,6 +200,7 @@ public class SysRoleController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	
 	@RequestMapping(value="/roleMenuTree",method = RequestMethod.POST)
 	public void getRoleMenuTree(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -202,7 +210,7 @@ public class SysRoleController extends BaseController{
 		params.put("enable", Constants.ENABLE_NO);
 		//查询所有权限菜单(!=-1)
 		params.put("menuType", -1);
-		List<SysMenu> sysMenus = sysMenuService.queryListMenuTree(params);
+		List<SysMenuExpand> sysMenus = sysMenuService.queryListMenuTree(params);
 		JsTree jsTree = new JsTree();
 		jsTree.setText("全部");
 		jsTree.setId(-1l);
@@ -213,6 +221,7 @@ public class SysRoleController extends BaseController{
 		HtmlUtil.writerJson(response,"["+JSON.toJSONString(jsTree)+"]");
 	}
 	
+	@RequiresPermissions("sys.role.menuPermission")
 	@RequestMapping(value = "/queryRoleInfo",method = RequestMethod.POST)
 	public void queryRoleInfo(Long roleId,HttpServletRequest request,
 			HttpServletResponse response) {
@@ -231,9 +240,9 @@ public class SysRoleController extends BaseController{
 	* @return void    
 	* @throws
 	 */
-	private void createJstree(JsTree jsTree,List<SysMenu> sysMenus) {
+	private void createJstree(JsTree jsTree,List<SysMenuExpand> sysMenus) {
 		List<JsTree> jsTreeList = new ArrayList<JsTree>();
-		for(SysMenu sysMenu : sysMenus) {
+		for(SysMenuExpand sysMenu : sysMenus) {
 			JsTree tree = new JsTree();
 			tree.setText(sysMenu.getMenuName());
 			tree.setId(sysMenu.getId());

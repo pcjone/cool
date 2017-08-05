@@ -55,10 +55,6 @@ public class SysMenu extends BaseModel{
 	 */
 	private String permission;
 
-	private boolean hasChild;
-	
-	private List<SysMenu> childSysMenu;
-	
 	public String getMenuName() {
 		return menuName;
 	}
@@ -113,16 +109,5 @@ public class SysMenu extends BaseModel{
 	public void setPermission(String permission) {
 		this.permission = permission;
 	}
-	public boolean isHasChild() {
-		return hasChild;
-	}
-	public void setHasChild(boolean hasChild) {
-		this.hasChild = hasChild;
-	}
-	public List<SysMenu> getChildSysMenu() {
-		return childSysMenu;
-	}
-	public void setChildSysMenu(List<SysMenu> childSysMenu) {
-		this.childSysMenu = childSysMenu;
-	}
+
 }

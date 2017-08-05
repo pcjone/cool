@@ -91,21 +91,31 @@
 				</div>
 				<hr>
 				<div class="btn-group hidden-xs" id="toolbar" role="group">
+					<@shiro.hasPermission name="sys.role.add"> 	
 					<button id="add" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增
+						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>&nbsp;新增
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.role.update"> 
 					<button id="edit" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>编辑
+						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>&nbsp;编辑
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.role.cancel"> 
 					<button id="cancel" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>锁定
+						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;锁定
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.role.delete"> 
 					<button id="delete" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>删除
+						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>&nbsp;删除
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.role.menuPermission">	
 					<button id="roleManager" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>权限管理
+						<i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>&nbsp;权限管理
 					</button>
+					</@shiro.hasPermission>
 				</div>
 				<table id="data-list-table">
 					

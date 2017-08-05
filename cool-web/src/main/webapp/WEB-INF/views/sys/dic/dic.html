@@ -78,18 +78,26 @@
 				</div>
 				<hr>
 				<div class="btn-group hidden-xs" id="toolbar" role="group">
+					<@shiro.hasPermission name="sys.dic.add"> 
 					<button id="add" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>&nbsp;新增
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.dic.update"> 
 					<button id="edit" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>&nbsp;编辑
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.dic.cancel"> 
 					<button id="cancel" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;锁定
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.dic.delete"> 
 					<button id="delete" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>
+						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>&nbsp;删除
 					</button>
+					</@shiro.hasPermission>
 				</div>
 				<table id="data-list-table">
 

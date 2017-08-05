@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.cool.Constants;
 import com.cool.api.SysMenuService;
 import com.cool.model.SysMenu;
+import com.cool.model.expand.SysMenuExpand;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:Spring-config-Test.xml")
@@ -30,10 +31,10 @@ public class SysMenuTest {
 		params.put("enable", Constants.ENABLE_NO);
 		//顶级目录
 		params.put("parentId", Constants.PERMISSION_ZERO);
-		sysMenuService.querySysMenuByUserId(params);
-		List<SysMenu> tree = sysMenuService.queryListMenuTree(params);
+		sysMenuService.queryMenuListByUserId(params);
+		List<SysMenuExpand> tree = sysMenuService.queryListMenuTree(params);
 		System.out.println("---------------------------");
-		for(SysMenu t : tree) {
+		for(SysMenuExpand t : tree) {
 			if(t.isHasChild()) {
 				for(SysMenu l : t.getChildSysMenu()) {
 					System.out.println(l.getMenuName());

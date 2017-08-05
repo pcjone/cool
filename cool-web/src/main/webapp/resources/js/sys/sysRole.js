@@ -1,4 +1,7 @@
 $(function() {
+	//初始化整个权限树
+	jsTreeInit();
+	
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -17,8 +20,7 @@ $(function() {
 	$(".fa.fa-times").click(function(){
 		$(".gray-bg").hide();
 	});
-	//初始化整个权限树
-	jsTreeInit();
+	
 });
 
 function jsTreeInit() {

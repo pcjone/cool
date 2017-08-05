@@ -64,7 +64,7 @@
 	</where>
 	</sql>
 	
-	<select id="querySysMenuByUserId" parameterType="Object" resultMap="resultMap">
+	<!-- <select id="querySysMenuByUserId" parameterType="Object" resultMap="resultMap">
 		select 
 			<include refid="allFields"></include>
 		from sys_menu
@@ -75,7 +75,7 @@
 					left join sys_role sr on sur.role_id = sr.id 
 				where sur.enable = 0 and sur.id = #{userId} and sur.id = srm.role_id)
 		)
-	</select>
+	</select> -->
 	
 	<insert id="insert" parameterType="Object">
 		insert into sys_menu
@@ -270,7 +270,7 @@
 	
 	<!-- ==================================分割线================================== -->
 	<select id="queryMenuListByUserId" parameterType="Object" resultMap="resultMap">
-		select 
+		select distinct
 			<include refid="allFields"></include>
 		from sys_menu
 		where enable = #{enable} and menu_type != #{menuType} 
@@ -284,7 +284,7 @@
 	</select>
 	
 	<select id="querySysMenuByRoleId"  parameterType="Object" resultMap="resultMap">
-		select 
+		select distinct
 			<include refid="allFields"></include>
 		from sys_menu
 		where enable = #{enable} and menu_type != #{menuType} 

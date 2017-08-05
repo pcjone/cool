@@ -16,9 +16,13 @@
 	
 	<dubbo:reference id="sysUserService" interface="com.cool.api.SysUserService" ></dubbo:reference>
 	
+	<dubbo:reference id="sysUserRoleService" interface="com.cool.api.SysUserRoleService" ></dubbo:reference>
+	
 	<dubbo:reference id="sysUserMenuService" interface="com.cool.api.SysUserMenuService" ></dubbo:reference>
 
 	<dubbo:reference id="sysMenuService" interface="com.cool.api.SysMenuService"></dubbo:reference>
+	
+	<dubbo:reference id="sysDeptService" interface="com.cool.api.SysDeptService" ></dubbo:reference>
 	
 	<dubbo:reference id="sysRoleService" interface="com.cool.api.SysRoleService"></dubbo:reference>
 	

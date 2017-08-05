@@ -18,6 +18,7 @@
     <link href="${bathPath}/resources/assets/css/animate.css" rel="stylesheet">
     <link href="${bathPath}/resources/assets/css/style.css?v=4.1.0" rel="stylesheet">
     <link href="${bathPath}/resources/assets/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="${bathPath}/resources/assets/js/plugins/jsTree/dist/themes/default/style.min.css" rel="stylesheet">
 	<link href="${bathPath}/resources/assets/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 	<!-- Sweet Alert -->
 	<link href="${bathPath}/resources/assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
@@ -52,10 +53,10 @@
 							<div class="form-group">
 							 	<label class="col-sm-4 control-label">用户类型</label>
 							 	<div class="col-sm-8">
-							 		<select class="form-control" id=userType_search" name = "userType">
+							 		<select class="form-control" id="userType_search" name = "userType">
 							 			<option value="" selected>全部</option>
 							 			<option value="1">普通用户</option>
-                                         <option value="2" selected>管理员</option>
+                                         <option value="2">管理员</option>
                                          <option value="3">系统用户</option>
                                     </select>
 							 	</div>
@@ -89,23 +90,31 @@
 				</div>
 				<hr>
 				<div class="btn-group-horizontal" id="toolbar"  role="group">				
-					<@shiro.hasPermission name="sys.user.add"> 
-					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.user.add"> 					
 					<button id="add" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增
+						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>&nbsp;新增
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.user.update">
 					<button id="edit" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>编辑
+						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>&nbsp;编辑
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.user.cancel">
 					<button id="cancel" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>锁定
+						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;锁定
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.user.delete">
 					<button id="delete" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>删除
+						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>&nbsp;删除
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.user.rolePermission">					
 					<button id="roleManager" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>权限管理
+						<i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>&nbsp;权限管理
 					</button>
+					</@shiro.hasPermission>
 				</div>
 				<table id="data-list-table">
 
@@ -225,6 +234,8 @@
 	 <!-- jQuery Validation plugin javascript-->
     <script src="${bathPath}/resources/assets/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${bathPath}/resources/assets/js/plugins/validate/messages_zh.min.js"></script>
+	<!-- jsTree plugin javascript -->
+    <script src="${bathPath}/resources/assets/js/plugins/jsTree/dist/jstree.min.js"></script>
 	
 	<script src="${bathPath}/resources/js/jquery.form.js"></script>
 	<script src="${bathPath}/resources/js/sys/sysUser.js"></script>

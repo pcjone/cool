@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.cool.Constants;
 import com.cool.api.SysMenuService;
 import com.cool.base.BaseController;
 import com.cool.model.SysMenu;
+import com.cool.model.expand.SysMenuExpand;
 import com.cool.model.expand.TreeView;
 import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
@@ -36,7 +38,7 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("menu")
 public class SysMenuController extends BaseController{
 	
-	private final Logger logger = Logger.getLogger(BaseController.class);
+	private final Logger logger = Logger.getLogger(SysMenuController.class);
 	@Autowired
 	private SysMenuService sysMenuService;
 	/**
@@ -49,6 +51,7 @@ public class SysMenuController extends BaseController{
 	* @return Object    
 	* @throws
 	 */
+	@RequiresPermissions("sys.menu.list")
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public Object list(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> context = getRootMap();
@@ -64,6 +67,7 @@ public class SysMenuController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.menu.dataList")
 	@RequestMapping(value="/dataList",method = RequestMethod.POST)
 	public void dataList(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> params = WebUtil.getParameterMap(request);
@@ -83,6 +87,7 @@ public class SysMenuController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.menu.cancel")
 	@RequestMapping(value="/cancel",method = RequestMethod.POST)
 	public void cancel(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
 		sysMenuService.cancelDBAndCache(ids, getCurrUser());
@@ -99,6 +104,7 @@ public class SysMenuController extends BaseController{
 	* @return void    
 	* @throws
 	 */
+	@RequiresPermissions("sys.menu.delete")
 	@RequestMapping(value="/delete",method = RequestMethod.POST)
 	public void detete(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
 		sysMenuService.deleteDBAndCache(ids);
@@ -159,11 +165,9 @@ public class SysMenuController extends BaseController{
 	@RequestMapping(value = "/getTreeView", method = RequestMethod.POST)
 	public void getTreeView(HttpServletRequest request,HttpServletResponse response) {
 		Map<String,Object> params = new HashMap<String,Object>();
-		//顶级目录
-		params.put("parentId", Constants.PERMISSION_ZERO);
 		//查询菜单(!=0)
 		params.put("menuType", 0);
-		List<SysMenu> trees = sysMenuService.queryListMenuTree(params);
+		List<SysMenuExpand> trees = sysMenuService.queryListMenuTree(params);
 		TreeView treeView = new TreeView();
 		treeView.setText("全部");
 		treeView.setValue(Constants.PERMISSION_ZERO);
@@ -180,9 +184,9 @@ public class SysMenuController extends BaseController{
 	* @return void    
 	* @throws
 	 */
-	private void createTreeview(TreeView treeView,List<SysMenu> trees) {
+	private void createTreeview(TreeView treeView,List<SysMenuExpand> trees) {
 		List<TreeView> nodes = new ArrayList<TreeView>();
-		for(SysMenu menu : trees) {
+		for(SysMenuExpand menu : trees) {
 			TreeView treeViewChild = new TreeView();
 			treeViewChild.setText(menu.getMenuName());
 			treeViewChild.setValue(menu.getId());

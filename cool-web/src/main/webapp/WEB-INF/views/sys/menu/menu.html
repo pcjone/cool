@@ -60,18 +60,21 @@
 			</div>
 			<div id="collapseOne" class="ibox-content collapse in">
 				<div class="btn-group hidden-xs" id="toolbar" role="group">
+					<@shiro.hasPermission name="sys.menu.add"> 
 					<button id="add" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>&nbsp;新增
 					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.menu.update"> 
 					<button id="edit" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>&nbsp;编辑
 					</button>
-					<!-- <button id="cancel" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-					</button> -->
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="sys.menu.delete"> 
 					<button id="delete" type="button" class="btn btn-outline btn-default">
-						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>
+						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>&nbsp;删除
 					</button>
+					</@shiro.hasPermission>
 				</div>
 				<table id="data-list-table">
 				
@@ -94,7 +97,7 @@
 					<form class="form-horizontal m-t" action="save" method="post"
 						id="signupForm">
 						<input id="id" name="id" type="text" style="display: none" />
-						<input id="parentId" name="parentId" type="text" style="display: block" />
+						<input id="parentId" name="parentId" type="text" style="display: none" />
 						<div class="form-group">
 							<label class="col-sm-4 control-label">菜单名称：</label>
 							<div class="col-sm-8">
