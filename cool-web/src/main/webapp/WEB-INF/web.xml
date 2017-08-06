@@ -54,6 +54,9 @@
 	<listener>
 		<listener-class>com.cool.listener.ServerListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>com.cool.listener.MyContextListener</listener-class>
+	</listener>
 
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>

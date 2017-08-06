@@ -14,6 +14,7 @@
 			<list>
 				<value>classpath:config/dubbo.properties</value>
 				<value>classpath:config/redis.properties</value>
+				<value>classpath:config/wechat.properties</value>
 			</list>
 		</property>
 		<property name="properties">
@@ -33,6 +34,7 @@
 	 <!-- 打开aop 注解 -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 	<!-- 引入SPRING配置文件 -->
+	<import resource="spring/wechat.xml"/>
 	<import resource="spring/dubbo-client.xml"/>
 	<import resource="spring/redis.xml"/>
 	<import resource="spring/shiro.xml"/>

@@ -32,6 +32,7 @@
 				/index.jsp=anon
 				/regin=anon
 				/login=anon
+				/coolChat/**=anon
 				/*.ico=anon
 				/upload/*=anon
 				/unauthorized=anon

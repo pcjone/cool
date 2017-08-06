@@ -15,6 +15,8 @@
 	<properties>
 		<!-- 编码 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- 微信 -->
+		<weixin.java.tools>2.7.0</weixin.java.tools>
 		<!-- spring版本号 -->
 		<spring.version>4.3.0.RELEASE</spring.version>
 		<spring-session.version>1.3.0.RELEASE</spring-session.version>
@@ -61,6 +63,36 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- 微信公共类 -->
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-common</artifactId>
+			<version>${weixin.java.tools}</version>
+		</dependency>
+		<!-- 微信公众号 -->
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-mp</artifactId>
+			<version>${weixin.java.tools}</version>
+		</dependency>
+		<!-- 微信支付 -->
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-pay</artifactId>
+			<version>${weixin.java.tools}</version>
+		</dependency>
+		<!-- 微信小程序 -->
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-miniapp</artifactId>
+			<version>${weixin.java.tools}</version>
+		</dependency>
+		<!-- 微信企业号 -->
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-cp</artifactId>
+			<version>${weixin.java.tools}</version>
 		</dependency>
 		<!-- -->
 		<dependency>
