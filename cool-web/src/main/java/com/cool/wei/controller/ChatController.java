@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cool.base.BaseController;
+
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -18,8 +20,8 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
 @Controller
-@RequestMapping("/coolChat")
-public class ChatController {
+@RequestMapping("/wei")
+public class ChatController extends BaseController{
 
 	@Autowired
 	private WxMpService wxMpService;
@@ -42,9 +44,9 @@ public class ChatController {
 		System.out.println(signature);
 		System.out.println(nonce);
 		System.out.println(timestamp);
-
 		if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
 			// 消息签名不正确，说明不是公众平台发过来的消息
+			System.out.println("消息签名不正确，说明不是公众平台发过来的消息");
 			response.getWriter().println("非法请求");
 			return;
 		}
@@ -54,6 +56,7 @@ public class ChatController {
 		
 		if (StringUtils.isNotBlank(echostr)) {
 			// 说明是一个仅仅用来验证的请求，回显echostr
+			System.out.println("说明是一个仅仅用来验证的请求，回显echostr:"+echostr);
 			response.getWriter().println(echostr);
 			return;
 		}

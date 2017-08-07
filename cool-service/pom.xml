@@ -107,5 +107,39 @@
 	</dependencies>
 	<build>
 		<finalName>cool-service</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.0-SNAPSHOT</version>
+				<configuration>
+					<url>http://localhost:8081/manager/html</url>
+					<server>tomcat</server>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.0-SNAPSHOT</version>
+				<configuration>
+					<url>http://localhost:8081/manager/text</url>
+					<server>tomcat7</server>
+					<username>tomcat</username>
+					<password>tomcat</password>
+					<path>/cool-service</path> 
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>  <!-- “编码 GBK 的不可映射字符”问题的解决 -->
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
