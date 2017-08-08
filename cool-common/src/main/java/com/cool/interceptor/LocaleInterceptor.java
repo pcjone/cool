@@ -23,6 +23,7 @@ public class LocaleInterceptor extends BaseInterceptor {
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 			Object handler) throws Exception {
+		Long startTime = System.currentTimeMillis();
 		HttpSession session = request.getSession();
 		//将request放入LogUtil内的ThreadLocal线程
 		LogUtil.putRequest(request);
@@ -39,6 +40,8 @@ public class LocaleInterceptor extends BaseInterceptor {
 		}
 		session.setAttribute("HOST", WebUtil.getHost(request));
 		LocaleContextHolder.setLocale(locale);
+		Long endTime = System.currentTimeMillis();
+		System.out.println("国际化拦截耗时："+(endTime - startTime));
 		return super.preHandle(request, response, handler);
 	}
 

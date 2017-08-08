@@ -44,11 +44,6 @@
 		<bean class="com.cool.interceptor.MaliciousRequestInterceptor">
 			<property name="minRequestIntervalTime" value="1000" />
 			<property name="maxMaliciousTimes" value="20" />
-			<property name="nextInterceptor">
-				<array>
-					<bean class="com.cool.interceptor.LocaleInterceptor" />
-				</array>
-			</property>
 		</bean>
 	</mvc:interceptors>
 
@@ -79,6 +74,4 @@
 
 	<mvc:default-servlet-handler/>
 
-	<!-- 打开aop 注解 -->
-	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
 </beans>

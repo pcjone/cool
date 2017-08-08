@@ -10,6 +10,7 @@
 		<module>cool-api</module>
 		<module>cool-service</module>
 		<module>cool-web</module>
+		<module>cool-wei</module>
 	</modules>
 
 	<properties>
