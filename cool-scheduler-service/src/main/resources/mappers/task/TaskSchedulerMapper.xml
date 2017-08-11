@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cool.dao.TaskSchedulerMapper">
+	<resultMap type="com.cool.model.TaskScheduler" id="resultMap">
+		<id column="id" property="id"/>
+		<result column="group_id" property="groupId"/>
+		<result column="task_name" property="taskName"/>
+		<result column="task_desc" property="taskDesc"/>
+		<result column="task_type" property="taskType"/>
+		<result column="time_config" property="timeConfig"/>
+		<result column="status" property="status"/>
+		<result column="task_last_exec_time" property="taskLastExecTime"/>
+		<result column="task_last_exec_times" property="taskLastExecTimes"/>
+		<result column="task_next_exec_time" property="taskNextExecTime"/>
+		<result column="effect_time" property="effectTime"/>
+		<result column="auto_start" property="autoStart"/>
+		<result column="enable" property="enable"/>
+		<result column="remark" property="remark"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_by" property="updateBy"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	<sql id="allFields">
+	id,
+				group_id,
+				task_name,
+				task_desc,
+				task_type,
+				time_config,
+				status,
+				task_last_exec_time,
+				task_last_exec_times,
+				task_next_exec_time,
+				effect_time,
+				auto_start,
+	enable,remark,create_by,create_time,update_by,update_time
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into task_scheduler
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				id,
+			</if>
+			<if test="groupId != null">
+				group_id,
+			</if>
+			<if test="taskName != null and taskName != ''">
+				task_name,
+			</if>
+			<if test="taskDesc != null and taskDesc != ''">
+				task_desc,
+			</if>
+			<if test="taskType != null and taskType != ''">
+				task_type,
+			</if>
+			<if test="timeConfig != null and timeConfig != ''">
+				time_config,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="taskLastExecTime != null">
+				task_last_exec_time,
+			</if>
+			<if test="taskLastExecTimes != null">
+				task_last_exec_times,
+			</if>
+			<if test="taskNextExecTime != null">
+				task_next_exec_time,
+			</if>
+			<if test="effectTime != null">
+				effect_time,
+			</if>
+			<if test="autoStart != null">
+				auto_start,
+			</if>
+			<if test="enable != null">
+				 enable,
+			</if>
+			<if test="remark != null and remark != ''">
+				remark,
+			</if>
+			<if test="createBy != null and createBy != ''">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		values 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="groupId != null">
+				#{groupId},
+			</if>
+			<if test="taskName != null and taskName != ''">
+				#{taskName},
+			</if>
+			<if test="taskDesc != null and taskDesc != ''">
+				#{taskDesc},
+			</if>
+			<if test="taskType != null and taskType != ''">
+				#{taskType},
+			</if>
+			<if test="timeConfig != null and timeConfig != ''">
+				#{timeConfig},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+			<if test="taskLastExecTime != null">
+				#{taskLastExecTime},
+			</if>
+			<if test="taskLastExecTimes != null">
+				#{taskLastExecTimes},
+			</if>
+			<if test="taskNextExecTime != null">
+				#{taskNextExecTime},
+			</if>
+			<if test="effectTime != null">
+				#{effectTime},
+			</if>
+			<if test="autoStart != null">
+				#{autoStart},
+			</if>
+			<if test="enable != null">
+				 #{enable},
+			</if>
+			<if test="remark != null and remark != ''">
+				#{remark},
+			</if>
+			<if test="createBy != null and createBy != ''">
+				#{createBy},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+	<!-- 删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from task_scheduler where id = #{id}
+	</delete>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from task_scheduler
+		 where id = #{id}
+	</select>
+
+	<!-- 列表总数-->
+	<select id="query" resultType="java.lang.Long"  parameterType="Object">
+		select id from task_scheduler
+		<include refid="whereSql"></include>
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryForList" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from task_scheduler
+		<include refid="whereSql"></include>
+	</select>
+	
+	<delete id="deleteAllByPrimaryKey" parameterType="Object">
+		delete from task_scheduler
+		where id in
+		<foreach item="id" collection="list" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+	</delete>
+
+	<update id="updateByPrimaryKey" parameterType="Object">
+		update task_scheduler
+		<trim prefix="set" suffixOverrides=",">
+			<if test="groupId != null">
+				group_id = #{groupId},
+			</if>
+			<if test="taskName != null and taskName != ''">
+				task_name = #{taskName},
+			</if>
+			<if test="taskDesc != null and taskDesc != ''">
+				task_desc = #{taskDesc},
+			</if>
+			<if test="taskType != null and taskType != ''">
+				task_type = #{taskType},
+			</if>
+			<if test="timeConfig != null and timeConfig != ''">
+				time_config = #{timeConfig},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="taskLastExecTime != null">
+				task_last_exec_time = #{taskLastExecTime},
+			</if>
+			<if test="taskLastExecTimes != null">
+				task_last_exec_times = #{taskLastExecTimes},
+			</if>
+			<if test="taskNextExecTime != null">
+				task_next_exec_time = #{taskNextExecTime},
+			</if>
+			<if test="effectTime != null">
+				effect_time = #{effectTime},
+			</if>
+			<if test="autoStart != null">
+				auto_start = #{autoStart},
+			</if>
+			
+			<if test="enable != null">
+				<![CDATA[ enable = #{enable},]]>
+			</if>
+			
+			<if test="remark != null and remark != '' ">
+				<![CDATA[ remark = #{remark},]]>
+			</if>
+			
+			<if test="updateBy != null and updateBy != '' ">
+				<![CDATA[ update_by = #{updateBy},]]>
+			</if>
+			
+			<if test="updateTime != null">
+				<![CDATA[ update_time = #{updateTime},]]>
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateAllByPrimaryKey" parameterType="Object">
+		update task_scheduler
+		<trim prefix="set" suffixOverrides=",">
+		    <if test="enable != null " >
+		  	<![CDATA[  enable = #{enable}, ]]>
+		    </if>
+		    <if test="updateBy != null and updateBy != '' " >
+		  	<![CDATA[  update_by = #{updateBy}, ]]>
+		    </if>
+		    <if test="updateTime != null " >
+		  	<![CDATA[  update_time = #{updateTime}, ]]>
+		    </if>
+		</trim>
+	    where id in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		    #{id }
+		</foreach>
+	</update>
+	
+	<sql id="whereSql">
+		<where>
+			1=1
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="groupId != null">
+				and group_id = #{groupId},
+			</if>
+			<if test="taskName != null and taskName != ''">
+				and task_name = #{taskName}
+			</if>
+			<if test="taskDesc != null and taskDesc != ''">
+				and task_desc = #{taskDesc}
+			</if>
+			<if test="taskType != null and taskType != ''">
+				and task_type = #{taskType}
+			</if>
+			<if test="timeConfig != null and timeConfig != ''">
+				and time_config = #{timeConfig}
+			</if>
+			<if test="status != null">
+				and status = #{status},
+			</if>
+			<if test="taskLastExecTime != null">
+				and task_last_exec_time = #{taskLastExecTime},
+			</if>
+			<if test="taskLastExecTimes != null">
+				and task_last_exec_times = #{taskLastExecTimes},
+			</if>
+			<if test="taskNextExecTime != null">
+				and task_next_exec_time = #{taskNextExecTime},
+			</if>
+			<if test="effectTime != null">
+				and effect_time = #{effectTime},
+			</if>
+			<if test="autoStart != null">
+				and auto_start = #{autoStart},
+			</if>
+			<if test="enable != null">
+				and enable = #{enable}
+			</if>
+		</where>
+	</sql>
+</mapper>

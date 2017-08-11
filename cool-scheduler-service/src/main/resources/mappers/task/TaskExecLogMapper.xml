@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cool.dao.TaskExecLogMapper">
+	<resultMap type="com.cool.model.TaskExecLog" id="resultMap">
+		<id column="id" property="id"/>
+		<result column="group_name" property="groupName"/>
+		<result column="task_name" property="taskName"/>
+		<result column="begin_time" property="beginTime"/>
+		<result column="end_time" property="endTime"/>
+		<result column="exex_time" property="exexTime"/>
+		<result column="result_msg" property="resultMsg"/>
+		<result column="result_code" property="resultCode"/>
+		<result column="trigger_type" property="triggerType"/>
+		<result column="server_host" property="serverHost"/>
+		<result column="server_duid" property="serverDuid"/>
+		<result column="server_ip" property="serverIp"/>
+		<result column="enable" property="enable"/>
+		<result column="remark" property="remark"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_by" property="updateBy"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	<sql id="allFields">
+	id,
+				group_name,
+				task_name,
+				begin_time,
+				end_time,
+				exex_time,
+				result_msg,
+				result_code,
+				trigger_type,
+				server_host,
+				server_duid,
+				server_ip,
+	enable,remark,create_by,create_time,update_by,update_time
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into task_exec_log
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				id,
+			</if>
+			<if test="groupName != null and groupName != ''">
+				group_name,
+			</if>
+			<if test="taskName != null and taskName != ''">
+				task_name,
+			</if>
+			<if test="beginTime != null">
+				begin_time,
+			</if>
+			<if test="endTime != null">
+				end_time,
+			</if>
+			<if test="exexTime != null">
+				exex_time,
+			</if>
+			<if test="resultMsg != null and resultMsg != ''">
+				result_msg,
+			</if>
+			<if test="resultCode != null and resultCode != ''">
+				result_code,
+			</if>
+			<if test="triggerType != null and triggerType != ''">
+				trigger_type,
+			</if>
+			<if test="serverHost != null and serverHost != ''">
+				server_host,
+			</if>
+			<if test="serverDuid != null and serverDuid != ''">
+				server_duid,
+			</if>
+			<if test="serverIp != null and serverIp != ''">
+				server_ip,
+			</if>
+			<if test="enable != null">
+				 enable,
+			</if>
+			<if test="remark != null and remark != ''">
+				remark,
+			</if>
+			<if test="createBy != null and createBy != ''">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		values 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="groupName != null and groupName != ''">
+				#{groupName},
+			</if>
+			<if test="taskName != null and taskName != ''">
+				#{taskName},
+			</if>
+			<if test="beginTime != null">
+				#{beginTime},
+			</if>
+			<if test="endTime != null">
+				#{endTime},
+			</if>
+			<if test="exexTime != null">
+				#{exexTime},
+			</if>
+			<if test="resultMsg != null and resultMsg != ''">
+				#{resultMsg},
+			</if>
+			<if test="resultCode != null and resultCode != ''">
+				#{resultCode},
+			</if>
+			<if test="triggerType != null and triggerType != ''">
+				#{triggerType},
+			</if>
+			<if test="serverHost != null and serverHost != ''">
+				#{serverHost},
+			</if>
+			<if test="serverDuid != null and serverDuid != ''">
+				#{serverDuid},
+			</if>
+			<if test="serverIp != null and serverIp != ''">
+				#{serverIp},
+			</if>
+			<if test="enable != null">
+				 #{enable},
+			</if>
+			<if test="remark != null and remark != ''">
+				#{remark},
+			</if>
+			<if test="createBy != null and createBy != ''">
+				#{createBy},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+	<!-- 删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from task_exec_task_exec_loge id = #{id}
+	</delete>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from task_exec_log
+		 where id = #{id}
+	</select>
+
+	<!-- 列表总数-->
+	<select id="query" resultType="java.lang.Long"  parameterType="Object">
+		select id from task_exec_log
+		<include refid="whereSql"></include>
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryForList" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from task_exec_log
+		<include refid="whereSql"></include>
+	</select>
+	
+	<delete id="deleteAllByPrimaryKey" parameterType="Object">
+		delete from task_exec_log
+		where id in
+		<foreach item="id" collection="list" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+	</delete>
+
+	<update id="updateByPrimaryKey" parameterType="Object">
+		update exec_log
+		<trim prefix="set" suffixOverrides=",">
+			<if test="groupName != null and groupName != ''">
+				group_name = #{groupName},
+			</if>
+			<if test="taskName != null and taskName != ''">
+				task_name = #{taskName},
+			</if>
+			<if test="beginTime != null">
+				begin_time = #{beginTime},
+			</if>
+			<if test="endTime != null">
+				end_time = #{endTime},
+			</if>
+			<if test="exexTime != null">
+				exex_time = #{exexTime},
+			</if>
+			<if test="resultMsg != null and resultMsg != ''">
+				result_msg = #{resultMsg},
+			</if>
+			<if test="resultCode != null and resultCode != ''">
+				result_code = #{resultCode},
+			</if>
+			<if test="triggerType != null and triggerType != ''">
+				trigger_type = #{triggerType},
+			</if>
+			<if test="serverHost != null and serverHost != ''">
+				server_host = #{serverHost},
+			</if>
+			<if test="serverDuid != null and serverDuid != ''">
+				server_duid = #{serverDuid},
+			</if>
+			<if test="serverIp != null and serverIp != ''">
+				server_ip = #{serverIp},
+			</if>
+			
+			<if test="enable != null">
+				<![CDATA[ enable = #{enable},]]>
+			</if>
+			
+			<if test="remark != null and remark != '' ">
+				<![CDATA[ remark = #{remark},]]>
+			</if>
+			
+			<if test="updateBy != null and updateBy != '' ">
+				<![CDATA[ update_by = #{updateBy},]]>
+			</if>
+			
+			<if test="updateTime != null">
+				<![CDATA[ update_time = #{updateTime},]]>
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateAllByPrimaryKey" parameterType="Object">
+		update task_exec_log
+		<trim prefix="set" suffixOverrides=",">
+		    <if test="enable != null " >
+		  	<![CDATA[  enable = #{enable}, ]]>
+		    </if>
+		    <if test="updateBy != null and updateBy != '' " >
+		  	<![CDATA[  update_by = #{updateBy}, ]]>
+		    </if>
+		    <if test="updateTime != null " >
+		  	<![CDATA[  update_time = #{updateTime}, ]]>
+		    </if>
+		</trim>
+	    where id in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		    #{id }
+		</foreach>
+	</update>
+	
+	<sql id="whereSql">
+		<where>
+			1=1
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="groupName != null and groupName != ''">
+				and group_name = #{groupName}
+			</if>
+			<if test="taskName != null and taskName != ''">
+				and task_name = #{taskName}
+			</if>
+			<if test="beginTime != null">
+				and begin_time = #{beginTime},
+			</if>
+			<if test="endTime != null">
+				and end_time = #{endTime},
+			</if>
+			<if test="exexTime != null">
+				and exex_time = #{exexTime},
+			</if>
+			<if test="resultMsg != null and resultMsg != ''">
+				and result_msg = #{resultMsg}
+			</if>
+			<if test="resultCode != null and resultCode != ''">
+				and result_code = #{resultCode}
+			</if>
+			<if test="triggerType != null and triggerType != ''">
+				and trigger_type = #{triggerType}
+			</if>
+			<if test="serverHost != null and serverHost != ''">
+				and server_host = #{serverHost}
+			</if>
+			<if test="serverDuid != null and serverDuid != ''">
+				and server_duid = #{serverDuid}
+			</if>
+			<if test="serverIp != null and serverIp != ''">
+				and server_ip = #{serverIp}
+			</if>
+			<if test="enable != null">
+				and enable = #{enable}
+			</if>
+		</where>
+	</sql>
+</mapper>
