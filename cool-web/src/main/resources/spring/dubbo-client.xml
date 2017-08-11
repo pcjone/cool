@@ -31,4 +31,11 @@
 	<dubbo:reference id="sysDicService" interface="com.cool.api.SysDicService"></dubbo:reference>
 	
 	<dubbo:reference id="sysParamService" interface="com.cool.api.SysParamService"></dubbo:reference>
+	
+	<!-- 任务调度 -->
+	<dubbo:reference id="taskGroupService" interface="com.cool.api.TaskGroupService"></dubbo:reference>
+	
+	<dubbo:reference id="taskExecLogService" interface="com.cool.api.TaskExecLogService"></dubbo:reference>
+	
+	<dubbo:reference id="taskSchedulerService" interface="com.cool.api.TaskSchedulerService"></dubbo:reference>
 </beans>

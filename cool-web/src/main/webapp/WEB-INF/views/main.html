@@ -1,4 +1,5 @@
 <#assign bathPath=springMacroRequestContext.getContextPath() />
+
 <!DOCTYPE html>
 <html>
 
@@ -37,7 +38,7 @@
                                 <span class="clear">
                                     <span class="block m-t-xs" style="font-size:20px;">
                                         <i class="fa fa-area-chart"></i>
-                                        <strong class="font-bold">${user.account}首页</strong>
+                                        <strong class="font-bold">${account}首页</strong>
                                     </span>
                                 </span>
                             </a>
@@ -54,6 +55,7 @@
                             <span class="nav-label">主页</span>
                         </a>
                     </li>
+                 
                     <#list menuTree as menu>   
 	                  	<li>
 	                  	<a href="${menu.request}"><i class="${menu.iconcls}"></i> 
@@ -64,13 +66,13 @@
 	                        		<ul class="nav nav-second-level">
 	                        		<#list (menu.childSysMenu) as child> 
 			                        	<li>
-		                                <a class="J_menuItem" href="${child.request}"><i class="${child.iconcls}"></i>${child.menuName}</a>
+		                                <a class="J_menuItem" href="${child.request}"><i class="${child.iconcls}"></i><span class="nav-label">${child.menuName}</span></a>
 		                            </li>
 	                        		</#list>
 	                        		</ul>
 	                        </#if>
                     		</li>
-	                </#list>
+	                </#list> 
 				</ul>
                 
                

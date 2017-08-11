@@ -153,3 +153,40 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色信息表';
+
+
+CREATE TABLE IF NOT EXISTS `group` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `group_name` varchar(50) DEFAULT NULL COMMENT '分组名称',
+  `group_desc` varchar(20) DEFAULT NULL COMMENT '分组描述',
+  `status` int(1) NOT NULL DEFAULT '1' COMMENT '分组状态，0禁用，1启用',
+  `enable` tinyint(1) NOT NULL DEFAULT '1',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `create_by` varchar(50) ,
+  `create_time` datetime  DEFAULT CURRENT_TIMESTAMP,
+  `update_by` varchar(50),
+  `update_time` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分组表';
+
+CREATE TABLE IF NOT EXISTS `exec_log` (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `group_name` varchar(50) DEFAULT NULL COMMENT '分组名称',
+  `task_name` varchar(20) DEFAULT NULL COMMENT '任务名称',
+  `begin_time` datetime COMMENT '开始时间',
+  `end_time` datetime COMMENT '结束时间',
+  `exex_time` bigint(20) COMMENT '耗时',
+  `result_msg` text(2000) COMMENT '日志信息',
+  `result_code` varchar(20) COMMENT '执行结果，成功；失败；中止；进行中',
+  `trigger_type` varchar(20) COMMENT '执行类型，定时触发；人工触发',
+  `server_host` varchar(20) COMMENT '服务器名',
+  `server_duid` varchar(20) COMMENT '服务器网卡序列号',
+  `server_ip` varchar(20) COMMENT '服务器IP',
+  `enable` tinyint(1) NOT NULL DEFAULT '1',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `create_by` varchar(50) ,
+  `create_time` datetime  DEFAULT CURRENT_TIMESTAMP,
+  `update_by` varchar(50),
+  `update_time` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务日志表';

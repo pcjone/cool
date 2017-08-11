@@ -16,6 +16,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,8 +54,25 @@ public class LoginController extends BaseController {
 	public void login(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "account", required = false) String account,
 			@RequestParam(value = "password", required = false) String password) throws AuthenticationException, NoSuchAlgorithmException, IOException {
+		try {  
+	        Subject subject= SecurityUtils.getSubject();  
+	        if (subject.isAuthenticated()) {  
+	            return;  
+	        }  
+	              
+	        boolean rememberMe = ServletRequestUtils.getBooleanParameter(request, "rememberMe", false);  
+	        UsernamePasswordToken token = new UsernamePasswordToken(account, Md5.EncoderByMd5(password), rememberMe);  
+	        subject.login(token); // 登录  
+	        sendSuccessMessage(response,LoginConstants.SUCCESS,account);	
+	    } catch (Exception e) {  
+	        //做一些异常处理  
+	    }finally{  
+	    		sendFailureMessage(response,LoginConstants.USER_NOT_EXIST);
+	    }  
+		
+		
 		//SysUser sysUser = Request2ModelUtil.covert(SysUser.class, request);
-		if(!StringUtils.isNotBlank(account)) {
+/*		if(!StringUtils.isNotBlank(account)) {
 			sendFailureMessage(response,LoginConstants.ACCOUNT_IS_NULL);
 			return;
 		}
@@ -80,7 +98,7 @@ public class LoginController extends BaseController {
 			}
 			return;
 		}
-		sendFailureMessage(response,LoginConstants.USER_NOT_EXIST);
+		sendFailureMessage(response,LoginConstants.USER_NOT_EXIST);*/
 	}
 	
 	@RequestMapping("/logout")

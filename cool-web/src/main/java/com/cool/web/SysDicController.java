@@ -30,7 +30,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @RequestMapping("dic")
 public class SysDicController extends BaseController{
-	private final Logger logger = Logger.getLogger(BaseController.class);
+	private final Logger logger = Logger.getLogger(SysDicController.class);
 	@Autowired
 	private SysDicService sysDicService;
 	/**

@@ -8,13 +8,9 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.cool.wei.handler.TextHandler;
-import com.cool.wei.handler.LogHandler;
-
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import me.chanjar.weixin.mp.api.WxMpService;
 
 /**
  * 
@@ -37,16 +33,25 @@ public class ContextWeChatInitListener implements ServletContextListener {
 		springContext = WebApplicationContextUtils.getWebApplicationContext(context);
 		if (springContext != null) {
 			WxMpMessageRouter wxMpMessageRouter = (WxMpMessageRouter) springContext.getBean("wxMpMessageRouter");
-			
+			//日志
 			WxMpMessageHandler logHandler = (WxMpMessageHandler)springContext.getBean("logHandler");
+			//关注事件
+			WxMpMessageHandler subscribeHandler = (WxMpMessageHandler)springContext.getBean("subscribeHandler");
+			//关注更新
+			WxMpMessageHandler updateHandler = (WxMpMessageHandler)springContext.getBean("updateHandler");
+			//取消关注事件
+			WxMpMessageHandler unSubscribeHandler = (WxMpMessageHandler)springContext.getBean("unSubscribeHandler");
+			//event事件统一处理
+			WxMpMessageHandler eventHandler = (WxMpMessageHandler)springContext.getBean("eventHandler");
 			
-			WxMpMessageHandler textHandler = (WxMpMessageHandler)springContext.getBean("textHandler");
-			if(logHandler == null || textHandler == null) {
-				logger.info("log>>>logHandler == null || textHandler == null");
-			}
-			// 初始化消息处理
-			wxMpMessageRouter.rule().handler(logHandler).next()
-							.rule().async(false).content("哈哈").handler(textHandler).end();
+			WxMpMessageHandler otherHandler = (WxMpMessageHandler)springContext.getBean("otherHandler");
+			// 初始化消息处理(由细到粗)
+			wxMpMessageRouter.rule().handler(updateHandler).next()
+							.rule().async(false).event(WxConsts.EVT_SUBSCRIBE).handler(subscribeHandler).end()
+							.rule().async(false).event(WxConsts.EVT_UNSUBSCRIBE).handler(unSubscribeHandler).end()
+							.rule().async(false).msgType("event").handler(eventHandler).end()
+							.rule().async(false).handler(otherHandler).end()
+							.rule().handler(logHandler).end();
 			logger.info("log>>>初始化微信基础配置。。。完成");
 		} else {
 			logger.info("no beans has initialized");

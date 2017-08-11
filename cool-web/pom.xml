@@ -26,6 +26,12 @@
 			<artifactId>cool-api</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.cool</groupId>
+			<artifactId>cool-scheduler-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.freemarker</groupId>

@@ -14,5 +14,5 @@
 	
 	<import resource="dubbo.xml"/>
 	
-	<!-- <dubbo:reference id="sysUserService" interface="com.cool.api.SysUserService" ></dubbo:reference> -->
+	<dubbo:reference id="weiUserService" interface="com.cool.api.WeiUserService" ></dubbo:reference>
 </beans>
