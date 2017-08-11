@@ -219,4 +219,10 @@
 			</if>
 		</where>
 	</sql>
+	
+	<select id="queryListByCategory"  resultMap="resultMap" parameterType="Object">
+		select <include refid="allFields"></include>
+		from sys_dic
+		<include refid="whereSql"></include>
+	</select>
 </mapper>

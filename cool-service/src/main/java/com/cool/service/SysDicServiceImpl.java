@@ -1,5 +1,6 @@
 package com.cool.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class SysDicServiceImpl extends BaseServiceImpl<SysDic> implements SysDic
 	@Override
 	protected BaseMapper<SysDic> getMapper() {
 		return sysDicMapper;
+	}
+
+	@Override
+	public List<SysDic> queryListByCategory(Map<String, Object> params) {
+		return sysDicMapper.queryListByCategory(params);
 	}
 
 }

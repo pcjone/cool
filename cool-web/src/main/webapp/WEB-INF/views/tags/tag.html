@@ -1,0 +1,18 @@
+<!-- 数据字典标签：check：true显示全部，false不显示全部 -->
+<#macro select_tag id name value text check>
+<div class="form-group">
+	<label class="col-sm-3 control-label">${text}</label>
+	<div class="col-sm-9">
+		<@sysDic sysDic="${value}"> 
+		<select class="form-control" id="${id}" name="${name}">
+			<#if "${check}"=="true">
+				<option value="" selected>全部</option>
+			</#if>
+			<#list sysDicList as dic>
+				<option value="${dic.codeValue}">${dic.codeText}</option>
+			</#list>
+		</select> 
+		</@sysDic>
+	</div>
+</div>
+</#macro>
