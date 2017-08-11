@@ -1,16 +1,9 @@
-package ${package_name}.model;
+package com.cool.model;
 
 import com.cool.base.BaseModel;
 
 import java.util.Date;
-/**
- * 
-* @ClassName: ${table_name}
-* @Description: ${table_annotation}
-* @author ${author}
-* @date ${date}
-*
- */
+
 public class ${table_name} extends BaseModel{
 
 	/** 
@@ -27,11 +20,15 @@ public class ${table_name} extends BaseModel{
 	private String ${model.changeColumnName?uncap_first};	
 	</#if>
 	    
-	<#if (model.columnType = 'BIGINT' || model.columnType = 'INT')>
+	<#if (model.columnType = 'BIGINT' || model.columnType = 'INT' || model.columnType = 'SMALLINT')>
 	private Long ${model.changeColumnName?uncap_first};	
 	</#if>
+	
+	<#if (model.columnType = 'TINYINT')>
+	private boolean ${model.changeColumnName?uncap_first};	
+	</#if>
 	    
-	<#if model.columnType = 'TIMESTAMP' || model.columnType = 'DATE' >
+	<#if model.columnType = 'TIMESTAMP' || model.columnType = 'DATE' || model.columnType = 'DATETIME'>
 	private Date ${model.changeColumnName?uncap_first};
 	</#if>
 </#list>
@@ -49,7 +46,7 @@ public class ${table_name} extends BaseModel{
 	}
 	
 	</#if>
-	<#if model.columnType = 'TIMESTAMP' || model.columnType = 'DATE'>
+	<#if model.columnType = 'TIMESTAMP' || model.columnType = 'DATE' || model.columnType = 'DATETIME'>
 	public Date get${model.changeColumnName}() {
 		return this.${model.changeColumnName?uncap_first};
 	}
@@ -59,7 +56,7 @@ public class ${table_name} extends BaseModel{
 	}		
 	</#if>
 	
-	<#if model.columnType = 'BIGINT' || model.columnType = 'INT'>
+	<#if model.columnType = 'BIGINT' || model.columnType = 'INT' || model.columnType = 'SMALLINT'>
 	public Long get${model.changeColumnName}() {
 		return this.${model.changeColumnName?uncap_first};
 	}
@@ -67,6 +64,16 @@ public class ${table_name} extends BaseModel{
 	public void set${model.changeColumnName}(Long ${model.changeColumnName?uncap_first}) {
 		this.${model.changeColumnName?uncap_first} = ${model.changeColumnName?uncap_first};
 	}		
+	</#if>
+	
+	<#if (model.columnType = 'TINYINT')>
+	public boolean get${model.changeColumnName}() {
+		return this.${model.changeColumnName?uncap_first};
+	}
+		
+	public void set${model.changeColumnName}(boolean ${model.changeColumnName?uncap_first}) {
+		this.${model.changeColumnName?uncap_first} = ${model.changeColumnName?uncap_first};
+	}	
 	</#if>
 </#list>
 </#if>
