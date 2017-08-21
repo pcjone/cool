@@ -1,4 +1,7 @@
 $(function() {
+	//加载字典
+	var categorys=['ENABLE','MENU_TYPE'];
+	loadDic(categorys);
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -140,13 +143,7 @@ var TableInit = function() {
 				title : '类型',
 				valign: 'middle',
 				sortable:true,
-				formatter : function(value, row, index) {
-					if(value == 1){
-						return "系统菜单";
-					}else if(value == 0){
-						return "操作";
-					}
-				}
+				formatter : dic_value_text("MENU_TYPE"),
 			}, {
 				field : 'iconcls',
 				title : '图标样式',
@@ -176,13 +173,7 @@ var TableInit = function() {
 				title : '状态',
 				valign: 'middle',
 				sortable:true,
-				formatter : function(value, row, index) {
-					if(value == 1){
-						return "<a class='btn btn-danger btn-rounded btn-xs'>锁定<a>";
-					}else if(value == 0){
-						return "<a class='btn btn-success btn-rounded btn-xs'>有效<a>";
-					}
-				}
+				formatter : dic_value_text("ENABLE"),
 			}],
 			detailFormatter : function(index, row) {
 			},
