@@ -103,15 +103,15 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
 		List<SysMenuExpand> returnSysMenu = new ArrayList<SysMenuExpand>();
 		//循环查询parentId相等的
 		for(SysMenu tree : sysMenuList) {
-			SysMenuExpand treeExpand = new SysMenuExpand();
-			try {
-				BeanUtils.copyProperties(treeExpand,tree);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
 			if(tree.getParentId().equals(parentId)) {
+				SysMenuExpand treeExpand = new SysMenuExpand();
+				try {
+					BeanUtils.copyProperties(treeExpand,tree);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
 				List<SysMenuExpand> child = getChild(sysMenuList,tree.getId());			
 				if(child != null && child.size()>0) {
 					treeExpand.setChildSysMenu(child);

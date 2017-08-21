@@ -10,6 +10,12 @@
         <dependent-module archiveName="cool-api-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cool-api/cool-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="cool-scheduler-api-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cool-scheduler-api/cool-scheduler-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cool-wei-api-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cool-wei-api/cool-wei-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="cool-web"/>
         <property name="java-output-path" value="/cool-web/target/classes"/>
     </wb-module>

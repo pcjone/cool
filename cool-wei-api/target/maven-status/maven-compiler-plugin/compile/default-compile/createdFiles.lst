@@ -1,0 +1,7 @@
+com/cool/model/WxArticle.class
+com/cool/api/WxArticleService.class
+com/cool/model/WeiUser.class
+com/cool/model/WxArticleNews.class
+com/cool/api/WxNewsService.class
+com/cool/model/WxNews.class
+com/cool/api/WeiUserService.class

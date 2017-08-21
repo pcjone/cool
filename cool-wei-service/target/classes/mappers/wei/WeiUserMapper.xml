@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cool.dao.WeiUserMapper">
+	<resultMap type="com.cool.model.WeiUser" id="resultMap">
+		<id column="id" property="id"/>
+		<result column="openId" property="openId"/>
+		<result column="unionId" property="unionId"/>
+		<result column="nickname" property="nickname"/>
+		<result column="sex" property="sex"/>
+		<result column="sexId" property="sexId"/>
+		<result column="language" property="language"/>
+		<result column="city" property="city"/>
+		<result column="province" property="province"/>
+		<result column="country" property="country"/>
+		<result column="headimgurl" property="headimgurl"/>
+		<result column="subscribeTime" property="subscribeTime"/>
+		<result column="groupId" property="groupId"/>
+		<result column="subscribe" property="subscribe"/>
+		<result column="remark" property="remark"/>
+	</resultMap>
+	<sql id="allFields">
+		id,openId,unionId,nickname,sex,sexId,language,city,province,
+		country,headimgurl,subscribeTime,groupId,subscribe,remark
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into wei_user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="openId != null">
+				openId,
+			</if>
+			<if test="unionId != null">
+				unionId,
+			</if>
+			<if test="nickname != null and nickname != ''">
+				nickname,
+			</if>
+			<if test="sex != null ">
+				sex,
+			</if>
+			<if test="sexId != null">
+				sexId,
+			</if>
+			<if test="language != null and language != ''">
+				language,
+			</if>
+			<if test="city != null and city != ''">
+				city,
+			</if>
+			<if test="province != null and province != ''">
+				province,
+			</if>
+			<if test="country != null and country != ''">
+				country,
+			</if>
+			<if test="headimgurl != null and headimgurl != ''">
+				headimgurl,
+			</if>
+			<if test="subscribeTime != null">
+				subscribeTime,
+			</if>
+			<if test="groupId != null">
+				groupId,
+			</if>
+			<if test="subscribe != null">
+				subscribe,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="openId != null">
+				#{openId},
+			</if>
+			<if test="unionId != null">
+				#{unionId},
+			</if>
+			<if test="nickname != null and nickname != ''">
+				#{nickname},
+			</if>
+			<if test="sex != null ">
+				#{sex},
+			</if>
+			<if test="sexId != null">
+				#{sexId},
+			</if>
+			<if test="language != null and language != ''">
+				#{language},
+			</if>
+			<if test="city != null and city != ''">
+				#{city},
+			</if>
+			<if test="province != null and province != ''">
+				#{province},
+			</if>
+			<if test="country != null and country != ''">
+				#{country},
+			</if>
+			<if test="headimgurl != null and headimgurl != ''">
+				#{headimgurl},
+			</if>
+			<if test="subscribeTime != null">
+				#{subscribeTime},
+			</if>
+			<if test="groupId != null">
+				#{groupId},
+			</if>
+			<if test="subscribe != null">
+				#{subscribe},
+			</if>
+			<if test="remark != null">
+				#{remark},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKey" parameterType="Object">
+		update wei_user 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="openId != null">
+				openId = #{openId},
+			</if>
+			<if test="unionId != null">
+				unionId = #{unionId},
+			</if>
+			<if test="nickname != null and nickname != ''">
+				nickname = #{nickname},
+			</if>
+			<if test="sex != null ">
+				sex = #{sex},
+			</if>
+			<if test="sexId != null">
+				sexId = #{sexId},
+			</if>
+			<if test="language != null and language != ''">
+				language = #{language},
+			</if>
+			<if test="city != null and city != ''">
+				city = #{city},
+			</if>
+			<if test="province != null and province != ''">
+				province = #{province},
+			</if>
+			<if test="country != null and country != ''">
+				country = #{country},
+			</if>
+			<if test="headimgurl != null and headimgurl != ''">
+				headimgurl = #{headimgurl},
+			</if>
+			<if test="subscribeTime != null">
+				subscribeTime = #{subscribeTime},
+			</if>
+			<if test="groupId != null">
+				groupId = #{groupId},
+			</if>
+			<if test="subscribe != null">
+				subscribe = #{subscribe},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	
+	<!-- 删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from wei_user  where id = #{id}
+	</delete>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from wei_user
+		 where id = #{id}
+	</select>
+	
+	<select id="queryByOpenId"  resultMap="resultMap" parameterType="Object">
+		select <include refid="allFields" />
+		 from wei_user
+		 where openId = #{openId}
+	</select>
+
+	<!-- 列表总数-->
+	<select id="query" resultType="java.lang.Long"  parameterType="Object">
+		select id from wei_user
+		<include refid="whereSql"></include>
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryForList" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from wei_user
+		<include refid="whereSql"></include>
+	</select>
+	
+	<sql id="whereSql">
+		<where>
+			1=1
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="openId != null">
+				and openId = #{openId}
+			</if>
+			<if test="unionId != null">
+				and unionId = #{unionId}
+			</if>
+			<if test="nickname != null and nickname != ''">
+				and nickname = #{nickname}
+			</if>
+			<if test="sex != null ">
+				and sex = #{sex}
+			</if>
+			<if test="sexId != null">
+				and sexId = #{sexId}
+			</if>
+			<if test="language != null and language != ''">
+				and language = #{language}
+			</if>
+			<if test="city != null and city != ''">
+				and city = #{city}
+			</if>
+			<if test="province != null and province != ''">
+				and province = #{province}
+			</if>
+			<if test="country != null and country != ''">
+				and country = #{country}
+			</if>
+			<if test="headimgurl != null and headimgurl != ''">
+				and headimgurl = #{headimgurl}
+			</if>
+			<if test="subscribeTime != null">
+				and subscribeTime = #{subscribeTime}
+			</if>
+			<if test="groupId != null">
+				and groupId = #{groupId}
+			</if>
+			<if test="subscribe != null">
+				and subscribe = #{subscribe}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark}
+			</if>
+		</where>
+	</sql>
+</mapper>

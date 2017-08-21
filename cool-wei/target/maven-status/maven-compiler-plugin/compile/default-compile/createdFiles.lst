@@ -1,0 +1,9 @@
+com/cool/constants/HandlerConstant.class
+com/cool/wei/handler/SubscribeHandler.class
+com/cool/wei/handler/UpdateHandler.class
+com/cool/wei/handler/LogHandler.class
+com/cool/listener/ContextWeChatInitListener.class
+com/cool/wei/handler/OtherHandler.class
+com/cool/wei/handler/UnSubscribeHandler.class
+com/cool/wei/handler/EventHandler.class
+com/cool/wei/controller/ChatController.class

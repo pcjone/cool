@@ -12,7 +12,7 @@
 	<artifactId>cool-service</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
-	<name>cool-service Maven Webapp</name>
+	<name>cool-service</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -105,6 +105,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<finalName>cool-service</finalName>
 	</build>

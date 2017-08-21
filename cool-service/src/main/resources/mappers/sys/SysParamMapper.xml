@@ -15,7 +15,7 @@
 	<sql id="allFields">
 	id,param_key,param_value,enable,remark,create_by,create_time,update_by,update_time
 	</sql>
-	<insert id="insert" parameterType="Object">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Object">
 		insert into sys_param
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null">

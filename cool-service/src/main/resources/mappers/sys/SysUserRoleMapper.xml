@@ -18,7 +18,7 @@
 		id,user_id,role_id,enable,remark,create_by,create_time,update_by,update_time
 	</sql>
 	
-	<insert id="insert" parameterType="Object">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Object">
 		inert into sys_user_role 
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="userId != null">

@@ -2,6 +2,10 @@ $(function() {
 	//初始化整个权限树
 	jsTreeInit();
 	
+	//加载字典
+	var categorys=['ENABLE','SEX'];
+	loadDic(categorys);
+	
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -120,15 +124,7 @@ var TableInit = function() {
 				field : 'sex',
 				title : '性别',
 				valign: 'middle',
-				formatter : function(value, row, index) {
-					if(value == 0){
-						return "未知";
-					}else if(value == 1){
-						return "男";
-					}else if(value == 2){
-						return "女";
-					}
-				}
+				formatter : dic_value_text("SEX"),
 			}, {
 				field : 'phone',
 				title : '电话',
@@ -146,13 +142,7 @@ var TableInit = function() {
 				field : 'enable',
 				title : '状态',
 				valign: 'middle',
-				formatter : function(value, row, index) {
-					if(value == 1){
-						return "<a class='btn btn-danger btn-rounded btn-xs'>锁定<a>";
-					}else if(value == 0){
-						return "<a class='btn btn-success btn-rounded btn-xs'>有效<a>";
-					}
-				}
+				formatter : dic_value_text("ENABLE"),
 			}],
 			detailFormatter : function(index, row) {
 			},

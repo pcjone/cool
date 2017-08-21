@@ -1,4 +1,8 @@
 $(function() {
+	//加载字典
+	var categorys=['ENABLE','GROUP_STATUS'];
+	loadDic(categorys);
+	
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -13,7 +17,7 @@ $(function() {
 	});
 	$('#collapseOne').on('show.bs.collapse', function () {
 		$(".fa.fa-chevron-down").attr("class","fa fa-chevron-up");
-	})
+	});
 	$(".fa.fa-times").click(function(){
 		$(".gray-bg").hide();
 	});
@@ -88,19 +92,14 @@ var TableInit = function() {
 				title : '分组状态',
 				valign: 'middle',
 				sortable:true,
+				formatter : dic_value_text("GROUP_STATUS"),
 			},
 			{
 				field : 'enable',
 				title : '状态',
 				valign: 'middle',
 				sortable:true,
-				formatter : function(value, row, index) {
-					if(value == 1){
-						return "<a class='btn btn-danger btn-rounded btn-xs'>锁定<a>";
-					}else if(value == 0){
-						return "<a class='btn btn-success btn-rounded btn-xs'>有效<a>";
-					}
-				}
+				formatter : dic_value_text("ENABLE"),
 			}],
 			detailFormatter : function(index, row) {
 			},
@@ -114,6 +113,8 @@ var TableInit = function() {
 			pageNum : params.pageNumber, // 页码
 			sort : params.sortName,
 			order : params.sortOrder,
+			enable : $("#enable_search").val(),
+			status : $("#status_search").val(),
 		};
 		return temp;
 	}

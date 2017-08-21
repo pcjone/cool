@@ -13,6 +13,8 @@
           				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
 	<context:component-scan base-package="com.cool.web" />
+	<context:component-scan base-package="com.cool.task" />
+	<context:component-scan base-package="com.cool.web.wei" />
 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
@@ -43,11 +45,6 @@
 		<bean class="com.cool.interceptor.MaliciousRequestInterceptor">
 			<property name="minRequestIntervalTime" value="1000" />
 			<property name="maxMaliciousTimes" value="20" />
-			<property name="nextInterceptor">
-				<array>
-					<bean class="com.cool.interceptor.LocaleInterceptor" />
-				</array>
-			</property>
 		</bean>
 	</mvc:interceptors>
 
@@ -78,6 +75,4 @@
 
 	<mvc:default-servlet-handler/>
 
-	<!-- 打开aop 注解 -->
-	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
 </beans>

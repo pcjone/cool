@@ -1,7 +1,12 @@
 $(function() {
+	//加载字典
+	var categorys=['RESULT_CODE'];
+	loadDic(categorys);
+	
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
+	
 	//初始化table按钮功能
 	var oButton = new ButtonInit();
 	oButton.Init();
@@ -97,7 +102,7 @@ var TableInit = function() {
 			},
 			{
 				field : 'exexTime',
-				title : '耗时',
+				title : '耗时(s)',
 				valign: 'middle',
 				sortable:true,
 			},
@@ -106,12 +111,14 @@ var TableInit = function() {
 				title : '日志信息',
 				valign: 'middle',
 				sortable:true,
+				visible : false
 			},
 			{
 				field : 'resultCode',
 				title : '执行结果',
 				valign: 'middle',
 				sortable:true,
+				formatter : dic_value_text("RESULT_CODE"),
 			},
 			{
 				field : 'triggerType',
@@ -124,12 +131,14 @@ var TableInit = function() {
 				title : '服务器名',
 				valign: 'middle',
 				sortable:true,
+				visible : false
 			},
 			{
 				field : 'serverDuid',
 				title : '服务器网卡序列号',
 				valign: 'middle',
 				sortable:true,
+				visible : false
 			},
 			{
 				field : 'serverIp',
@@ -138,16 +147,12 @@ var TableInit = function() {
 				sortable:true,
 			},
 			{
-				field : 'enable',
-				title : '状态',
+				field : '1',
+				title : '操作',
 				valign: 'middle',
 				sortable:true,
 				formatter : function(value, row, index) {
-					if(value == 1){
-						return "<a class='btn btn-danger btn-rounded btn-xs'>锁定<a>";
-					}else if(value == 0){
-						return "<a class='btn btn-success btn-rounded btn-xs'>有效<a>";
-					}
+					return '<button data-toggle="button" class="btn btn-primary" type="button" onclick="detail('+index+')">详情</button>';
 				}
 			}],
 			detailFormatter : function(index, row) {
@@ -162,6 +167,8 @@ var TableInit = function() {
 			pageNum : params.pageNumber, // 页码
 			sort : params.sortName,
 			order : params.sortOrder,
+			groupId : $("#groupId_search").val(),
+			resultCode : $("#resultCode_search").val()
 		};
 		return temp;
 	}
@@ -176,77 +183,14 @@ var ButtonInit = function() {
 	var oButtonInit = new Object();
 	//初始化Table
 	oButtonInit.Init = function() {
-		<!-- 查询 -->
+
 		$("#searchBtn").click(function(){
 			$("#data-list-table").bootstrapTable('refresh',{query:{page:1}});
 		});
 		
-		<!-- 重置 -->
+	
 		$("#reset").click(function(){
 
-		});
-		
-		
-		//新增功能
-		$("#add").click(function(){
-			$(".modal-title").html("新增数据字典");
-			$('#signupForm')[0].reset();
-			$("#myModal").modal('show');
-		});
-		
-		$("#edit").click(function(){
-			var rows = $('#data-list-table').bootstrapTable(
-			'getAllSelections');
-			if (rows == null || rows.length <= 0 || rows.length > 1) {
-				swal("请选择一条记录", "", "warning");
-				return;
-			}
-			$("#id").val(rows[0].id);
-			
-			$("#myModal").modal('show');
-		});
-		
-		$("#cancel").click(function(){
-			var rows = $('#data-list-table').bootstrapTable('getAllSelections');
-			if (rows == null || rows.length <= 0) {
-				swal("请选择一条记录", "", "warning");
-				return;
-			}
-			var ids = [];
-			for (var i = 0; i < rows.length; i++) {
-				ids.push(rows[i].id);
-			}
-			var length = ids.length;
-			swal({
-		        title: "您确定要锁定这"+length+"条信息吗",
-		        type: "warning",
-		        showCancelButton: true,
-		        showLoaderOnConfirm: true,
-		        closeOnConfirm: false
-		    }, function (isConfirm) {
-		    		if(isConfirm){
-			    		$.ajax({
-			    			url:"cancel",
-			    			type : 'post',
-						async : false,
-						data : {
-							"ids" : ids
-						},
-						traditional : true,
-			    			success:function(data){
-			    				if (data.success) {
-			    					$('#data-list-table').bootstrapTable('refresh');
-			    					swal("锁定成功！", "您已经锁定了这"+length+"条信息。", "success");					
-			    				} else {
-			    					swal(data.msg, "", "error");
-			    				}
-			    			},
-			    			error : function(){
-			    				swal('异常提交', "", "error");
-			    			}
-			    		});
-		    		}
-		    });
 		});
 		
 		$("#delete").click(function(){
@@ -298,30 +242,12 @@ var ButtonInit = function() {
 }
 
 function initOtherFunction(){
-	$("#save").click(function() {
-		var options = {
-			url:"save",
-			dataType:'json',
-			type : 'post', // get和post两种方式
-			clearForm : true, // 表示成功提交后清除所有表单字段值
-			resetForm : true,// 表示成功提交后重置所有字段
-			beforeSubmit:function(){
-				
-			},
-			success : function(data) {
-				if (data.success) {
-					$("#myModal").modal('hide');
-					$('#data-list-table').bootstrapTable('refresh');
-					swal(data.msg, "", "success");
-					
-				} else {
-					swal(data.msg, "", "error");
-				}
-			},
-			error : function(){
-				swal('异常提交', "", "error");
-			}
-		};
-		$("#signupForm").ajaxSubmit(options);
-	});
+	
+}
+
+function detail(index){
+	var rows = $('#data-list-table').bootstrapTable('getData');
+	var row = rows[index];
+	$("#detail").html(row.resultMsg);
+	$("#myModal").modal('show');
 }

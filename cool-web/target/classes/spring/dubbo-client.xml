@@ -13,18 +13,7 @@
 	default-lazy-init="false">
 	
 	<import resource="dubbo.xml"/>
-	
-	<dubbo:reference id="sysUserService" interface="com.cool.api.SysUserService" ></dubbo:reference>
-	
-	<dubbo:reference id="sysUserMenuService" interface="com.cool.api.SysUserMenuService" ></dubbo:reference>
-
-	<dubbo:reference id="sysMenuService" interface="com.cool.api.SysMenuService"></dubbo:reference>
-	
-	<dubbo:reference id="sysRoleService" interface="com.cool.api.SysRoleService"></dubbo:reference>
-	
-	<dubbo:reference id="sysRoleMenuService" interface="com.cool.api.SysRoleMenuService"></dubbo:reference>
-	
-	<dubbo:reference id="sysDicService" interface="com.cool.api.SysDicService"></dubbo:reference>
-	
-	<dubbo:reference id="sysParamService" interface="com.cool.api.SysParamService"></dubbo:reference>
+	<import resource="dubbo-sys.xml"/>
+	<import resource="dubbo-wei.xml"/>
+	<import resource="dubbo-scheduler.xml"/>
 </beans>

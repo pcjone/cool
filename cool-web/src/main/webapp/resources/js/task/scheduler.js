@@ -1,7 +1,12 @@
 $(function() {
+	//加载字典
+	var categorys=['ENABLE','AUTO_START','TASK_STATUS'];
+	loadDic(categorys);
+	
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
+	
 	//初始化table按钮功能
 	var oButton = new ButtonInit();
 	oButton.Init();
@@ -33,7 +38,7 @@ var TableInit = function() {
 			toolbar : '#toolbar', // 工具按钮用哪个容器
 			exportDataType : 'selected', //导出类型
 			striped : true, // 是否显示行间隔色
-			cache : false, // 是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+			cache : true, // 是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 			pagination : true, // 是否显示分页（*）
 			sortable : true, // 是否启用排序
 			sortOrder : "asc", // 排序方式
@@ -100,6 +105,7 @@ var TableInit = function() {
 				title : '状态',
 				valign: 'middle',
 				sortable:true,
+				formatter : dic_value_text("TASK_STATUS"),
 			},
 			{
 				field : 'taskLastExecTime',
@@ -130,19 +136,14 @@ var TableInit = function() {
 				title : '自启动',
 				valign: 'middle',
 				sortable:true,
+				formatter : dic_value_text("AUTO_START"),
 			},
 			{
 				field : 'enable',
-				title : '状态',
+				title : '锁定状态',
 				valign: 'middle',
 				sortable:true,
-				formatter : function(value, row, index) {
-					if(value == 1){
-						return "<a class='btn btn-danger btn-rounded btn-xs'>锁定<a>";
-					}else if(value == 0){
-						return "<a class='btn btn-success btn-rounded btn-xs'>有效<a>";
-					}
-				}
+				formatter : dic_value_text("ENABLE"),
 			}],
 			detailFormatter : function(index, row) {
 			},
@@ -156,6 +157,8 @@ var TableInit = function() {
 			pageNum : params.pageNumber, // 页码
 			sort : params.sortName,
 			order : params.sortOrder,
+			enable : $("#enable_search").val(),
+			groupId : $("#groupId_search").val(),
 		};
 		return temp;
 	}
@@ -196,7 +199,13 @@ var ButtonInit = function() {
 				return;
 			}
 			$("#id").val(rows[0].id);
-			
+			$("#groupId").val(rows[0].groupId);
+			$("#taskName").val(rows[0].taskName);
+			$("#taskDesc").val(rows[0].taskDesc);
+			$("#taskType").val(rows[0].taskType);
+			$("#timeConfig").val(rows[0].timeConfig);
+			$("#status").val(rows[0].status);
+			$("#autoStart").val(rows[0].autoStart);
 			$("#myModal").modal('show');
 		});
 		
@@ -231,6 +240,86 @@ var ButtonInit = function() {
 			    				if (data.success) {
 			    					$('#data-list-table').bootstrapTable('refresh');
 			    					swal("锁定成功！", "您已经锁定了这"+length+"条信息。", "success");					
+			    				} else {
+			    					swal(data.msg, "", "error");
+			    				}
+			    			},
+			    			error : function(){
+			    				swal('异常提交', "", "error");
+			    			}
+			    		});
+		    		}
+		    });
+		});
+		
+		$("#start").click(function(){
+			var rows = $('#data-list-table').bootstrapTable(
+			'getAllSelections');
+			if (rows == null || rows.length <= 0 || rows.length > 1) {
+				swal("请选择一条记录", "", "warning");
+				return;
+			}
+			var id = rows[0].id;
+			swal({
+		        title: "您确定要启动这"+length+"个任务吗",
+		        type: "warning",
+		        showCancelButton: true,
+		        showLoaderOnConfirm: true,
+		        closeOnConfirm: false
+		    }, function (isConfirm) {
+		    		if(isConfirm){
+			    		$.ajax({
+			    			url:"start",
+			    			type : 'post',
+						async : false,
+						data : {
+							"id" : id
+						},
+						traditional : true,
+			    			success:function(data){
+			    				if (data.success) {
+			    					$('#data-list-table').bootstrapTable('refresh');
+			    					swal("启动成功！", "您已经启动了这"+length+"个任务。", "success");					
+			    				} else {
+			    					swal(data.msg, "", "error");
+			    				}
+			    			},
+			    			error : function(){
+			    				swal('异常提交', "", "error");
+			    			}
+			    		});
+		    		}
+		    });
+		});
+		
+		$("#stop").click(function(){
+			var rows = $('#data-list-table').bootstrapTable(
+			'getAllSelections');
+			if (rows == null || rows.length <= 0 || rows.length > 1) {
+				swal("请选择一条记录", "", "warning");
+				return;
+			}
+			var id = rows[0].id;
+			swal({
+		        title: "您确定要停止这"+length+"个任务吗",
+		        type: "warning",
+		        showCancelButton: true,
+		        showLoaderOnConfirm: true,
+		        closeOnConfirm: false
+		    }, function (isConfirm) {
+		    		if(isConfirm){
+			    		$.ajax({
+			    			url:"stop",
+			    			type : 'post',
+						async : false,
+						data : {
+							"id" : id
+						},
+						traditional : true,
+			    			success:function(data){
+			    				if (data.success) {
+			    					$('#data-list-table').bootstrapTable('refresh');
+			    					swal("停止成功！", "您已经停止了这"+length+"个任务。", "success");					
 			    				} else {
 			    					swal(data.msg, "", "error");
 			    				}
@@ -300,7 +389,16 @@ function initOtherFunction(){
 			clearForm : true, // 表示成功提交后清除所有表单字段值
 			resetForm : true,// 表示成功提交后重置所有字段
 			beforeSubmit:function(){
-				
+				var taskName = $("#taskName").val();
+				if(taskName.trim() == ''){
+					swal("请输入任务名称", "", "warning");
+					return false;
+				}
+				var taskDesc = $("#taskDesc").val();
+				if(taskDesc.trim() == ''){
+					swal("请输入任务描述", "", "warning");
+					return false;
+				}
 			},
 			success : function(data) {
 				if (data.success) {

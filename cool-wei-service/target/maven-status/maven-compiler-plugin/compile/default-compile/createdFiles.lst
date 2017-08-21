@@ -1,0 +1,6 @@
+com/cool/service/WxArticleServiceImpl.class
+com/cool/dao/WxArticleMapper.class
+com/cool/dao/WeiUserMapper.class
+com/cool/service/WxNewsServiceImpl.class
+com/cool/service/WeiUserServiceImpl.class
+com/cool/dao/WxNewsMapper.class

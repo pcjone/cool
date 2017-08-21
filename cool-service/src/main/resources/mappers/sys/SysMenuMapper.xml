@@ -64,20 +64,7 @@
 	</where>
 	</sql>
 	
-	<!-- <select id="querySysMenuByUserId" parameterType="Object" resultMap="resultMap">
-		select 
-			<include refid="allFields"></include>
-		from sys_menu
-		where enable = 0 and id in (
-			select srm.menu_id 
-				from sys_role_menu srm where enable = 0 and exists (
-				select sr.id from sys_user_role sur 
-					left join sys_role sr on sur.role_id = sr.id 
-				where sur.enable = 0 and sur.id = #{userId} and sur.id = srm.role_id)
-		)
-	</select> -->
-	
-	<insert id="insert" parameterType="Object">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Object">
 		insert into sys_menu
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null">

@@ -129,7 +129,7 @@ public class MainController extends BaseController{
 			}
 			html+=" href='"+menu.getRequest()+"'><i class='"+menu.getIconcls()+"'></i><span class=\"nav-label\">"+menu.getMenuName()+"</span>";
 			if(!menu.isHasChild()) {
-				html+="<span class=\\\"fa arrow\\\"></span>";
+				html+="<span class=\"fa arrow\"></span>";
 			}
 			html+="</a>";
 			if(menu.isHasChild()) {

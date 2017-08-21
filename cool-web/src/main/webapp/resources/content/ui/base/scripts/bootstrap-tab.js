@@ -21,8 +21,8 @@
             if (options.content) {
                 content = '<div role="tabpanel" class="tab-pane" id="' + id + '">' + options.content + '</div>';
             } else { //没有内容，使用IFRAME打开链接
-            //    App.startPageLoading({ message: '加载中......' });
-            //    App.stopPageLoading();
+            //    App.startPageLoading({ message: '加载中......' });
+            //    App.stopPageLoading();
                 App.blockUI({
                     target: '#tab-content',
                     boxed: true,

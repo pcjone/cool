@@ -59,22 +59,6 @@ public class TaskExecLogController extends BaseController{
 		PageInfo<TaskExecLog> pageList = taskExecLogService.query(params);
 		HtmlUtil.writerJson(response,pageList);
 	}
-	/**
-	 * 
-	* @Title: cancel 
-	* @Description: 逻辑删除
-	* @param @param ids
-	* @param @param request
-	* @param @param response     
-	* @return void    
-	* @throws
-	 */
-	@RequiresPermissions("task.execLog.cancel")
-	@RequestMapping(value="/cancel",method = RequestMethod.POST)
-	public void cancel(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
-		taskExecLogService.cancelDBAndCache(ids, getCurrUser());
-		sendSuccessMessage(response,"删除成功");
-	}
 	
 	/**
 	 * 
@@ -107,29 +91,5 @@ public class TaskExecLogController extends BaseController{
 	public void queryById(Long id,HttpServletRequest request, HttpServletResponse response) {
 		TaskExecLog record = taskExecLogService.queryCacheById(id);
 		HtmlUtil.writerJson(response,record);
-	}
-	/**
-	 * 
-	* @Title: save 
-	* @Description: 新增或更新
-	* @param @param request
-	* @param @param response     
-	* @return void    
-	* @throws
-	 */
-	@RequestMapping(value="/save",method = RequestMethod.POST)
-	public void save(HttpServletRequest request, HttpServletResponse response) {
-		TaskExecLog record = Request2ModelUtil.covert(TaskExecLog.class,request);
-		if(record != null) {
-			if(record.getId() == null) {
-				record.setCreateBy(getCurrUser());
-				taskExecLogService.insert(record);
-				sendSuccessMessage(response,"新增成功");
-			}else {
-				record.setUpdateBy(getCurrUser());
-				taskExecLogService.updateDB(record);
-				sendSuccessMessage(response,"更新成功");
-			}
-		}
 	}
 }

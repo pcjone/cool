@@ -24,17 +24,13 @@
 				<div class="row">
 					<form method="post" class="form-horizontal" id="searchForm">
 						<div class="col-sm-3 col-md-3">
-							<div class="form-group">
-                                <label class="col-sm-4 control-label">字典类型</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="category_search" name="category">
-                                </div>
-                            </div>
+							<@select_group id='groupId_search' name='groupId' value='' text='分组名称' check="true"/>			
 						</div>
 						<div class="col-sm-3 col-md-3">
-							 <@select_tag id='enable_search' name='enable' value='ENABLE' text='状态' check="true"/>
+							 <@select_tag id='status_search' name='status' value='GROUP_STATUS' text='分组状态' check="true"/>
 						</div>
 						<div class="col-sm-3 col-md-3">
+							<@select_tag id='enable_search' name='enable' value='ENABLE' text='状态' check="true"/>
 						</div>
 
 						<div class="col-sm-3 col-md-3">
@@ -93,28 +89,9 @@
 				<div class="modal-body">
 					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm">
 					 		<input id="id" name="id" type="text" style="display:none"/>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">分组名称：</label>
-                                <div class="col-sm-9">
-                                    <input id="groupName" name="groupName" class="form-control" type="text" aria-required="true" aria-invalid="true" class="error">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">分组描述：</label>
-                                <div class="col-sm-9">   	
-                                    <textarea id="groupDesc" name="groupDesc" class="form-control" placeholder="描述信息" rows="3"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">分组状态：</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" id="status" name = "status">
-                                         <option value="0">禁用</option>
-                                         <option value="1">启用</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
+					 		<@input_local id='groupName' name='groupName' value='' text='分组名称：'/>
+                       		<@textarea_local id='groupDesc' name='groupDesc' value='' text='分组描述：'  placeholder='描述信息' rows='3'/>                          
+                            <@select_tag id='status' name='status' value='GROUP_STATUS' text='分组状态：' check="false"/>
                         </form>
 				</div>
 				<div class="modal-footer">

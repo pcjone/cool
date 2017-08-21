@@ -1,5 +1,8 @@
 package com.cool.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cool.Constants;
 import com.cool.api.SysDicService;
 import com.cool.base.BaseController;
 import com.cool.model.SysDic;
 import com.cool.util.HtmlUtil;
+import com.cool.util.RedisUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
 import com.github.pagehelper.PageInfo;
@@ -138,5 +143,29 @@ public class SysDicController extends BaseController{
 				sendSuccessMessage(response,"更新成功");
 			}
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/sysDic", method = RequestMethod.POST)
+	public void dicList(String[] categorys, HttpServletRequest request, HttpServletResponse response) {
+		List<SysDic> dicList = new ArrayList<SysDic>();
+		for (String category : categorys) {
+			//先查询缓存		
+			List<SysDic> partList = (List<SysDic>) RedisUtil
+					.getNoExpiry(Constants.DICTIOINARY_CACHE + category);
+			//缓存没有查询DB
+			if (partList == null) {
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("category", category);
+				params.put("enable", Constants.ENABLE_NO);
+				partList = sysDicService.queryListByCategory(params);
+			}
+			dicList.addAll(partList);
+		}
+		Map<String, String> dictJsonMap = new HashMap<String, String>();
+		for (SysDic d : dicList) {
+			dictJsonMap.put(d.getCategory() + d.getCodeValue(), d.getCodeText());
+		}
+		HtmlUtil.writerJson(response, dictJsonMap);
 	}
 }

@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cool.api.TaskGroupService;
 import com.cool.api.TaskSchedulerService;
 import com.cool.base.BaseController;
+import com.cool.model.TaskGroup;
 import com.cool.model.TaskScheduler;
 import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
@@ -25,7 +27,10 @@ import com.github.pagehelper.PageInfo;
 public class TaskSchedulerController extends BaseController{
 	private final Logger logger = Logger.getLogger(TaskSchedulerController.class);
 	@Autowired
-	private TaskSchedulerService schedulerService;
+	private TaskSchedulerService taskSchedulerService;
+	
+	@Autowired
+	private TaskGroupService taskGroupService;
 	/**
 	 * 
 	* @Title: list 
@@ -56,7 +61,7 @@ public class TaskSchedulerController extends BaseController{
 	@RequestMapping(value="/dataList",method = RequestMethod.POST)
 	public void dataList(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> params = WebUtil.getParameterMap(request);
-		PageInfo<TaskScheduler> pageList = schedulerService.query(params);
+		PageInfo<TaskScheduler> pageList = taskSchedulerService.query(params);
 		HtmlUtil.writerJson(response,pageList);
 	}
 	/**
@@ -72,8 +77,66 @@ public class TaskSchedulerController extends BaseController{
 	@RequiresPermissions("task.scheduler.cancel")
 	@RequestMapping(value="/cancel",method = RequestMethod.POST)
 	public void cancel(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
-		schedulerService.cancelDBAndCache(ids, getCurrUser());
+		taskSchedulerService.cancelDBAndCache(ids, getCurrUser());
 		sendSuccessMessage(response,"删除成功");
+	}
+	/**
+	 * 
+	* @Title: start 
+	* @Description: 执行任务
+	* @param @param id
+	* @param @param request
+	* @param @param response     
+	* @return void    
+	* @throws
+	 */
+	@RequiresPermissions("task.scheduler.run")
+	@RequestMapping(value="/run",method = RequestMethod.POST)
+	public void run(Long id,HttpServletRequest request, HttpServletResponse response) {
+		TaskScheduler taskScheduler = taskSchedulerService.queryDBById(id);
+		TaskGroup taskGroup = taskGroupService.queryDBById(taskScheduler.getGroupId());
+		boolean result = taskSchedulerService.execTask(taskGroup.getGroupName(), taskScheduler.getTaskName());
+		if(result) {
+			sendSuccessMessage(response,"执行成功");
+		}else {
+			sendFailureMessage(response,"执行失败");
+		}
+	}
+	
+	@RequiresPermissions("task.scheduler.start")
+	@RequestMapping(value="/start",method = RequestMethod.POST)
+	public void start(Long id,HttpServletRequest request, HttpServletResponse response) {
+		TaskScheduler taskScheduler = taskSchedulerService.queryDBById(id);
+		TaskGroup taskGroup = taskGroupService.queryDBById(taskScheduler.getGroupId());
+		boolean result = taskSchedulerService.openCloseTask(taskGroup.getGroupName(), taskScheduler.getTaskName(), "start");
+		if(result) {
+			sendSuccessMessage(response,"启动成功");
+		}else {
+			sendFailureMessage(response,"启动失败");
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: stop 
+	* @Description: 停止任务
+	* @param @param id
+	* @param @param request
+	* @param @param response     
+	* @return void    
+	* @throws
+	 */
+	@RequiresPermissions("task.scheduler.stop")
+	@RequestMapping(value="/stop",method = RequestMethod.POST)
+	public void stop(Long id,HttpServletRequest request, HttpServletResponse response) {
+		TaskScheduler taskScheduler = taskSchedulerService.queryDBById(id);
+		TaskGroup taskGroup = taskGroupService.queryDBById(taskScheduler.getGroupId());
+		boolean result = taskSchedulerService.openCloseTask(taskGroup.getGroupName(), taskScheduler.getTaskName(), "stop");
+		if(result) {
+			sendSuccessMessage(response,"停止成功");
+		}else {
+			sendFailureMessage(response,"停止失败");
+		}
 	}
 	
 	/**
@@ -89,7 +152,7 @@ public class TaskSchedulerController extends BaseController{
 	@RequiresPermissions("task.scheduler.delete")
 	@RequestMapping(value="/delete",method = RequestMethod.POST)
 	public void detete(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
-		schedulerService.deleteDBAndCache(ids);
+		taskSchedulerService.deleteDBAndCache(ids);
 		sendSuccessMessage(response,"删除成功");
 	}
 	
@@ -105,7 +168,7 @@ public class TaskSchedulerController extends BaseController{
 	 */
 	@RequestMapping(value="/queryById",method = RequestMethod.POST)
 	public void queryById(Long id,HttpServletRequest request, HttpServletResponse response) {
-		TaskScheduler record = schedulerService.queryCacheById(id);
+		TaskScheduler record = taskSchedulerService.queryCacheById(id);
 		HtmlUtil.writerJson(response,record);
 	}
 	/**
@@ -123,11 +186,11 @@ public class TaskSchedulerController extends BaseController{
 		if(record != null) {
 			if(record.getId() == null) {
 				record.setCreateBy(getCurrUser());
-				schedulerService.insert(record);
+				taskSchedulerService.insert(record);
 				sendSuccessMessage(response,"新增成功");
 			}else {
 				record.setUpdateBy(getCurrUser());
-				schedulerService.updateDB(record);
+				taskSchedulerService.updateDB(record);
 				sendSuccessMessage(response,"更新成功");
 			}
 		}

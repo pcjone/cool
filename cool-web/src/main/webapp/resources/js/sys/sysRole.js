@@ -2,6 +2,10 @@ $(function() {
 	//初始化整个权限树
 	jsTreeInit();
 	
+	//加载字典
+	var categorys=['ENABLE','ROLE_TYPE'];
+	loadDic(categorys);
+	
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -112,15 +116,7 @@ var TableInit = function() {
 				title : '角色类型',
 				valign: 'middle',
 				sortable:true,
-				formatter : function(value, row, index) {
-					if(value == 1){
-						return "业务角色";
-					}else if(value == 2){
-						return "管理角色";
-					}else if(value == 3){
-						return "系统内置角色";
-					}
-				}
+				formatter : dic_value_text("ROLE_TYPE"),
 			}, {
 				field : 'enable',
 				title : '字典状态',

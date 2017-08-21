@@ -19,7 +19,7 @@
 	<sql id="allFields">
 	id,category,category_name,code_value,code_text,sort_no,editable,enable,remark,create_by,create_time,update_by,update_time
 	</sql>
-	<insert id="insert" parameterType="Object">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Object">
 		insert into sys_dic
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null">

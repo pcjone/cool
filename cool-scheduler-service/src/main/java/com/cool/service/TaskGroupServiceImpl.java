@@ -1,5 +1,6 @@
 package com.cool.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class TaskGroupServiceImpl extends BaseServiceImpl<TaskGroup> implements 
 	@Override
 	protected BaseMapper<TaskGroup> getMapper() {
 		return taskGroupMapper;
+	}
+
+	@Override
+	public List<TaskGroup> queryAllGroup(Map<String, Object> params) {
+		return taskGroupMapper.queryAllGroup(params);
 	}
 
 }

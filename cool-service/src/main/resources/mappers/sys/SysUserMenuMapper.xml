@@ -18,7 +18,7 @@
 		id,user_id,menu_id,enable,remark,create_by,create_time,update_by,update_time
 	</sql>
 	
-	<insert id="insert">
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="Object">
 		inert into sys_user_menu 
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="userId != null">

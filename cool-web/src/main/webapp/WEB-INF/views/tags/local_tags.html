@@ -1,10 +1,19 @@
 
-<#macro input_local id name value text> 
+<#macro input_local id name value text>
 <div class="form-group">
 	<label class="col-sm-4 control-label">${text}</label>
 	<div class="col-sm-8">
-		<input type="text" class="form-control" id="${id}"
-			name="${name}">
+		<input type="text" class="form-control" id="${id}" name="${name}">
 	</div>
 </div>
-</#macro> 
+</#macro>
+
+<#macro textarea_local id name value text placeholder rows>
+<div class="form-group">
+	<label class="col-sm-4 control-label">${text}</label>
+	<div class="col-sm-8">
+		<textarea id="${id}" name="${name}" class="form-control"
+			placeholder="${placeholder}" rows="${rows}"></textarea>
+	</div>
+</div>
+</#macro>
