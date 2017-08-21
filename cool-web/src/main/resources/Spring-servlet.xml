@@ -13,6 +13,7 @@
           				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
 	<context:component-scan base-package="com.cool.web" />
+	<context:component-scan base-package="com.cool.tags" />
 	<context:component-scan base-package="com.cool.task" />
 	<context:component-scan base-package="com.cool.web.wei" />
 
@@ -59,6 +60,8 @@
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
+	
+	<bean name="springContextUtil" class="com.cool.util.SpringContextUtil" scope="singleton"></bean>
 	
 	<!-- freemarker集成 -->
 	<import resource="spring/freemarker.xml"/>

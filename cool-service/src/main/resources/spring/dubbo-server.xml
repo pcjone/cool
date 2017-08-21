@@ -32,6 +32,4 @@
 	<!-- 参数服务 -->
 	<dubbo:service interface="com.cool.api.SysParamService" ref="sysParamServiceImpl"></dubbo:service>
 	
-	<!-- rpc服务_标签 -->
-	<dubbo:service interface="com.cool.api.TagRpcService" ref="tagRpcServiceImpl"></dubbo:service>
 </beans>

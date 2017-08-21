@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.beust.jcommander.internal.Maps;
 import com.cool.Constants;
 import com.cool.api.SysDicService;
 import com.cool.base.BaseController;
@@ -134,6 +135,14 @@ public class SysDicController extends BaseController{
 		SysDic record = Request2ModelUtil.covert(SysDic.class,request);
 		if(record != null) {
 			if(record.getId() == null) {
+				Map<String,Object> searchParams = Maps.newHashMap();
+				searchParams.put("codeValue", record.getCodeValue());
+				searchParams.put("category", record.getCategory());
+				List<SysDic> checkList = sysDicService.validateSysDic(searchParams);
+				if(checkList !=null && checkList.size()>0) {
+					sendFailureMessage(response,"新增失败，键值对重复");
+					return;
+				}
 				record.setCreateBy(getCurrUser());
 				sysDicService.insert(record);
 				sendSuccessMessage(response,"新增成功");

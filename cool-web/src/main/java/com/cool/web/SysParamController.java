@@ -1,5 +1,6 @@
 package com.cool.web;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 /**
  * 
 * @ClassName: SysDicController 
@@ -129,6 +131,13 @@ public class SysParamController extends BaseController{
 		SysParam record = Request2ModelUtil.covert(SysParam.class,request);
 		if(record != null) {
 			if(record.getId() == null) {
+				Map<String,Object> searchParams = Maps.newConcurrentMap();
+				searchParams.put("paramKey", record.getParamKey());
+				List<SysParam> checkList = sysParamService.validateSysParam(searchParams);
+				if(checkList!=null && checkList.size()>0) {
+					sendFailureMessage(response,"新增失败,参数名称已存在！");
+					return;
+				}
 				record.setCreateBy(getCurrUser());
 				sysParamService.insert(record);
 				sendSuccessMessage(response,"新增成功");

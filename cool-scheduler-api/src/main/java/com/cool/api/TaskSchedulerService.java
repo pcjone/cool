@@ -15,4 +15,6 @@ public interface TaskSchedulerService extends BaseService<TaskScheduler>{
 
 	/** 启停 */
 	public boolean openCloseTask(String taskGroup, String taskName, String status);
+	
+	public List<TaskScheduler> validateTaskScheduler(Map<String, Object> params);
 }

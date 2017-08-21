@@ -80,23 +80,8 @@
 						id="signupForm">
 						<input id="id" name="id" type="text" style="display: none" />
 						<input id="parentId" name="parentId" type="text" style="display: none" />
-						<div class="form-group">
-							<label class="col-sm-4 control-label">菜单名称：</label>
-							<div class="col-sm-8">
-								<input id="menuName" name="menuName" class="form-control"
-									type="text" aria-required="true" aria-invalid="true"
-									class="error">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label">类型：</label>
-							<div class="col-sm-8">
-							 		<select class="form-control" id="menuType" name = "menuType">
-                                         <option value="1">系统菜单</option>
-                                         <option value="0">操作菜单</option>
-                                    </select>
-							 	</div>
-						</div>
+						<@input_local id="menuName" name="menuName" value="" text="菜单名称：" />
+						<@select_tag id='menuType' name='menuType' value='MENU_TYPE' text='类型:' check='true'/>						
 						<div class="form-group">
 							<label class="col-sm-4 control-label">图标样式：</label>
 							<div class="col-sm-8">
@@ -108,30 +93,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label">请求地址：</label>
-							<div class="col-sm-8">
-								<input id="request" name="request" class="form-control"
-									type="text" aria-required="true" aria-invalid="true"
-									class="error">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label">权限控制：</label>
-							<div class="col-sm-8">
-								<input id="permission" name="permission" class="form-control"
-									type="text" aria-required="true" aria-invalid="true"
-									class="error">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label">排序：</label>
-							<div class="col-sm-8">
-								<input id="sortNo" name="sortNo" class="form-control"
-									type="text" aria-required="true" aria-invalid="true"
-									class="error">
-							</div>
-						</div>
+						<@input_local id="request" name="request" value="" text="请求地址：" />		
+						<@input_local id="permission" name="permission" value="" text="权限控制：" />								
+						<@input_local id="sortNo" name="sortNo" value="" text="排序：" />
 					</form>
 				</div>
 				<div class="modal-footer">

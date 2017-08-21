@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.cool.Constants;
+import com.cool.tags.BaseTemplateDirectiveModel;
 import com.cool.util.DataUtil;
 import com.cool.util.DateUtil;
 import com.cool.util.InstanceUtil;
@@ -30,7 +31,7 @@ import com.github.pagehelper.PageInfo;
  * @author ShenHuaJie
  * @version 2016年5月20日 下午3:19:19
  */
-public abstract class BaseServiceImpl<T extends BaseModel> {
+public abstract class BaseServiceImpl<T extends BaseModel>{
 	protected Logger logger = LogManager.getLogger(this.getClass());
 
 	/** 启动分页查询 */

@@ -29,6 +29,4 @@
 	<dubbo:reference id="sysDicService" interface="com.cool.api.SysDicService"></dubbo:reference>
 	
 	<dubbo:reference id="sysParamService" interface="com.cool.api.SysParamService"></dubbo:reference>	
-	<!-- 标签Rpc -->
-	<dubbo:reference id="tagRpcService" interface="com.cool.api.TagRpcService"></dubbo:reference>
 </beans>

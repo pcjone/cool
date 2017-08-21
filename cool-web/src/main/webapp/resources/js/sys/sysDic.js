@@ -295,8 +295,7 @@ function initOtherFunction(){
 				if (data.success) {
 					$("#myModal").modal('hide');
 					$('#data-list-table').bootstrapTable('refresh');
-					swal(data.msg, "", "success");
-					
+					swal(data.msg, "", "success");					
 				} else {
 					swal(data.msg, "", "error");
 				}

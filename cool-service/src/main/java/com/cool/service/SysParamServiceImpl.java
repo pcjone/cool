@@ -1,5 +1,6 @@
 package com.cool.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParam> implements Sy
 	@Override
 	protected BaseMapper<SysParam> getMapper() {
 		return sysParamMapper;
+	}
+
+	@Override
+	public List<SysParam> validateSysParam(Map<String, Object> params) {
+		return sysParamMapper.querySysParam(params);
 	}
 
 }

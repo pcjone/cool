@@ -25,7 +25,7 @@
 		threads="${dubbo.protocol.threads}" />
 		
 	<!-- 服务端要暴露的服务接口,注解@com.alibaba.dubbo.config.annotation.Service -->
-	<dubbo:annotation package="org.acms" />
+	<dubbo:annotation package="com.cool" />
 	
 	<!-- 服务消费端配置 -->
 	<dubbo:consumer timeout="5000000" loadbalance="leastactive"

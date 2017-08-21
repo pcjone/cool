@@ -3,12 +3,12 @@
 <div class="form-group">
 	<label class="col-sm-4 control-label">${text}</label>
 	<div class="col-sm-8">
-		<@tags type="sysDic" value="${value}"> 
+		<@tags target="sysDicTag" value="${value}"> 
 		<select class="form-control" id="${id}" name="${name}">
 			<#if "${check}"=="true">
 				<option value="" selected>全部</option>
 			</#if>
-			<#list lists as dic>
+			<#list outTagName as dic>
 				<option value="${dic.codeValue}">${dic.codeText}</option>
 			</#list>
 		</select> 
@@ -21,12 +21,12 @@
 <div class="form-group">
 	<label class="col-sm-4 control-label">${text}</label>
 	<div class="col-sm-8">
-		<@tags type="taskGroup" value="${value}"> 
+		<@tags target="taskGroupTag" value="${value}"> 
 		<select class="form-control" id="${id}" name="${name}">
 			<#if "${check}"=="true">
 				<option value="" selected>全部</option>
 			</#if>
-			<#list lists as group>
+			<#list outTagName as group>
 				<option value="${group.id}">${group.groupName}</option>
 			</#list>
 		</select> 

@@ -1,5 +1,6 @@
 package com.cool.task;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 
 @Controller
 @RequestMapping("group")
@@ -122,6 +124,13 @@ public class TaskGroupController extends BaseController{
 		TaskGroup record = Request2ModelUtil.covert(TaskGroup.class,request);
 		if(record != null) {
 			if(record.getId() == null) {
+				Map<String,Object> searchParams = Maps.newConcurrentMap();
+				searchParams.put("groupName", record.getGroupName());
+				List<TaskGroup> checkList = groupService.validateTaskGroup(searchParams);
+				if(checkList !=null && checkList.size()>0) {
+					sendFailureMessage(response,"新增失败，分组名称重复");
+					return;
+				}
 				record.setCreateBy(getCurrUser());
 				groupService.insert(record);
 				sendSuccessMessage(response,"新增成功");

@@ -13,8 +13,6 @@
 	default-lazy-init="false">
 	
 	<import resource="dubbo.xml"/>
-	<!-- rpc接口 -->
-	<dubbo:service interface="com.cool.api.TaskRpcService" ref="taskRpcServiceImpl"></dubbo:service>
 	<!-- 系统任务分组服务 -->
 	<dubbo:service interface="com.cool.api.TaskGroupService" ref="taskGroupServiceImpl"></dubbo:service>
 	<!-- 系统调度服务 -->

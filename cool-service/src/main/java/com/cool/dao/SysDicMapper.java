@@ -18,4 +18,5 @@ public interface SysDicMapper extends BaseMapper<SysDic>{
 	* @throws
 	 */
 	List<SysDic> queryListByCategory(Map<String,Object> params);
+	
 }

@@ -112,5 +112,8 @@ public interface Constants {
 	public final static String PARAMTER_CACHE = "PARAMTER_CACHE_";
 	//用户
 	public final static String USER_CACHE = "USER_CACHE_";
+	
+	public final static String TARGET = "target";
+	public final static String OUT_TAG_NAME = "outTagName";
 
 }

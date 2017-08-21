@@ -89,4 +89,9 @@ public class TaskSchedulerServiceImpl extends BaseServiceImpl<TaskScheduler> imp
 		return taskSchedulerMapper.queryTaskSchedulerList(params);
 	}
 
+	@Override
+	public List<TaskScheduler> validateTaskScheduler(Map<String, Object> params) {
+		return taskSchedulerMapper.queryTaskSchedulerList(params);
+	}
+
 }

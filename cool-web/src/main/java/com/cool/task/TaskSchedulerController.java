@@ -1,5 +1,6 @@
 package com.cool.task;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 
 @Controller
 @RequestMapping("scheduler")
@@ -185,6 +187,14 @@ public class TaskSchedulerController extends BaseController{
 		TaskScheduler record = Request2ModelUtil.covert(TaskScheduler.class,request);
 		if(record != null) {
 			if(record.getId() == null) {
+				Map<String,Object> searchParams = Maps.newConcurrentMap();
+				searchParams.put("groupId", record.getGroupId());
+				searchParams.put("taskName", record.getTaskName());
+				List<TaskScheduler> checkList = taskSchedulerService.validateTaskScheduler(searchParams);
+				if(checkList != null && checkList.size()>0) {
+					sendFailureMessage(response,"新增失败，任务已存在");
+					return;
+				}
 				record.setCreateBy(getCurrUser());
 				taskSchedulerService.insert(record);
 				sendSuccessMessage(response,"新增成功");

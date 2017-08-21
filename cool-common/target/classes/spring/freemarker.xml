@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 	
 	<!-- 自定义标签 -->
-	<bean id="tagsDirective" class="com.cool.tag.TagsDirective"/>
+	<bean id="apiTemplateDirectiveModel" class="com.cool.tags.APITemplateDirectiveModel"/>
 	<!-- 配置freeMarker的模板路径 -->
 	<bean id="freemarkerConfig"
 		class="com.cool.shiro.FreeMarkerConfigExtend">
@@ -12,7 +12,7 @@
 		<property name="templateLoaderPaths" value="/WEB-INF/views/" />
 		<property name="freemarkerVariables">
 			<map>
-                <entry key="tags" value-ref="tagsDirective"/>
+                <entry key="tags" value-ref="apiTemplateDirectiveModel"/>
             </map>
 		</property>
 		<property name="freemarkerSettings">

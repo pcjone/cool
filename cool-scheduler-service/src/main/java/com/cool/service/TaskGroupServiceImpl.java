@@ -36,4 +36,9 @@ public class TaskGroupServiceImpl extends BaseServiceImpl<TaskGroup> implements 
 		return taskGroupMapper.queryAllGroup(params);
 	}
 
+	@Override
+	public List<TaskGroup> validateTaskGroup(Map<String, Object> params) {
+		return taskGroupMapper.queryAllGroup(params);
+	}
+
 }
