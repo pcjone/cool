@@ -33,7 +33,8 @@
 				/=anon
 				/index.jsp=anon
 				/regin=anon
-				/login=anon
+				/login.html=anon
+				/register.html=anon
 				/wei/**=anon
 				/*.ico=anon
 				/upload/*=anon

@@ -76,4 +76,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 		}
 	}
 
+	@Override
+	public int updatePassword(SysUser record) {
+		return sysUserMapper.updatePassword(record);
+	}
+
 }

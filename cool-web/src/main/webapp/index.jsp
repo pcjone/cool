@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="description" content="cool" />
 <meta name="keywords" content="cool" />
-<meta http-equiv="refresh" content="0;url=/cool-web/login">
+<meta http-equiv="refresh" content="0;url=/cool-web/login.html">
 <title></title>
 </head>
 <body>

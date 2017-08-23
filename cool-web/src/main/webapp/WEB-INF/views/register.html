@@ -1,0 +1,101 @@
+﻿<#assign bathPath=springMacroRequestContext.getContextPath() />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>注册页面</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="${bathPath}/resources/content/ui/css/layout.css" rel="stylesheet" />
+    <link href="${bathPath}/resources/content/ui/css/register.css" rel="stylesheet"/>
+    <style>
+        .ibar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="login-bg">
+    <div class="main ">
+        <!--注册-->
+        <div class="login-dom login-max">
+            <div class="logo text-center">
+                <a href="#">
+                    <img src="${bathPath}/resources/content/ui/img/logo.png" width="180px" height="180px" />
+                </a>
+            </div>
+            <div class="login container " id="login">
+                <p class="text-big text-center logo-color">
+                    
+                </p>
+
+                <p class="text-center margin-small-top logo-color text-small">
+                  注册账号
+                </p>
+                <form class="login-form" action="register.html" method="post" autocomplete="off">
+                    <div class="login-box border text-small" id="box">
+                        <div class="name border-bottom">
+                            <input type="text" placeholder="账号" id="account" name="account" datatype="*5-16" errormsg="请填写帐号信息,至少5个字符,最多16个字符！" />
+                        </div>
+                        <div class="pwd">
+                            <input type="password" placeholder="密码" datatype="*6-15" id="password" name="password" nullmsg="请填写帐号密码" />
+                        </div>
+                        <div class="pwd">
+                            <input type="password" recheck="password" placeholder="重复密码" datatype="*6-15" id="password_confirm" name="password_confirm" errormsg="您两次输入的账号密码不一致！" />
+                        </div>
+                    </div>
+                    <input type="submit" class="btn text-center login-btn" value="注册" />
+                </form>
+                <div class="forget">
+                    <a href="#" class="forget-pwd text-small fl"> 已有账号？</a><a href="login.html" class="forget-new text-small fr" id="forget-new">去登录</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer text-center text-small ie">
+            2008      <a href="#" target="_blank">1</a>
+            <span class="margin-left margin-right">|</span>
+            <script src="#" language="JavaScript"></script>
+        </div>
+        <div class="popupDom">
+            <div class="popup text-default">
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="${bathPath}/resources/content/ui/global/jQuery/jquery.min.js"></script>
+<script type="text/javascript" src="http://validform.rjboy.cn/wp-content/themes/validform/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="http://validform.rjboy.cn/Validform/v5.1/Validform_v5.1_min.js"></script>
+<script type="text/javascript">
+    function popup_msg(msg) {
+        $(".popup").html("" + msg + "");
+        $(".popupDom").animate({
+            "top": "0px"
+        }, 400);
+        setTimeout(function () {
+            $(".popupDom").animate({
+                "top": "-40px"
+            }, 400);
+        }, 2000);
+    }
+
+    /*动画（注册）*/
+    $(document).ready(function (e) {
+         $("input[name=account]").focus();
+         $('.login-form').Validform({
+         	ajaxPost: true,
+         	tiptype: function(msg) {
+         		if (msg) popup_msg('' + msg + '');
+         	},
+         	callback: function(ret) {
+         		popup_msg('' + ret.msg + '');
+        			if (ret.success) {
+         			setTimeout("window.location.href=\"main\"", 1000);
+         		}
+         	}
+         })
+
+    });
+</script>
+</html>

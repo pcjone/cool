@@ -48,6 +48,10 @@ public class Realm extends AuthorizingRealm{
 	
 	@Autowired
 	protected SysMenuService sysMenuService;
+	
+	public String getName() {
+		return "myRealName";
+	}
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -77,7 +81,7 @@ public class Realm extends AuthorizingRealm{
 			}
 			if (user.getPassword().equals(sb.toString())) {
 				AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getAccount(), user.getPassword(),
-						user.getUserName());
+						getName());
 				WebUtil.saveCurrentUser(createUserSession(user));
 				return authcInfo;
 			}

@@ -38,7 +38,7 @@
                                 <span class="clear">
                                     <span class="block m-t-xs" style="font-size:20px;">
                                         <i class="fa fa-area-chart"></i>
-                                        <strong class="font-bold">${account}首页</strong>
+                                        <strong class="font-bold">首页</strong>
                                     </span>
                                 </span>
                             </a>
@@ -84,83 +84,39 @@
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-info " href="#"><i class="fa fa-bars"></i> </a>
-                        <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                        <!-- <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
                             <div class="form-group">
                                 <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
                             </div>
-                        </form>
+                        </form> -->
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
+                        
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-messages">
-                                <li class="m-t-xs">
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${bathPath}/resources/assets/img/a7.jpg">
-                                        </a>
-                                        <div class="media-body">
-                                            <small class="pull-right">46小时前</small>
-                                            <strong>小四</strong> 是不是只有我死了,你们才不骂爵迹
-                                            <br>
-                                            <small class="text-muted">3天前 2014.11.8</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${bathPath}/resources/assets/img/a4.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right text-navy">25小时前</small>
-                                            <strong>二愣子</strong> 呵呵
-                                            <br>
-                                            <small class="text-muted">昨天</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="text-center link-block">
-                                        <a class="J_menuItem" href="mailbox.html">
-                                            <i class="fa fa-envelope"></i> <strong> 查看所有消息</strong>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+                                <i class="glyphicon glyphicon-user"></i> <span class="label label-primary"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-alerts">
                                 <li>
-                                    <a href="mailbox.html">
+                                    <a href="javascript:modelShow()">
                                         <div>
-                                            <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
-                                            <span class="pull-right text-muted small">4分钟前</span>
+                                            <i class="fa fa-envelope fa-fw"></i>修改密码
                                         </div>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="profile.html">
+                                    <a href="user/user/${user.id}">
                                         <div>
-                                            <i class="fa fa-qq fa-fw"></i> 3条新回复
-                                            <span class="pull-right text-muted small">12分钟钱</span>
+                                            <i class="fa fa-qq fa-fw"></i>个人资料
                                         </div>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
                                     <div class="text-center link-block">
-                                        <a class="J_menuItem" href="${bathPath}/logout">
-                                            <strong>查看所有 </strong>
-                                            <i class="fa fa-angle-right"></i>
+                                        <a class="J_menuItem" href="logout">
+                                            <strong>退出登录</strong>
                                         </a>
                                     </div>
                                 </li>
@@ -175,6 +131,49 @@
         </div>
         <!--右侧部分结束-->
     </div>
+    
+    <div class="modal inmodal" id="passwordModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated fadeIn">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h1 class="modal-title">修改密码</h1>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal m-t">
+						<div class="form-group">
+							<label class="col-sm-4 control-label">账号：</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="account"
+									name="account" value="${user.account}" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">原密码：</label>
+							<div class="col-sm-8">
+								<input type="password" class="form-control" id="oldPassword"
+									name="oldPassword" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">新密码：</label>
+							<div class="col-sm-8">
+								<input type="password" class="form-control" id="newPassword"
+									name="newPassword" >
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="passwordSave">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
     <!-- 全局js -->
     <script src="${bathPath}/resources/assets/js/jquery.min.js?v=2.1.4"></script>
@@ -189,8 +188,44 @@
     
     <script src="${bathPath}/resources/assets/js/plugins/pace/pace.min.js"></script>
 <div style="text-align:center;">
-<p>来源:</p>
+<p><!-- 底部文字 --></p>
 </div>
 </body>
-
+<script type="text/javascript">
+$(function(){
+	$("#passwordSave").click(function(){
+		var account = $("#account").val();
+		var oldPassword = $("#oldPassword").val();
+		var newPassword = $("#newPassword").val();
+		if(oldPassword == "" ){
+			swal("密码不能为空", "", "warning");
+			return;
+		}
+		if(newPassword == "" && newPassword.length <6){
+			swal("密码不能为空或密码长度不能低于5位", "", "warning");
+			return;
+		}
+		$.ajax({
+			url:'user/editPassword',
+			data:{"account":account,"oldPassword":oldPassword,"newPassword":newPassword},
+			async:false,
+			type : 'post',
+			success:function(data){
+				if(data.success){
+					$('#passwordModal').modal('hide');
+					swal(data.msg, "", "success");
+				}else{
+					swal(data.msg, "", "error");
+				}
+			},
+			error:function(data){
+				swal('异常提交', "", "error");
+			}
+		});
+	});
+})
+function modelShow(){
+	$('#passwordModal').modal('show');
+}
+</script>
 </html>

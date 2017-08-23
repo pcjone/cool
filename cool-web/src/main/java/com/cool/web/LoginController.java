@@ -9,20 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.ExpiredCredentialsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cool.Constants;
 import com.cool.base.BaseController;
-import com.cool.common.HttpCode;
 import com.cool.common.Md5;
-import com.cool.constants.LoginConstants;
 import com.cool.util.RedisUtil;
 import com.cool.util.WebUtil;
 /**
@@ -35,33 +37,41 @@ import com.cool.util.WebUtil;
  */
 @RestController
 public class LoginController extends BaseController {
+	
 	private final Logger logger = Logger.getLogger(LoginController.class);
 	
-	@RequestMapping(value = "login",method = {RequestMethod.GET})
+	@RequestMapping(value = "/login",method = {RequestMethod.GET})
 	public Object index(HttpServletRequest request) {
 		Map<String,Object> context = getRootMap();
 		return forword("login",context);
 	}
 	
-	@RequestMapping(value = "login", method= {RequestMethod.POST})
+	@RequestMapping(value = "/login", method= {RequestMethod.POST})
 	public void login(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value = "account", required = false) String account,
-			@RequestParam(value = "password", required = false) String password) throws AuthenticationException, NoSuchAlgorithmException, IOException {
-		try {  
-	        Subject subject= SecurityUtils.getSubject();  
-	        if (subject.isAuthenticated()) {  
-	            return;  
-	        }                
-	        boolean rememberMe = ServletRequestUtils.getBooleanParameter(request, "rememberMe", false);  
-	        UsernamePasswordToken token = new UsernamePasswordToken(account, Md5.EncoderByMd5(password), rememberMe);  
-	        subject.login(token); // 登录  
-	        sendSuccessMessage(response,LoginConstants.SUCCESS,account);	
-	    } catch (Exception e) {  
-	    		sendFailureMessage(response,LoginConstants.USER_NOT_EXIST);
-	        //做一些异常处理  
-	    }finally{  
-	    		sendFailureMessage(response,LoginConstants.USER_NOT_EXIST);
-	    }  
+			@RequestParam(value = "account", required = true) String account,
+			@RequestParam(value = "password", required = true) String password) throws NoSuchAlgorithmException, IOException{		  
+		UsernamePasswordToken token = new UsernamePasswordToken(account, Md5.EncoderByMd5(password));
+		token.setRememberMe(true);
+		Subject subject = SecurityUtils.getSubject();
+		try {
+			if(subject.isAuthenticated()) {
+				return ;
+			}
+			subject.login(token);
+			sendSuccessMessage(response,Constants.SUCCESS,account);	
+		} catch (LockedAccountException e) {
+			sendFailureMessage(response,Constants.USER_ENABLED);	
+		} catch (DisabledAccountException e) {
+			sendFailureMessage(response,Constants.USER_ENABLED);	
+		} catch (ExpiredCredentialsException e) {
+			sendFailureMessage(response,Constants.FAILURE);	
+		} catch (UnknownAccountException e) {
+			sendFailureMessage(response,Constants.USER_WRONG);	
+		} catch(IncorrectCredentialsException e) {
+			sendFailureMessage(response,Constants.USER_WRONG);	
+		}finally{
+			sendFailureMessage(response,Constants.FAILURE);	
+		}
 	}
 	
 	@RequestMapping("/logout")

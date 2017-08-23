@@ -3,7 +3,7 @@ $(function() {
 	jsTreeInit();
 	
 	//加载字典
-	var categorys=['ENABLE','SEX'];
+	var categorys=['ENABLE','SEX','USER_TYPE'];
 	loadDic(categorys);
 	
 	// 1.初始化Table
@@ -107,19 +107,24 @@ var TableInit = function() {
 				field : 'id',
 				title : '序号',
 				valign: 'middle',
+			},{
+				field : 'avator',
+				title : '头像',
+				valign: 'middle',
+				visible : false
 			}, {
 				field : 'account',
 				title : '账号',
 				valign: 'middle',
 			}, {
-				field : 'avator',
-				title : '头像',
-				valign: 'middle',
-				visible : false
-			},{
 				field : 'userName',
 				title : '姓名',
 				valign: 'middle',
+			},{
+				field : 'userType',
+				title : '用户类型',
+				valign: 'middle',
+				formatter : dic_value_text("USER_TYPE"),
 			},{
 				field : 'sex',
 				title : '性别',

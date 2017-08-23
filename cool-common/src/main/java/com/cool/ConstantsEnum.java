@@ -36,6 +36,25 @@ public class ConstantsEnum {
 			return null;
 		}
 	}
+	
+	public static enum UserType{
+		RegisterUser("1","普通用户"),ManagerUser("2","管理员"),SystemUser("3","系统用户");
+		public String key;
+		public String value;
+		private UserType(String key, String value) {
+			this.key = key;
+			this.value = value;
+		}
+		public static UserType get(String key) {
+			UserType[] values = UserType.values();
+			for (UserType object : values) {
+				if (object.key == key) {
+					return object;
+				}
+			}
+			return null;
+		}
+	}
 
 	/**
 	 * 删除枚举

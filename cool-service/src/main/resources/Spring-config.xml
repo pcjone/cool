@@ -9,12 +9,9 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<!-- <value>classpath:prod_config/jdbc.properties</value>
-				<value>classpath:prod_config/dubbo.properties</value>
-				<value>classpath:prod_config/redis.properties</value> -->
-				<value>classpath:config/jdbc.properties</value>
-				<value>classpath:config/dubbo.properties</value>
-				<value>classpath:config/redis.properties</value>
+				<value>classpath:${profiles.active}/jdbc.properties</value>
+				<value>classpath:${profiles.active}/dubbo.properties</value>
+				<value>classpath:${profiles.active}/redis.properties</value>
 			</list>
 		</property>
 		<property name="properties">

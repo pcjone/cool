@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
 import com.cool.Constants;
+import com.cool.ConstantsEnum;
 import com.cool.api.SysRoleService;
 import com.cool.api.SysUserRoleService;
 import com.cool.api.SysUserService;
@@ -82,6 +83,14 @@ public class SysUserController extends BaseController{
 		HtmlUtil.writerJson(response,pageList);
 	}
 	
+	@RequestMapping(value="/user/{id}",method = RequestMethod.GET)
+	public Object queryById(@PathVariable Long id,HttpServletRequest request, HttpServletResponse response) {
+		SysUser record = sysUserService.queryDBById(id);
+		Map<String,Object> context = getRootMap();
+		context.put("sysUser", record);
+		context.put("title", "个人资料");
+		return forword("sys/user/userInfo",context);
+	}
 	/**
 	 * 
 	* @Title: cancel 
@@ -138,6 +147,7 @@ public class SysUserController extends BaseController{
 				}
 				try {
 					record.setPassword(Md5.EncoderByMd5("123456"));
+					record.setUserType(ConstantsEnum.UserType.SystemUser.key);
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -236,5 +246,22 @@ public class SysUserController extends BaseController{
 			jsTreeList.add(tree);
 		}
 		jsTree.setChildren(jsTreeList);
+	}
+	@RequestMapping(value="/editPassword", method = RequestMethod.POST)
+	public void editPassword(String account,String oldPassword,String newPassword,HttpServletRequest request,
+			HttpServletResponse response) throws NoSuchAlgorithmException, IOException {
+		Map<String, Object> params = new HashMap<String,Object>();
+		params.put("account", account);
+		SysUser checkUser = sysUserService.queryUserByName(params);
+		if(checkUser != null) {
+			if(Md5.checkpassword(checkUser.getPassword(), oldPassword)) {
+				checkUser.setPassword(Md5.EncoderByMd5(newPassword));
+				sysUserService.updatePassword(checkUser);
+			}else {
+				sendFailureMessage(response,"密码错误！");
+			}
+		}else {
+			sendFailureMessage(response,"账号异常！");
+		}
 	}
 }

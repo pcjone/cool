@@ -115,5 +115,16 @@ public interface Constants {
 	
 	public final static String TARGET = "target";
 	public final static String OUT_TAG_NAME = "outTagName";
+	
+	/*
+	 * 登录异常
+	 */
+	public static final String USER_NOT_EXIST = "账户不存在！";
+	public static final String USER_WRONG = "用户名或密码错误！";
+	public static final String ACCOUNT_IS_NULL = "账号不能为空！";
+	public static final String PASSWORD_IS_NULL = "请输入密码！";
+	public static final String SUCCESS  ="登录成功";
+	public static final String FAILURE  ="登录失败";
+	public static final String USER_ENABLED ="账号被锁定，请联系管理员";
 
 }

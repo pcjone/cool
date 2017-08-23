@@ -1,0 +1,108 @@
+<#assign bathPath=springMacroRequestContext.getContextPath() />
+<!-- 引入自定义标签 -->
+<#include "/tags/tag.html"/>
+<!-- 引入本地标签 -->
+<#include "/tags/local_tags.html"/>
+<!DOCTYPE html>
+<html>
+<!-- 引入css文件 -->
+<#include "/public/header.html"/>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>${title}</h5>
+				<div class="ibox-tools">
+					<a class="collapse-link" data-toggle="collapse" href="#collapseOne"> <i
+						class="fa fa-chevron-up"></i>
+					</a>
+					<a class="close-link"> <i class="fa fa-times"></i>
+					</a>
+				</div>
+			</div>
+			<div id="collapseOne" class="ibox-content collapse in">
+				<div class="row">
+					<form method="post" class="form-horizontal" id="searchForm">
+						<div class="col-sm-3 col-md-3">
+							<@select_group id='groupId_search' name='groupId' value='' text='分组名称' check="true"/>			
+						</div>
+						<div class="col-sm-3 col-md-3">
+							 <@select_tag id='status_search' name='status' value='GROUP_STATUS' text='分组状态' check="true"/>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<@select_tag id='enable_search' name='enable' value='ENABLE' text='状态' check="true"/>
+						</div>
+
+						<div class="col-sm-3 col-md-3">
+							<div style="float: right;">
+								<button type="button" class="btn btn-sm btn-success" id="searchBtn">
+									&nbsp;查询 <i class="fa fa-arrow-right icon-on-right"></i>
+								</button>
+								<button type="button" class="btn btn-sm btn-reset" id="reset">
+									&nbsp;重置 <i class="fa fa-undo"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+					
+				</div>
+				<hr>
+				<div class="btn-group hidden-xs" id="toolbar" role="group">
+					<@shiro.hasPermission name="task.group.add"> 
+					<button id="add" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>&nbsp;新增
+					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="task.group.update"> 
+					<button id="edit" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>&nbsp;编辑
+					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="task.group.cancel"> 
+					<button id="cancel" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;锁定
+					</button>
+					</@shiro.hasPermission>
+					<@shiro.hasPermission name="task.group.delete"> 
+					<button id="delete" type="button" class="btn btn-outline btn-default">
+						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>&nbsp;删除
+					</button>
+					</@shiro.hasPermission>
+				</div>
+				<table id="data-list-table">
+
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated fadeIn">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h1 class="modal-title">新增分组</h1>
+				</div>
+				<div class="modal-body">
+					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm">
+					 		<input id="id" name="id" type="text" style="display:none"/>
+					 		<@input_local id='groupName' name='groupName' value='' text='分组名称：'/>
+                       		<@textarea_local id='groupDesc' name='groupDesc' value='' text='分组描述：'  placeholder='描述信息' rows='3'/>                          
+                            <@select_tag id='status' name='status' value='GROUP_STATUS' text='分组状态：' check="false"/>
+                        </form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="save">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<#include "/public/base_js.html"/>
+	<script src="${bathPath}/resources/js/task/group.js"></script>
+</body>
+</html>

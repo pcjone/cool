@@ -40,7 +40,7 @@ public class WxArticleController extends BaseController{
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public Object list(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> context = getRootMap();
-		context.put("title", "数据字典");
+		context.put("title", "微信多图文");
 		return forword("wei/wxArticle/wxArticle",context);
 	}
 	/**
