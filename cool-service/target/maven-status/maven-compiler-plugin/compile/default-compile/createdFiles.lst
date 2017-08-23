@@ -1,7 +1,6 @@
 com/cool/dao/SysUserMenuMapper.class
 com/cool/service/SysRoleServiceImpl.class
 com/cool/service/SysDicServiceImpl.class
-com/cool/service/TagRpcServiceImpl.class
 com/cool/service/SysDeptServiceImpl.class
 com/cool/dao/SysRoleMapper.class
 com/cool/dao/SysUserRoleMapper.class

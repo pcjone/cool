@@ -3,7 +3,6 @@ com/cool/model/TaskScheduler.class
 com/cool/model/TaskExecLog.class
 com/cool/api/TaskExecLogService.class
 com/cool/model/enums/TriggerTypeEnum.class
-com/cool/api/TaskRpcService.class
 com/cool/api/TaskGroupService.class
 com/cool/api/scheduler/TestSchedulerService.class
 com/cool/api/manager/SchedulerManager.class

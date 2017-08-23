@@ -22,5 +22,4 @@ com/cool/model/expand/TreeView.class
 com/cool/model/SysDic.class
 com/cool/api/SysUserService.class
 com/cool/api/SysDicService.class
-com/cool/api/TagRpcService.class
 com/cool/model/SysRole.class

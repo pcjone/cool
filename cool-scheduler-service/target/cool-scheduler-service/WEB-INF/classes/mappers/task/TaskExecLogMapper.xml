@@ -260,13 +260,13 @@
 				and task_name = #{taskName}
 			</if>
 			<if test="beginTime != null">
-				and begin_time = #{beginTime},
+				and begin_time = #{beginTime}
 			</if>
 			<if test="endTime != null">
-				and end_time = #{endTime},
+				and end_time = #{endTime}
 			</if>
 			<if test="exexTime != null">
-				and exex_time = #{exexTime},
+				and exex_time = #{exexTime}
 			</if>
 			<if test="resultMsg != null and resultMsg != ''">
 				and result_msg = #{resultMsg}

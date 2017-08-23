@@ -260,7 +260,7 @@
 				and id = #{id}
 			</if>
 			<if test="groupId != null">
-				and group_id = #{groupId},
+				and group_id = #{groupId}
 			</if>
 			<if test="taskName != null and taskName != ''">
 				and task_name = #{taskName}
@@ -275,22 +275,22 @@
 				and time_config = #{timeConfig}
 			</if>
 			<if test="status != null">
-				and status = #{status},
+				and status = #{status}
 			</if>
 			<if test="taskLastExecTime != null">
-				and task_last_exec_time = #{taskLastExecTime},
+				and task_last_exec_time = #{taskLastExecTime}
 			</if>
 			<if test="taskLastExecTimes != null">
-				and task_last_exec_times = #{taskLastExecTimes},
+				and task_last_exec_times = #{taskLastExecTimes}
 			</if>
 			<if test="taskNextExecTime != null">
-				and task_next_exec_time = #{taskNextExecTime},
+				and task_next_exec_time = #{taskNextExecTime}
 			</if>
 			<if test="effectTime != null">
-				and effect_time = #{effectTime},
+				and effect_time = #{effectTime}
 			</if>
 			<if test="autoStart != null">
-				and auto_start = #{autoStart},
+				and auto_start = #{autoStart}
 			</if>
 			<if test="enable != null">
 				and enable = #{enable}

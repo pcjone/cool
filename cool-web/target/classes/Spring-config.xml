@@ -12,8 +12,8 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:${profiles.active}/dubbo.properties</value>
-				<value>classpath:${profiles.active}/redis.properties</value>
+				<value>classpath:props_dev/dubbo.properties</value>
+				<value>classpath:props_dev/redis.properties</value>
 			</list>
 		</property>
 		<property name="properties">

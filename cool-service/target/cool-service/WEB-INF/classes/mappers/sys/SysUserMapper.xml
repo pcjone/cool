@@ -219,6 +219,10 @@
 		</foreach>
 	</update>
 	
+	<update id="updatePassword" parameterType="Object">
+		update sys_user set password = #{password} where id = #{id} and account = #{account}
+	</update>
+	
 	<sql id="whereSql">
 		<where>
 				1 = 1
