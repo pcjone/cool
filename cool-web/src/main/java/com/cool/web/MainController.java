@@ -59,9 +59,9 @@ public class MainController extends BaseController{
 		context.put("menuTree", tree);
 		SysUser user = sysUserService.queryDBById(userId);
 		context.put("user", user);
-		String html="";
-		createUI(html,tree);
-		context.put("menuHtml", html);
+		//String html="";
+		//createUI(html,tree);
+		//context.put("menuHtml", html);
 		return forword("main",context);
 	}
 	

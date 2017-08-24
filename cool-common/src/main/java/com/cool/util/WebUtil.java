@@ -5,9 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
-import javax.mail.search.SearchTerm;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -73,7 +71,7 @@ public final class WebUtil {
 	/** 获取当前用户信息 */
 	public static final UserSession getCurrentUserSession() {
 		try {
-			return (UserSession) RedisUtil.getNoExpiry(getCurrentUser().toString());
+			return (UserSession) CacheUtil.getRedisHelper().getNoExpiry(getCurrentUser().toString());
 		} catch (Exception e) {
 			return null;
 		}

@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
 import com.cool.Constants;
-import com.cool.ConstantsEnum;
 import com.cool.api.SysRoleService;
 import com.cool.api.SysUserRoleService;
 import com.cool.api.SysUserService;
 import com.cool.base.BaseController;
 import com.cool.common.Md5;
+import com.cool.generator.ConstantsEnum;
 import com.cool.model.SysRole;
 import com.cool.model.SysUser;
 import com.cool.model.expand.JsTree;
@@ -83,14 +83,23 @@ public class SysUserController extends BaseController{
 		HtmlUtil.writerJson(response,pageList);
 	}
 	
-	@RequestMapping(value="/user/{id}",method = RequestMethod.GET)
-	public Object queryById(@PathVariable Long id,HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value="/user/{id}",method = RequestMethod.POST)
+	public void queryById(@PathVariable Long id,HttpServletRequest request, HttpServletResponse response) {
 		SysUser record = sysUserService.queryDBById(id);
 		Map<String,Object> context = getRootMap();
-		context.put("sysUser", record);
-		context.put("title", "个人资料");
-		return forword("sys/user/userInfo",context);
+		context.put("user", record);
+		HtmlUtil.writerJson(response, context);
 	}
+	/*
+	 * 更新个人资料
+	 */
+	@RequestMapping(value="/user/update",method = RequestMethod.POST)
+	public void update(HttpServletRequest request, HttpServletResponse response) {
+		SysUser record = Request2ModelUtil.covert(SysUser.class, request);
+		sysUserService.updateDB(record);
+		sendSuccessMessage(response,"更新成功");
+	}
+	
 	/**
 	 * 
 	* @Title: cancel 
@@ -254,7 +263,7 @@ public class SysUserController extends BaseController{
 		params.put("account", account);
 		SysUser checkUser = sysUserService.queryUserByName(params);
 		if(checkUser != null) {
-			if(Md5.checkpassword(checkUser.getPassword(), oldPassword)) {
+			if(Md5.checkpassword(oldPassword,checkUser.getPassword())) {
 				checkUser.setPassword(Md5.EncoderByMd5(newPassword));
 				sysUserService.updatePassword(checkUser);
 			}else {

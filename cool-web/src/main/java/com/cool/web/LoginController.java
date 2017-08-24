@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cool.Constants;
 import com.cool.base.BaseController;
 import com.cool.common.Md5;
-import com.cool.util.RedisUtil;
+import com.cool.util.CacheUtil;
 import com.cool.util.WebUtil;
 /**
  * 
@@ -76,7 +76,7 @@ public class LoginController extends BaseController {
 	
 	@RequestMapping("/logout")
 	public Object logout(HttpServletRequest request, ModelMap modelMap) {
-		RedisUtil.del(WebUtil.getCurrentUser());
+		CacheUtil.getRedisHelper().del(WebUtil.getCurrentUser());
 		SecurityUtils.getSubject().logout();
 		Map<String,Object> context = getRootMap();
 		return forword("login",context);

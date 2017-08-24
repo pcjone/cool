@@ -107,12 +107,14 @@ var TableInit = function() {
 				field : 'id',
 				title : '序号',
 				valign: 'middle',
-			},{
-				field : 'avator',
-				title : '头像',
-				valign: 'middle',
-				visible : false
-			}, {
+			},
+//			{
+//				field : 'avator',
+//				title : '头像',
+//				valign: 'middle',
+//				visible : false
+//			}, 
+			{
 				field : 'account',
 				title : '账号',
 				valign: 'middle',

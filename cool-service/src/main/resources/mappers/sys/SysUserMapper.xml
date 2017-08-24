@@ -172,13 +172,19 @@
 			<if test="sex != null">
 				<![CDATA[ sex = #{sex},]]>
 			</if>
-			<if test="avatar != null and avatar != '' ">
+			<if test="avatar != null">
 				<![CDATA[ avatar = #{avatar},]]>
 			</if>
-			<if test="phone != null and phone != '' ">
+			<if test="phone != null ">
 				<![CDATA[ phone = #{phone},]]>
 			</if>
-			<if test="email != null and email != '' ">
+			<if test="idCard != null ">
+				<![CDATA[ id_card = #{idCard},]]>
+			</if>
+			<if test="birthDay != null ">
+				<![CDATA[ birth_day = #{birthDay},]]>
+			</if>
+			<if test="email != null ">
 				<![CDATA[ email = #{email},]]>
 			</if>
 			<if test="enable != null">

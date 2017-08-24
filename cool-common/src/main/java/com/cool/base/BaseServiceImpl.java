@@ -14,11 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.cool.Constants;
-import com.cool.tags.BaseTemplateDirectiveModel;
+import com.cool.util.CacheUtil;
 import com.cool.util.DataUtil;
 import com.cool.util.DateUtil;
 import com.cool.util.InstanceUtil;
-import com.cool.util.RedisUtil;
 import com.cool.util.StringUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -176,7 +175,7 @@ public abstract class BaseServiceImpl<T extends BaseModel>{
 			List<Long> list = new ArrayList<Long>();
 			for (Long id : ids) {
 				list.add(id);
-				RedisUtil.del(getCacheKey(id));
+				CacheUtil.getRedisHelper().del(getCacheKey(id));
 			}
 			getMapper().deleteAllByPrimaryKey(list);
 		} catch (Exception e) {
@@ -215,7 +214,7 @@ public abstract class BaseServiceImpl<T extends BaseModel>{
 				record.setUpdateTime(new Date());
 				record.setUpdateBy(account);
 				getMapper().updateByPrimaryKey(record);
-				RedisUtil.set(getCacheKey(id), record);
+				CacheUtil.getRedisHelper().set(getCacheKey(id), record);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
@@ -277,7 +276,7 @@ public abstract class BaseServiceImpl<T extends BaseModel>{
 			} else {
 				getMapper().updateByPrimaryKey(record);
 			}
-			RedisUtil.del(getCacheKey(record.getId()));
+			CacheUtil.getRedisHelper().del(getCacheKey(record.getId()));
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
@@ -312,10 +311,10 @@ public abstract class BaseServiceImpl<T extends BaseModel>{
 	public T queryCacheById(Long id) {
 		try {
 			String key = getCacheKey(id);
-			T record = (T) RedisUtil.get(key);
+			T record = (T) CacheUtil.getRedisHelper().get(key);
 			if (record == null) {
 				record = getMapper().selectByPrimaryKey(id);
-				RedisUtil.set(key, record);
+				CacheUtil.getRedisHelper().set(key, record);
 			}
 			return record;
 		} catch (Exception e) {

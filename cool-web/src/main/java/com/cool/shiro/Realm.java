@@ -26,7 +26,7 @@ import com.cool.api.SysUserService;
 import com.cool.model.SysMenu;
 import com.cool.model.SysUser;
 import com.cool.session.UserSession;
-import com.cool.util.RedisUtil;
+import com.cool.util.CacheUtil;
 import com.cool.util.WebUtil;
 /**
  * 
@@ -114,7 +114,7 @@ public class Realm extends AuthorizingRealm{
 		}
 		logger.info("==============用户权限结束==============");
 		userSession.setPermissionList(permissionList);
-		RedisUtil.setNoExpiry(userSession.getAccount(), userSession);
+		CacheUtil.getRedisHelper().setNoExpiry(userSession.getAccount(), userSession);
 		return userSession.getAccount();
 	}
 

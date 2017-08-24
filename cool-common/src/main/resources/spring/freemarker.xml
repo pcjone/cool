@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 	
 	<!-- 自定义标签 -->
-	<bean id="apiTemplateDirectiveModel" class="com.cool.tags.APITemplateDirectiveModel"/>
+	<bean id="apiTemplateDirectiveModel" class="com.cool.freemarker.APITemplateDirectiveModel"/>
 	<!-- 配置freeMarker的模板路径 -->
 	<bean id="freemarkerConfig"
 		class="com.cool.shiro.FreeMarkerConfigExtend">

@@ -13,9 +13,9 @@ import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cool.Constants;
-import com.cool.ConstantsEnum;
 import com.cool.api.TaskGroupService;
 import com.cool.api.TaskSchedulerService;
+import com.cool.generator.ConstantsEnum;
 import com.cool.model.TaskGroup;
 import com.cool.model.TaskScheduler;
 import com.cool.util.InstanceUtil;

@@ -73,19 +73,19 @@ var TableInit = function() {
 			}, 
 			{
 				field : 'articleCount',
-				title : '',
+				title : '数量',
 				valign: 'middle',
 				sortable:true,
 			},
 			{
 				field : 'title',
-				title : '',
+				title : '标题',
 				valign: 'middle',
 				sortable:true,
 			},
 			{
 				field : 'description',
-				title : '',
+				title : '描述',
 				valign: 'middle',
 				sortable:true,
 			},

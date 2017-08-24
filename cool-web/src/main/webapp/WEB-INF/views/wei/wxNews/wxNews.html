@@ -24,13 +24,10 @@
 				<div class="row">
 					<form method="post" class="form-horizontal" id="searchForm">
 						<div class="col-sm-3 col-md-3">
-							<@select_group id='groupId_search' name='groupId' value='' text='分组名称' check="true"/>			
 						</div>
 						<div class="col-sm-3 col-md-3">
-							 <@select_tag id='status_search' name='status' value='GROUP_STATUS' text='分组状态' check="true"/>
 						</div>
 						<div class="col-sm-3 col-md-3">
-							<@select_tag id='enable_search' name='enable' value='ENABLE' text='状态' check="true"/>
 						</div>
 
 						<div class="col-sm-3 col-md-3">
@@ -89,9 +86,6 @@
 				<div class="modal-body">
 					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm">
 					 		<input id="id" name="id" type="text" style="display:none"/>
-					 		<@input_local id='groupName' name='groupName' value='' text='分组名称：'/>
-                       		<@textarea_local id='groupDesc' name='groupDesc' value='' text='分组描述：'  placeholder='描述信息' rows='3'/>                          
-                            <@select_tag id='status' name='status' value='GROUP_STATUS' text='分组状态：' check="false"/>
                         </form>
 				</div>
 				<div class="modal-footer">
@@ -103,6 +97,6 @@
 	</div>
 	
 	<#include "/public/base_js.html"/>
-	<script src="${bathPath}/resources/js/task/group.js"></script>
+	<script src="${bathPath}/resources/js/wei/wxNews.js"></script>
 </body>
 </html>

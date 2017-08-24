@@ -9,7 +9,7 @@
 	<bean id="realm" class="com.cool.shiro.Realm" />
 	
 	<!-- 缓存管理 -->  
-    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean> 
+    <bean id="cacheManager" class="com.cool.support.cache.shiro.RedisCacheManager"></bean> 
     
 	<!-- Shiro安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">

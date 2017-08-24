@@ -30,8 +30,6 @@ public interface Constants {
 	public static final String MALICIOUS_REQUEST_TIMES = "MALICIOUS_REQUEST_TIMES";
 	/** 缓存命名空间 */
 	public static final String CACHE_NAMESPACE = "Cool:";
-	/**收费员CODE*/
-	public final static String CODE_TYPE_COLL_CODE = "COLL_CODE";
 
 	/**是否锁定*/
 	public static final Integer ENABLE_YES = 1;//锁定
@@ -39,13 +37,6 @@ public interface Constants {
 	/**启用状态*/
 	public static final Integer STATUS_ENABLE = 1;
 	public static final Integer STATUS_DISABLE = 0;
-
-	/**
-	 * 编码类型
-	 * */
-	public final static String CODE_TYPE_CITY_CODE = "CITY_CODE";
-	public final static String CODE_TYPE_AREA_CODE = "AREA_CODE";
-	public final static String CODE_TYPE_STREET_CODE = "STREET_CODE";
 
 	/**
 	 * 以分为单位的因子
@@ -113,6 +104,9 @@ public interface Constants {
 	//用户
 	public final static String USER_CACHE = "USER_CACHE_";
 	
+	/**
+	 * freemarke统一标签
+	 */
 	public final static String TARGET = "target";
 	public final static String OUT_TAG_NAME = "outTagName";
 	

@@ -20,8 +20,8 @@ import com.cool.Constants;
 import com.cool.api.SysDicService;
 import com.cool.base.BaseController;
 import com.cool.model.SysDic;
+import com.cool.util.CacheUtil;
 import com.cool.util.HtmlUtil;
-import com.cool.util.RedisUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
 import com.github.pagehelper.PageInfo;
@@ -160,7 +160,7 @@ public class SysDicController extends BaseController{
 		List<SysDic> dicList = new ArrayList<SysDic>();
 		for (String category : categorys) {
 			//先查询缓存		
-			List<SysDic> partList = (List<SysDic>) RedisUtil
+			List<SysDic> partList = (List<SysDic>) CacheUtil.getRedisHelper()
 					.getNoExpiry(Constants.DICTIOINARY_CACHE + category);
 			//缓存没有查询DB
 			if (partList == null) {

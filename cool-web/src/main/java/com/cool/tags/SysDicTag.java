@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cool.Constants;
 import com.cool.api.SysDicService;
-import com.cool.tags.SuperBaseTag;
+import com.cool.freemarker.SuperBaseTag;
 /**
  * 
 * @ClassName: SysDicTag 

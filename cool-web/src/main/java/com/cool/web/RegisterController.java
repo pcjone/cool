@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cool.Constants;
-import com.cool.ConstantsEnum;
 import com.cool.api.SysUserService;
 import com.cool.base.BaseController;
 import com.cool.common.Md5;
+import com.cool.generator.ConstantsEnum;
 import com.cool.model.SysUser;
 /**
  * 
