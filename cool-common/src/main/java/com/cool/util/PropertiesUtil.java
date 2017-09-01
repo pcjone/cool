@@ -25,13 +25,10 @@ public final class PropertiesUtil extends PropertyPlaceholderConfigurer {
         super.loadProperties(props);
         ctxPropertiesMap = new HashMap<String, String>();
         for (Object key : props.keySet()) {
-        		System.out.println("============================:"+key);
             String keyStr = key.toString();
             String value = props.getProperty(keyStr);
-            System.out.println("--------------------------:"+value);
             if (decryptProperties != null && decryptProperties.contains(keyStr)) {
                 value = SecurityUtil.decryptDes(value, KEY);
-                System.out.println("--------------------------:"+value);
                 props.setProperty(keyStr, value);
             }
             ctxPropertiesMap.put(keyStr, value);

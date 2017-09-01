@@ -1,20 +1,33 @@
 package com.cool.support.https;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketTimeoutException;
 import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.ConnectionPoolTimeoutException;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -26,10 +39,20 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
+
 public class HttpRequestUtil {
 	private static Logger logger = LoggerFactory.getLogger(HttpRequestUtil.class);
 	//连接池
 	private static PoolingHttpClientConnectionManager poolManager;
+	//连接超时时间，默认6秒
+    private static int socketTimeout = 6000;
+    //传输超时时间，默认6秒
+    private static int connectTimeout = 6000;
+    //请求器的配置
+    private static RequestConfig requestConfig;
 	
 	private static final Integer MAX_TOTAL = 200;
 	private static final Integer MAX_PERROUTE = 20;
@@ -43,6 +66,7 @@ public class HttpRequestUtil {
 		poolManager.setMaxTotal(MAX_TOTAL);
 		// 将每个路由基础的连接增加到
 		poolManager.setDefaultMaxPerRoute(MAX_PERROUTE);
+		requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();
 	}
 	
 	/**
@@ -251,5 +275,48 @@ public class HttpRequestUtil {
 		}
 		return resultString;
 	}
+	
+	/**
+     * 通过Https往API post xml数据
+     * @param url    API地址
+     * @param xmlObj 要提交的XML数据对象
+     * @return API回包的实际数据
+     * @throws IOException
+     * @throws KeyStoreException
+     * @throws UnrecoverableKeyException
+     * @throws NoSuchAlgorithmException
+     * @throws KeyManagementException
+     */
+    public static String sendPost( String url, Object xmlObj) throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
+        String result = null;
+        HttpPost httpPost = new HttpPost(url);
+        //解决XStream对出现双下划线的bug
+        XStream xStreamForRequestPostData = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
+        //将要提交给API的数据对象转换成XML格式数据Post给API
+        String postDataXML = xStreamForRequestPostData.toXML(xmlObj);
+        //得指明使用UTF-8编码，否则到API服务器XML的中文不能被成功识别
+        StringEntity postEntity = new StringEntity(postDataXML, "UTF-8");
+        httpPost.addHeader("Content-Type", "text/xml");
+        httpPost.setEntity(postEntity);
+        //设置请求器的配置
+        httpPost.setConfig(requestConfig);
+        try {
+            CloseableHttpClient httpClient = HttpRequestUtil.getHttpClient();//使用连接池
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            result = EntityUtils.toString(entity, "UTF-8");
+        } catch (ConnectionPoolTimeoutException e) {
+            logger.error("http get throw ConnectionPoolTimeoutException(wait time out)");
+        } catch (ConnectTimeoutException e) {
+            logger.error("http get throw ConnectTimeoutException");
+        } catch (SocketTimeoutException e) {
+            logger.error("http get throw SocketTimeoutException");
+        } catch (Exception e) {
+            logger.error("http get throw Exception",e);
+        } finally {
+            httpPost.abort();
+        }
+        return result;
+    }
 
 }

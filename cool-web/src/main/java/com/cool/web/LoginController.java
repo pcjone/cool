@@ -54,11 +54,10 @@ public class LoginController extends BaseController {
 		token.setRememberMe(true);
 		Subject subject = SecurityUtils.getSubject();
 		try {
-			if(subject.isAuthenticated()) {
-				return ;
-			}
 			subject.login(token);
-			sendSuccessMessage(response,Constants.SUCCESS,account);	
+			if(subject.isAuthenticated()) {
+				sendSuccessMessage(response,Constants.SUCCESS,account);	
+			}
 		} catch (LockedAccountException e) {
 			sendFailureMessage(response,Constants.USER_ENABLED);	
 		} catch (DisabledAccountException e) {

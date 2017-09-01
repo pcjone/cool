@@ -38,7 +38,13 @@
 			<artifactId>cool-wei-api</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>com.cool</groupId>
+			<artifactId>cool-shop-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.cool</groupId>
+    <artifactId>cool</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <groupId>com.cool</groupId>
+  <artifactId>cool-shop-service</artifactId>
+  <version>1.0.0</version>
+  <packaging>war</packaging>
+  <name>cool-shop-service Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+  	<dependency>
+     	<groupId>com.cool</groupId>
+		<artifactId>cool-common</artifactId>
+		<version>1.0.0</version>
+    </dependency>
+    <dependency>
+     	<groupId>com.cool</groupId>
+		<artifactId>cool-shop-api</artifactId>
+		<version>1.0.0</version>
+    </dependency>
+    <!-- 切面 -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>${dubbo.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.netty</groupId>
+					<artifactId>netty</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <profiles>
+		<!-- 开发 -->
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profiles.active>props_dev</profiles.active>
+			</properties>
+			<!-- 默认启动此环境 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<!-- 测试 -->
+		<profile>
+			<id>test</id>
+			<properties>
+				<profiles.active>props_test</profiles.active>
+			</properties>
+		</profile>
+		<!-- 生产 -->
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profiles.active>props_prod</profiles.active>
+			</properties>
+			
+		</profile>
+		
+	</profiles>
+
+	<build>
+		<finalName>cool-shop-service</finalName>
+		<!-- 指定使用的 filter -->
+		<!-- <filters> 
+			<filter>src/main/resources/${profiles.active}_props/redis.properties</filter>
+			<filter>src/main/resources/${profiles.active}_props/jdbc.properties</filter>
+			<filter>src/main/resources/${profiles.active}_props/dubbo.properties</filter>
+		</filters> -->
+		<resources>
+			<resource> <!-- 配置需要被替换的资源文件路径, *.properties 应该在 src/main/resource 目录下 -->
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/**</include>
+				</includes>
+				<filtering>true</filtering> <!-- 是否使用过滤器 -->
+			</resource>
+		</resources>
+	</build>
+</project>

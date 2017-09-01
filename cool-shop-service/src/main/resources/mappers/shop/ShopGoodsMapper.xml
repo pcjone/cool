@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cool.dao.ShopGoodsMapper">
+	<resultMap type="com.cool.model.ShopGoods" id="resultMap">
+		<id column="id" property="id"/>
+		<result column="shop_id" property="shopId"/>
+		<result column="goods_name" property="goodsName"/>
+		<result column="goods_detail" property="goodsDetail"/>
+		<result column="amount" property="amount"/>
+		<result column="count" property="count"/>
+		<result column="goods_icon" property="goodsIcon"/>
+		<result column="goods_type" property="goodsType"/>
+		<result column="goods_status" property="goodsStatus"/>
+		<result column="version" property="version"/>
+		<result column="enable" property="enable"/>
+		<result column="remark" property="remark"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_by" property="updateBy"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	<sql id="allFields">
+	id,
+				shop_id,
+				goods_name,
+				goods_detail,
+				amount,
+				count,
+				goods_icon,
+				goods_type,
+				goods_status,
+				version,
+	enable,remark,create_by,create_time,update_by,update_time
+	</sql>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Object">
+		insert into shop_goods
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				id,
+			</if>
+			<if test="shopId != null">
+				shop_id,
+			</if>
+			<if test="goodsName != null and goodsName != ''">
+				goods_name,
+			</if>
+			<if test="goodsDetail != null and goodsDetail != ''">
+				goods_detail,
+			</if>
+			<if test="amount != null">
+				amount,
+			</if>
+			<if test="count != null">
+				count,
+			</if>
+			<if test="goodsIcon != null and goodsIcon != ''">
+				goods_icon,
+			</if>
+			<if test="goodsType != null">
+				goods_type,
+			</if>
+			<if test="goodsStatus != null">
+				goods_status,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="enable != null">
+				 enable,
+			</if>
+			<if test="remark != null and remark != ''">
+				remark,
+			</if>
+			<if test="createBy != null and createBy != ''">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		values 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="shopId != null">
+				#{shopId},
+			</if>
+			<if test="goodsName != null and goodsName != ''">
+				#{goodsName},
+			</if>
+			<if test="goodsDetail != null and goodsDetail != ''">
+				#{goodsDetail},
+			</if>
+			<if test="amount != null">
+				#{amount},
+			</if>
+			<if test="count != null">
+				#{count},
+			</if>
+			<if test="goodsIcon != null and goodsIcon != ''">
+				#{goodsIcon},
+			</if>
+			<if test="goodsType != null">
+				#{goodsType},
+			</if>
+			<if test="goodsStatus != null">
+				#{goodsStatus},
+			</if>
+			<if test="version != null">
+				#{version},
+			</if>
+			<if test="enable != null">
+				 #{enable},
+			</if>
+			<if test="remark != null and remark != ''">
+				#{remark},
+			</if>
+			<if test="createBy != null and createBy != ''">
+				#{createBy},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+	<!-- 删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from shop_goods where id = #{id}
+	</delete>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
+		select <include refid="allFields" />
+		 from shop_goods
+		 where id = #{id}
+	</select>
+
+	<!-- 列表总数-->
+	<select id="query" resultType="java.lang.Long"  parameterType="Object">
+		select id from shop_goods
+		<include refid="whereSql"></include>
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryForList" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from shop_goods
+		<include refid="whereSql"></include>
+	</select>
+	
+	<delete id="deleteAllByPrimaryKey" parameterType="Object">
+		delete from shop_goods
+		where id in
+		<foreach item="id" collection="list" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+	</delete>
+
+	<update id="updateByPrimaryKey" parameterType="Object">
+		update shop_goods
+		<trim prefix="set" suffixOverrides=",">
+			<if test="shopId != null">
+				shop_id = #{shopId},
+			</if>
+			<if test="goodsName != null and goodsName != ''">
+				goods_name = #{goodsName},
+			</if>
+			<if test="goodsDetail != null and goodsDetail != ''">
+				goods_detail = #{goodsDetail},
+			</if>
+			<if test="amount != null">
+				amount = #{amount},
+			</if>
+			<if test="count != null">
+				count = #{count},
+			</if>
+			<if test="goodsIcon != null and goodsIcon != ''">
+				goods_icon = #{goodsIcon},
+			</if>
+			<if test="goodsType != null">
+				goods_type = #{goodsType},
+			</if>
+			<if test="goodsStatus != null">
+				goods_status = #{goodsStatus},
+			</if>
+			<if test="version != null">
+				version = #{version},
+			</if>
+			
+			<if test="enable != null">
+				<![CDATA[ enable = #{enable},]]>
+			</if>
+			
+			<if test="remark != null and remark != '' ">
+				<![CDATA[ remark = #{remark},]]>
+			</if>
+			
+			<if test="updateBy != null and updateBy != '' ">
+				<![CDATA[ update_by = #{updateBy},]]>
+			</if>
+			
+			<if test="updateTime != null">
+				<![CDATA[ update_time = #{updateTime},]]>
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateAllByPrimaryKey" parameterType="Object">
+		update shop_goods
+		<trim prefix="set" suffixOverrides=",">
+		    <if test="enable != null " >
+		  	<![CDATA[  enable = #{enable}, ]]>
+		    </if>
+		    <if test="updateBy != null and updateBy != '' " >
+		  	<![CDATA[  update_by = #{updateBy}, ]]>
+		    </if>
+		    <if test="updateTime != null " >
+		  	<![CDATA[  update_time = #{updateTime}, ]]>
+		    </if>
+		</trim>
+	    where id in
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+		    #{id }
+		</foreach>
+	</update>
+	
+	<sql id="whereSql">
+		<where>
+			1=1
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="shopId != null">
+				and shop_id = #{shopId},
+			</if>
+			<if test="goodsName != null and goodsName != ''">
+				and goods_name = #{goodsName}
+			</if>
+			<if test="goodsDetail != null and goodsDetail != ''">
+				and goods_detail = #{goodsDetail}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount},
+			</if>
+			<if test="count != null">
+				and count = #{count},
+			</if>
+			<if test="goodsIcon != null and goodsIcon != ''">
+				and goods_icon = #{goodsIcon}
+			</if>
+			<if test="goodsType != null">
+				and goods_type = #{goodsType},
+			</if>
+			<if test="goodsStatus != null">
+				and goods_status = #{goodsStatus},
+			</if>
+			<if test="version != null">
+				and version = #{version},
+			</if>
+			<if test="enable != null">
+				and enable = #{enable}
+			</if>
+		</where>
+	</sql>
+</mapper>

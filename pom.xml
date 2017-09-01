@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cool</groupId>
 	<artifactId>cool</artifactId>
@@ -12,10 +13,13 @@
 		<module>cool-web</module>
 		<module>cool-wei</module>
 		<module>cool-wei-api</module>
-		
+
 		<module>cool-wei-service</module>
-    <module>cool-scheduler-api</module>
-    <module>cool-scheduler-service</module>
+		<module>cool-scheduler-api</module>
+		<module>cool-scheduler-service</module>
+		<module>cool-pay</module>
+		<module>cool-shop-api</module>
+		<module>cool-shop-service</module>
 	</modules>
 
 	<properties>
@@ -145,6 +149,29 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 		</dependency>
+		<!-- 导入Mysql数据库链接jar包 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
 		<!-- spring核心包 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -170,6 +197,27 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-redis</artifactId>
 			<version>${spring-data-redis.version}</version>
+		</dependency>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<!-- 缓存 -->
 		<dependency>
@@ -326,13 +374,19 @@
 			<artifactId>shiro-freemarker-tags</artifactId>
 			<version>0.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+
+		<!-- <dependency>
+			<groupId>com.github.mpusher</groupId>
+			<artifactId>mpush-boot</artifactId>
+			<version>0.8.0</version>
+		</dependency> -->
 	</dependencies>
 	<build>
 		<finalName>cool</finalName>

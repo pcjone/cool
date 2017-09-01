@@ -57,6 +57,7 @@ public class Realm extends AuthorizingRealm{
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		UserSession userSession = WebUtil.getCurrentUserSession();
+		logger.info("add permission!");
 		for(String permission : userSession.getPermissionList()) {
 			if(StringUtils.isNotBlank(permission)) {
 				// 添加基于Permission的权限信息
@@ -82,6 +83,7 @@ public class Realm extends AuthorizingRealm{
 			if (user.getPassword().equals(sb.toString())) {
 				AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getAccount(), user.getPassword(),
 						getName());
+				logger.info("AuthenticationInfo save!");
 				WebUtil.saveCurrentUser(createUserSession(user));
 				return authcInfo;
 			}

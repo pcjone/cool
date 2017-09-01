@@ -15,5 +15,6 @@
 	<import resource="dubbo.xml"/>
 	<import resource="dubbo-sys.xml"/>
 	<import resource="dubbo-wei.xml"/>
+	<import resource="dubbo-shop.xml"/>
 	<import resource="dubbo-scheduler.xml"/>
 </beans>
