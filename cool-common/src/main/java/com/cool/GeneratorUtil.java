@@ -27,9 +27,9 @@ public class GeneratorUtil {
 
 	private final String diskPath = "/Users/panlei/code/";
 	// 表名称
-	private final String tableName = "wx_article";
+	private final String tableName = "shop_goods";
 	// 系统名称
-	private final String sysName = "wei";
+	private final String sysName = "shop";
 
 	private final String changeTableName = replaceUnderLineAndUpperCase(tableName);
 
@@ -44,7 +44,7 @@ public class GeneratorUtil {
 
 	public Connection getConnection() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cool_wei?useSSL=false", "root",
+		Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/cool_shop?useSSL=false", "root",
 				"15158133802");
 		return connection;
 	}
@@ -66,6 +66,8 @@ public class GeneratorUtil {
 		generateControllerFile(resultSet);
 		// 生成js文件
 		generateJSFile(resultSet, list);
+		//生产html文件
+		generateHtmlFile(resultSet, list);
 		// 生成Model文件
 		generateModelFile(resultSet, list);
 
@@ -76,7 +78,7 @@ public class GeneratorUtil {
 	 * @Title: generateModelFile @Description: 创建model类 @param @param
 	 * resultSet @param @throws Exception @return void @throws
 	 */
-	public void generateModelFile(ResultSet resultSet, List<ColumnClass> list) throws Exception {
+	private void generateModelFile(ResultSet resultSet, List<ColumnClass> list) throws Exception {
 		final String suffix = ".java";
 		final String path = diskPath + changeTableName + suffix;
 		final String templateName = "Model.ftl";
@@ -86,7 +88,7 @@ public class GeneratorUtil {
 		generateFileByTemplate(templateName, mapperFile, dataMap);
 	}
 
-	public void generateXMLFile(ResultSet resultSet, List<ColumnClass> list) throws Exception {
+	private void generateXMLFile(ResultSet resultSet, List<ColumnClass> list) throws Exception {
 		final String suffix = "Mapper.xml";
 		final String path = diskPath + changeTableName + suffix;
 		final String templateName = "XML.ftl";
@@ -96,7 +98,7 @@ public class GeneratorUtil {
 		generateFileByTemplate(templateName, mapperFile, dataMap);
 	}
 
-	public void generateServiceFile(ResultSet resultSet) throws Exception {
+	private void generateServiceFile(ResultSet resultSet) throws Exception {
 		final String suffix = "Service.java";
 		final String path = diskPath + changeTableName + suffix;
 		final String templateName = "Service.ftl";
@@ -105,7 +107,7 @@ public class GeneratorUtil {
 		generateFileByTemplate(templateName, mapperFile, dataMap);
 	}
 
-	public void generateMapperFile(ResultSet resultSet) throws Exception {
+	private void generateMapperFile(ResultSet resultSet) throws Exception {
 		final String suffix = "Mapper.java";
 		final String path = diskPath + changeTableName + suffix;
 		final String templateName = "Mapper.ftl";
@@ -114,7 +116,7 @@ public class GeneratorUtil {
 		generateFileByTemplate(templateName, mapperFile, dataMap);
 	}
 
-	public void generateServiceImplFile(ResultSet resultSet) throws Exception {
+	private void generateServiceImplFile(ResultSet resultSet) throws Exception {
 		final String suffix = "ServiceImpl.java";
 		final String path = diskPath + changeTableName + suffix;
 		final String templateName = "ServiceImpl.ftl";
@@ -123,7 +125,7 @@ public class GeneratorUtil {
 		generateFileByTemplate(templateName, mapperFile, dataMap);
 	}
 
-	public void generateControllerFile(ResultSet resultSet) throws Exception {
+	private void generateControllerFile(ResultSet resultSet) throws Exception {
 		final String suffix = "Controller.java";
 		final String path = diskPath + changeTableName + suffix;
 		final String templateName = "Controller.ftl";
@@ -132,10 +134,21 @@ public class GeneratorUtil {
 		generateFileByTemplate(templateName, mapperFile, dataMap);
 	}
 
-	public void generateJSFile(ResultSet resultSet, List<ColumnClass> list) throws Exception {
+	private void generateJSFile(ResultSet resultSet, List<ColumnClass> list) throws Exception {
 		final String suffix = ".js";
 		final String path = diskPath + smallTableName + suffix;
 		final String templateName = "js.ftl";
+		File mapperFile = new File(path);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("model_column", list);
+		generateFileByTemplate(templateName, mapperFile, dataMap);
+
+	}
+	
+	private void generateHtmlFile(ResultSet resultSet, List<ColumnClass> list) throws Exception {
+		final String suffix = ".html";
+		final String path = diskPath + smallTableName + suffix;
+		final String templateName = "html.ftl";
 		File mapperFile = new File(path);
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("model_column", list);
@@ -188,7 +201,7 @@ public class GeneratorUtil {
 		template.process(dataMap, out);
 	}
 
-	public String replaceUnderLineAndUpperCase(String str) {
+	private String replaceUnderLineAndUpperCase(String str) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(str);
 		int count = sb.indexOf("_");
