@@ -266,7 +266,7 @@
 				from sys_role_menu srm where srm.enable = #{enable} and exists (
 				select sr.id from sys_user_role sur 
 					left join sys_role sr on sur.role_id = sr.id 
-				where sur.enable = #{enable} and sur.id = #{userId} and sur.id = srm.role_id)
+				where sur.enable = #{enable} and sur.user_id = #{userId} and sur.role_id = srm.role_id)
 		)
 	</select>
 	
