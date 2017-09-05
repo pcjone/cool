@@ -199,10 +199,10 @@
 				and shop_introduce = #{shopIntroduce}
 			</if>
 			<if test="shopType != null">
-				and shop_type = #{shopType},
+				and shop_type = #{shopType}
 			</if>
 			<if test="userId != null">
-				and user_id = #{userId},
+				and user_id = #{userId}
 			</if>
 			<if test="enable != null">
 				and enable = #{enable}

@@ -232,7 +232,7 @@
 				and id = #{id}
 			</if>
 			<if test="shopId != null">
-				and shop_id = #{shopId},
+				and shop_id = #{shopId}
 			</if>
 			<if test="goodsName != null and goodsName != ''">
 				and goods_name = #{goodsName}
@@ -241,22 +241,22 @@
 				and goods_detail = #{goodsDetail}
 			</if>
 			<if test="amount != null">
-				and amount = #{amount},
+				and amount = #{amount}
 			</if>
 			<if test="count != null">
-				and count = #{count},
+				and count = #{count}
 			</if>
 			<if test="goodsIcon != null and goodsIcon != ''">
 				and goods_icon = #{goodsIcon}
 			</if>
 			<if test="goodsType != null">
-				and goods_type = #{goodsType},
+				and goods_type = #{goodsType}
 			</if>
 			<if test="goodsStatus != null">
-				and goods_status = #{goodsStatus},
+				and goods_status = #{goodsStatus}
 			</if>
 			<if test="version != null">
-				and version = #{version},
+				and version = #{version}
 			</if>
 			<if test="enable != null">
 				and enable = #{enable}
