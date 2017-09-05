@@ -1,0 +1,115 @@
+<#assign bathPath=springMacroRequestContext.getContextPath() />
+<!-- 引入自定义标签 -->
+<#include "/tags/tag.html"/>
+<!-- 引入本地标签 -->
+<#include "/tags/local_tags.html"/>
+<!DOCTYPE html>
+<html>
+<!-- 引入css文件 -->
+<#include "/public/header.html"/>
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>${title}</h2>
+            <ol class="breadcrumb">
+            <#if shop??>
+            		<li>
+                    商铺名称
+                </li>
+                <li>
+                    <strong>${shop.shopName}</strong>
+                </li>
+            <#else>
+            
+            </#if>
+            </ol>
+        </div>
+        <div class="col-sm-8">
+            <div class="title-action">
+                <a id="refush"  class="btn btn-primary">刷新</a>
+            </div>
+        </div>
+    </div>
+	<#if shop??>
+	<div class="wrapper wrapper-content">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox ">
+
+					<div class="ibox-content">
+						<div class="tab-content">
+							<div id="contact-1" class="tab-pane active">
+								<div class="row m-b-lg">
+                                    <div class="col-lg-4 text-center">
+                                        <h2>${shop.shopName}</h2>
+
+                                        <div class="m-b-sm">
+                                        	 <#if shop.shopImage??>
+                                            <img alt="image" class="img-circle" src="../image/view?path=${shop.shopImage}" style="width: 100px">
+                                        	<#else>
+                                        		<img alt="image" class="img-circle" src="${bathPath}/resources/icons/icon_upload.png" style="width: 100px">
+                                        	</#if>
+                                        </div>
+                                        <div class="m-b-sm">
+                                        		<@show_tag value="SHOP_TYPE" code="${shop.shopType}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h3>商铺介绍</h3>
+									   <p>${shop.shopIntroduce}</p>
+                                        <br>
+                                        <button type="button" id="update" class="btn btn-primary btn-sm btn-block">修改
+                                        </button>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#else>
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="middle-box text-center animated fadeInRightBig">
+                    <h3 class="font-bold">您还没有商铺哦！</h3>
+                    <div class="error-desc">
+                        <br/><a href="javascript:createShop()" class="btn btn-primary m-t">创建商铺</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</#if>
+	<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated fadeIn">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h1 class="modal-title"></h1>
+				</div>
+				<div class="modal-body">
+					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm" enctype="multipart/form-data">
+					 		<input id="id" name="id" type="text" value="${shop.id}" style="display:none"/>
+					 		<@input_local id="shopName" name="shopName" value="" text="商铺名称：" />		
+                             <@textarea_local id="shopIntroduce" name="shopIntroduce" value="" text="商铺介绍：" />
+							<@img_local id="inputImage" name="image" text="商铺照片" width="80px" height="80px"/>
+							<@select_tag id="shopType" name="shopType" value="SHOP_TYPE" text="类型：" check="false"/>
+					</form>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="save">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+   <#include "/public/base_js.html"/>
+	<script src="${bathPath}/resources/js/shop/shopShopsInfo.js"></script>
+</body>
+</html>

@@ -17,3 +17,23 @@
 	</div>
 </div>
 </#macro>
+
+<#macro img_local id name text width height>
+<div class="form-group">
+	<label class="col-sm-4 control-label">${text}：</label>
+	<div class="col-sm-8">
+		<img id="preview" style="width: ${width}; height: ${height}"></img>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-4 control-label"></label>
+	<div class="col-sm-8">
+		<div class="btn-group">
+			<label title="上传图片" for="inputImage" class="btn btn-primary">
+				<input type="file" accept="image/*" name="${name}" id="inputImage"
+				class="hide" onchange="imgPreview(this)">上传新图片
+			</label>
+		</div>
+	</div>
+</div>
+</#macro>

@@ -8,4 +8,6 @@ import com.cool.model.SysParam;
 
 public interface SysParamService extends BaseService<SysParam>{
 	public List<SysParam> validateSysParam(Map<String,Object> params);
+	
+	public SysParam queryByKey(String paramKey);
 }

@@ -11,36 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.cool.Constants;
 import com.cool.api.ShopPhotosService;
-import com.cool.api.ShopShopsService;
-import com.cool.api.SysParamService;
 import com.cool.base.BaseController;
 import com.cool.model.ShopPhotos;
-import com.cool.model.ShopShops;
-import com.cool.model.SysParam;
-import com.cool.session.UserSession;
-import com.cool.util.FileUploadUtil;
 import com.cool.util.HtmlUtil;
 import com.cool.util.Request2ModelUtil;
 import com.cool.util.WebUtil;
 import com.github.pagehelper.PageInfo;
 
 @Controller
-@RequestMapping("shopShops")
-public class ShopShopsController extends BaseController{
-	private final Logger logger = Logger.getLogger(ShopShopsController.class);
-	@Autowired
-	private ShopShopsService shopShopsService;
-	
+@RequestMapping("shopPhotos")
+public class ShopPhotosController extends BaseController{
+	private final Logger logger = Logger.getLogger(ShopPhotosController.class);
 	@Autowired
 	private ShopPhotosService shopPhotosService;
-	
-	@Autowired
-	private SysParamService sysParamService;
 	/**
 	 * 
 	* @Title: list 
@@ -51,19 +36,12 @@ public class ShopShopsController extends BaseController{
 	* @return Object    
 	* @throws
 	 */
-	@RequiresPermissions("shop.shopShops.list")
+	@RequiresPermissions("shop.shopPhotos.list")
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public Object list(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> context = getRootMap();
-		context.put("title", "商铺管理");
-		UserSession userSession = WebUtil.getCurrentUserSession();
-		if(userSession.getUserType().equals(Constants.SHOP_USER_TYPE)) {
-			ShopShops shop = shopShopsService.queryShopByUserId(userSession.getId());
-			context.put("shop", shop);
-			return forword("shop/shopShops/shopShopsInfo",context);
-		}else {
-			return forword("shop/shopShops/shopShops",context);
-		}
+		context.put("title", "图片管理");
+		return forword("shop/shopPhotos/shopPhotos",context);
 	}
 	/**
 	 * 
@@ -74,11 +52,11 @@ public class ShopShopsController extends BaseController{
 	* @return void    
 	* @throws
 	 */
-	@RequiresPermissions("shop.shopShops.dataList")
+	@RequiresPermissions("shop.shopPhotos.dataList")
 	@RequestMapping(value="/dataList",method = RequestMethod.POST)
 	public void dataList(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> params = WebUtil.getParameterMap(request);
-		PageInfo<ShopShops> pageList = shopShopsService.query(params);
+		PageInfo<ShopPhotos> pageList = shopPhotosService.query(params);
 		HtmlUtil.writerJson(response,pageList);
 	}
 	/**
@@ -91,10 +69,10 @@ public class ShopShopsController extends BaseController{
 	* @return void    
 	* @throws
 	 */
-	@RequiresPermissions("shop.shopShops.cancel")
+	@RequiresPermissions("shop.shopPhotos.cancel")
 	@RequestMapping(value="/cancel",method = RequestMethod.POST)
 	public void cancel(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
-		shopShopsService.cancelDBAndCache(ids, getCurrUser());
+		shopPhotosService.cancelDBAndCache(ids, getCurrUser());
 		sendSuccessMessage(response,"删除成功");
 	}
 	
@@ -108,10 +86,10 @@ public class ShopShopsController extends BaseController{
 	* @return void    
 	* @throws
 	 */
-	@RequiresPermissions("shop.shopShops.delete")
+	@RequiresPermissions("shop.shopPhotos.delete")
 	@RequestMapping(value="/delete",method = RequestMethod.POST)
 	public void detete(Long[] ids,HttpServletRequest request, HttpServletResponse response) {
-		shopShopsService.deleteDBAndCache(ids);
+		shopPhotosService.deleteDBAndCache(ids);
 		sendSuccessMessage(response,"删除成功");
 	}
 	
@@ -127,7 +105,7 @@ public class ShopShopsController extends BaseController{
 	 */
 	@RequestMapping(value="/queryById",method = RequestMethod.POST)
 	public void queryById(Long id,HttpServletRequest request, HttpServletResponse response) {
-		ShopShops record = shopShopsService.queryDBById(id);
+		ShopPhotos record = shopPhotosService.queryCacheById(id);
 		HtmlUtil.writerJson(response,record);
 	}
 	/**
@@ -140,29 +118,16 @@ public class ShopShopsController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping(value="/save",method = RequestMethod.POST)
-	public void save(HttpServletRequest request, HttpServletResponse response,@RequestParam(value="image",required = false) MultipartFile multipartFile) {
-		ShopShops record = Request2ModelUtil.covert(ShopShops.class,request);
+	public void save(HttpServletRequest request, HttpServletResponse response) {
+		ShopPhotos record = Request2ModelUtil.covert(ShopPhotos.class,request);
 		if(record != null) {
-			if(multipartFile != null && !multipartFile.isEmpty()) {
-				SysParam param  = sysParamService.queryByKey("SHOP_PHOTO_PATH");
-				String realPath  = param.getParamValue();
-				String path = FileUploadUtil.doUpload(multipartFile, realPath);
-				ShopPhotos photo = new ShopPhotos();
-				photo.setPath(path);
-				photo.setTableName("shop_shops");
-				photo.setCreateBy(getCurrUser());
-				photo = shopPhotosService.insert(photo);
-				record.setShopImage(photo.getId());
-			}
 			if(record.getId() == null) {
-				UserSession userSession = WebUtil.getCurrentUserSession();
-				record.setUserId(userSession.getId());
 				record.setCreateBy(getCurrUser());
-				shopShopsService.insert(record);
+				shopPhotosService.insert(record);
 				sendSuccessMessage(response,"新增成功");
 			}else {
 				record.setUpdateBy(getCurrUser());
-				shopShopsService.updateDB(record);
+				shopPhotosService.updateDB(record);
 				sendSuccessMessage(response,"更新成功");
 			}
 		}

@@ -1,4 +1,7 @@
 $(function() {
+	//加载字典
+	var categorys=['ENABLE','SHOP_TYPE'];
+	loadDic(categorys);
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -72,6 +75,15 @@ var TableInit = function() {
 				sortable:true,
 			}, 
 			{
+				field : 'shopImage',
+				title : '商铺图片',
+				valign: 'middle',
+				sortable:true,
+				formatter:function(value){
+					return "<img src='../image/view?path="+value+"' style='width:100px'/>";
+				}
+			},
+			{
 				field : 'shopName',
 				title : '商铺名称',
 				valign: 'middle',
@@ -88,12 +100,7 @@ var TableInit = function() {
 				title : '类型',
 				valign: 'middle',
 				sortable:true,
-			},
-			{
-				field : 'userId',
-				title : '用户id',
-				valign: 'middle',
-				sortable:true,
+				formatter : dic_value_text("SHOP_TYPE"),
 			},
 			{
 				field : 'enable',
@@ -120,6 +127,8 @@ var TableInit = function() {
 			pageNum : params.pageNumber, // 页码
 			sort : params.sortName,
 			order : params.sortOrder,
+			enable:$("#enable_search").val(),
+			shopType:$("#shopType_search").val(),
 		};
 		return temp;
 	}

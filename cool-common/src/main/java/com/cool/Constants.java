@@ -60,6 +60,12 @@ public interface Constants {
 	public final static Long PERMISSION_ZERO = 0L;
 
 	public final static Long LONG_ZERO = (long) 0;
+	
+	/*
+	 * 用户类型
+	 */
+	public final static String SHOP_USER_TYPE = "3";//业务员
+	public final static String SYSTEM_USER_TYPE="2";//系统管理员
 
 	/**
 	 * 是否通用

@@ -15,6 +15,6 @@
 	<import resource="dubbo.xml"/>
 	<dubbo:service interface="com.cool.api.ShopShopsService" ref="shopShopsServiceImpl"></dubbo:service>
 	<dubbo:service interface="com.cool.api.ShopGoodsService" ref="shopGoodsServiceImpl"></dubbo:service>
-	
+	<dubbo:service interface="com.cool.api.ShopPhotosService" ref="shopPhotosServiceImpl"></dubbo:service>
 	
 </beans>

@@ -24,8 +24,10 @@
 				<div class="row">
 					<form method="post" class="form-horizontal" id="searchForm">
 						<div class="col-sm-3 col-md-3">
+						<@select_tag id="shopType_search" name="shopType" value="SHOP_TYPE" text="类型：" check="true"/>
 						</div>
 						<div class="col-sm-3 col-md-3">
+						<@select_tag id='enable_search' name='enable' value='ENABLE' text='状态' check='true'/>
 						</div>
 						<div class="col-sm-3 col-md-3">
 						</div>
@@ -45,22 +47,22 @@
 				</div>
 				<hr>
 				<div class="btn-group hidden-xs" id="toolbar" role="group">
-					<@shiro.hasPermission name="task.group.add"> 
+					<@shiro.hasPermission name="shop.shopShops.add"> 
 					<button id="add" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>&nbsp;新增
 					</button>
 					</@shiro.hasPermission>
-					<@shiro.hasPermission name="task.group.update"> 
+					<@shiro.hasPermission name="shop.shopShops.update"> 
 					<button id="edit" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>&nbsp;编辑
 					</button>
 					</@shiro.hasPermission>
-					<@shiro.hasPermission name="task.group.cancel"> 
+					<@shiro.hasPermission name="shop.shopShops.cancel"> 
 					<button id="cancel" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;锁定
 					</button>
 					</@shiro.hasPermission>
-					<@shiro.hasPermission name="task.group.delete"> 
+					<@shiro.hasPermission name="shop.shopShops.delete"> 
 					<button id="delete" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>&nbsp;删除
 					</button>

@@ -29,4 +29,9 @@ public class ShopShopsServiceImpl extends BaseServiceImpl<ShopShops> implements 
 		return shopShopsMapper;
 	}
 
+	@Override
+	public ShopShops queryShopByUserId(Long userId) {
+		return shopShopsMapper.queryShopByUserId(userId);
+	}
+
 }

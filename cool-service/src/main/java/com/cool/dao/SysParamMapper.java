@@ -8,4 +8,5 @@ import com.cool.model.SysParam;
 
 public interface SysParamMapper extends BaseMapper<SysParam>{
 	public List<SysParam> querySysParam(Map<String, Object> params);
+	public SysParam queryByKey(String paramKey);
 }

@@ -43,4 +43,9 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParam> implements Sy
 		return sysParamMapper.querySysParam(params);
 	}
 
+	@Override
+	public SysParam queryByKey(String paramKey) {
+		return sysParamMapper.queryByKey(paramKey);
+	}
+
 }

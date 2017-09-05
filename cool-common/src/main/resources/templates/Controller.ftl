@@ -1,4 +1,4 @@
-package com.cool.web;
+package com.cool.${sys_name};
 
 import java.util.Map;
 

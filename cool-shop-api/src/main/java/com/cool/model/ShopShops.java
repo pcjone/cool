@@ -27,6 +27,8 @@ public class ShopShops extends BaseModel {
 	 * 介绍
 	 */
 	private String shopIntroduce;
+	
+	private Long shopImage;
 
 	/**
 	 * 类型
@@ -46,6 +48,14 @@ public class ShopShops extends BaseModel {
 
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+
+	public Long getShopImage() {
+		return shopImage;
+	}
+
+	public void setShopImage(Long shopImage) {
+		this.shopImage = shopImage;
 	}
 
 	public String getShopIntroduce() {

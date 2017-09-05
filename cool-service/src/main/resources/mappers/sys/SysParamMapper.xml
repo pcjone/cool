@@ -95,6 +95,12 @@
 		<include refid="whereSql"></include>
 	</select>
 	
+	<select id="queryByKey" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from sys_param
+		where param_key = #{paramKey} and enable = 0
+	</select>
+	
 	<delete id="deleteAllByPrimaryKey" parameterType="Object">
 		delete from sys_param
 		where id in

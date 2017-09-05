@@ -388,7 +388,53 @@
 			<version>0.8.0</version>
 		</dependency> -->
 	</dependencies>
+	
+	<profiles>
+		<!-- 开发 -->
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profiles.active>props_dev</profiles.active>
+			</properties>
+			<!-- 默认启动此环境 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<!-- 测试 -->
+		<profile>
+			<id>test</id>
+			<properties>
+				<profiles.active>props_test</profiles.active>
+			</properties>
+		</profile>
+		<!-- 生产 -->
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profiles.active>props_prod</profiles.active>
+			</properties>
+			
+		</profile>
+		
+	</profiles>
+
 	<build>
 		<finalName>cool</finalName>
+		<!-- 指定使用的 filter -->
+		<!-- <filters> 
+			<filter>src/main/resources/${profiles.active}_props/redis.properties</filter>
+			<filter>src/main/resources/${profiles.active}_props/jdbc.properties</filter>
+			<filter>src/main/resources/${profiles.active}_props/dubbo.properties</filter>
+		</filters> -->
+		<resources>
+			<resource> <!-- 配置需要被替换的资源文件路径, *.properties 应该在 src/main/resource 目录下 -->
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/**</include>
+				</includes>
+				<filtering>true</filtering> <!-- 是否使用过滤器 -->
+			</resource>
+		</resources>
 	</build>
 </project>

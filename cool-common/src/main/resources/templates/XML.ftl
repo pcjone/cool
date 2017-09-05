@@ -189,7 +189,7 @@
 			</if>
 		<#else>
 			<if test="${model.changeColumnName?uncap_first} != null">
-				and ${model.columnName} = ${"#{"}${model.changeColumnName?uncap_first}},
+				and ${model.columnName} = ${"#{"}${model.changeColumnName?uncap_first}}
 			</if>
 		</#if>
 	</#list>

@@ -5,6 +5,7 @@
 		<id column="id" property="id"/>
 		<result column="shop_name" property="shopName"/>
 		<result column="shop_introduce" property="shopIntroduce"/>
+		<result column="shop_image" property="shopImage"/>
 		<result column="shop_type" property="shopType"/>
 		<result column="user_id" property="userId"/>
 		<result column="enable" property="enable"/>
@@ -18,6 +19,7 @@
 	id,
 				shop_name,
 				shop_introduce,
+				shop_image,
 				shop_type,
 				user_id,
 	enable,remark,create_by,create_time,update_by,update_time
@@ -33,6 +35,9 @@
 			</if>
 			<if test="shopIntroduce != null and shopIntroduce != ''">
 				shop_introduce,
+			</if>
+			<if test="shopImage != null">
+				shop_image,
 			</if>
 			<if test="shopType != null">
 				shop_type,
@@ -63,6 +68,9 @@
 			</if>
 			<if test="shopIntroduce != null and shopIntroduce != ''">
 				#{shopIntroduce},
+			</if>
+			<if test="shopImage != null">
+				#{shopImage},
 			</if>
 			<if test="shopType != null">
 				#{shopType},
@@ -108,6 +116,11 @@
 		<include refid="whereSql"></include>
 	</select>
 	
+	<select id="queryShopByUserId" parameterType="Object" resultMap="resultMap">
+		select <include refid="allFields"></include> 
+		from shop_shops where user_id = #{userId}
+	</select>
+	
 	<delete id="deleteAllByPrimaryKey" parameterType="Object">
 		delete from shop_shops
 		where id in
@@ -124,6 +137,9 @@
 			</if>
 			<if test="shopIntroduce != null and shopIntroduce != ''">
 				shop_introduce = #{shopIntroduce},
+			</if>
+			<if test="shopImage != null">
+				shop_image = #{shopImage},
 			</if>
 			<if test="shopType != null">
 				shop_type = #{shopType},

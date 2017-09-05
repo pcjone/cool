@@ -17,6 +17,16 @@
 </div>
 </#macro>
 
+<#macro show_tag value code>
+<@tags target="sysDicTag" value="${value}"> 
+<#list outTagName as dic>
+	<#if "${dic.codeValue}"=="${code}">
+	${dic.codeText}
+	</#if>
+</#list>
+</@tags>
+</#macro>
+
 <#macro select_group id name value text check>
 <div class="form-group">
 	<label class="col-sm-4 control-label">${text}</label>

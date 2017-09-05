@@ -4,5 +4,6 @@ import com.cool.base.BaseService;
 import com.cool.model.ShopShops;
 
 public interface ShopShopsService extends BaseService<ShopShops>{
-
+	
+	public ShopShops queryShopByUserId(Long userId);
 }

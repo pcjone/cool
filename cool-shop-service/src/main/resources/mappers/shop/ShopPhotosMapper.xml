@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cool.dao.SysParamMapper">
-	<resultMap type="com.cool.model.SysParam" id="resultMap">
+<mapper namespace="com.cool.dao.ShopPhotosMapper">
+	<resultMap type="com.cool.model.ShopPhotos" id="resultMap">
 		<id column="id" property="id"/>
-		<result column="param_key" property="paramKey"/>
-		<result column="param_value" property="paramValue"/>
+		<result column="path" property="path"/>
+		<result column="table_name" property="tableName"/>
 		<result column="enable" property="enable"/>
 		<result column="remark" property="remark"/>
 		<result column="create_by" property="createBy"/>
@@ -13,19 +13,22 @@
 		<result column="update_time" property="updateTime"/>
 	</resultMap>
 	<sql id="allFields">
-	id,param_key,param_value,enable,remark,create_by,create_time,update_by,update_time
+	id,
+				path,
+				table_name,
+	enable,remark,create_by,create_time,update_by,update_time
 	</sql>
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Object">
-		insert into sys_param
+		insert into shop_photos
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null">
 				id,
 			</if>
-			<if test="paramKey != null and paramKey != ''">
-				 param_key,
+			<if test="path != null and path != ''">
+				path,
 			</if>
-			<if test="paramValue != null and paramValue != ''">
-				 param_value,
+			<if test="tableName != null and tableName != ''">
+				table_name,
 			</if>
 			<if test="enable != null">
 				 enable,
@@ -45,11 +48,11 @@
 			<if test="id != null">
 				#{id},
 			</if>
-			<if test="paramKey != null and paramKey != ''">
-				 #{paramKey},
+			<if test="path != null and path != ''">
+				#{path},
 			</if>
-			<if test="paramValue != null and paramValue != ''">
-				 #{paramValue},
+			<if test="tableName != null and tableName != ''">
+				#{tableName},
 			</if>
 			<if test="enable != null">
 				 #{enable},
@@ -67,42 +70,30 @@
 	</insert>
 	<!-- 删除记录 -->
 	<delete id="deleteByPrimaryKey" parameterType="Object">
-		delete from sys_param where id = #{id}
+		delete from shop_photos where id = #{id}
 	</delete>
 
 	<!-- 根据id查询 -->
 	<select id="selectByPrimaryKey"  resultMap="resultMap" parameterType="java.lang.Long">
 		select <include refid="allFields" />
-		 from sys_param
+		 from shop_photos
 		 where id = #{id}
 	</select>
 
 	<!-- 列表总数-->
 	<select id="query" resultType="java.lang.Long"  parameterType="Object">
-		select id from sys_param
+		select id from shop_photos
 		<include refid="whereSql"></include>
 	</select>
 	<!-- 分页查询 -->
 	<select id="queryForList" parameterType="Object" resultMap="resultMap">
 		select <include refid="allFields"></include> 
-		from sys_param
+		from shop_photos
 		<include refid="whereSql"></include>
-	</select>
-	
-	<select id="querySysParam" parameterType="Object" resultMap="resultMap">
-		select <include refid="allFields"></include> 
-		from sys_param
-		<include refid="whereSql"></include>
-	</select>
-	
-	<select id="queryByKey" parameterType="Object" resultMap="resultMap">
-		select <include refid="allFields"></include> 
-		from sys_param
-		where param_key = #{paramKey} and enable = 0
 	</select>
 	
 	<delete id="deleteAllByPrimaryKey" parameterType="Object">
-		delete from sys_param
+		delete from shop_photos
 		where id in
 		<foreach item="id" collection="list" open="(" close=")" separator=",">
              #{id}
@@ -110,14 +101,13 @@
 	</delete>
 
 	<update id="updateByPrimaryKey" parameterType="Object">
-		update sys_param
+		update shop_photos
 		<trim prefix="set" suffixOverrides=",">
-			<if test="paramKey != null and paramKey != '' ">
-				<![CDATA[ param_key = #{paramKey}, ]]>
+			<if test="path != null and path != ''">
+				path = #{path},
 			</if>
-			
-			<if test="paramValue != null and paramValue != '' ">
-				<![CDATA[ param_value = #{paramValue}, ]]>
+			<if test="tableName != null and tableName != ''">
+				table_name = #{tableName},
 			</if>
 			
 			<if test="enable != null">
@@ -140,7 +130,7 @@
 	</update>
 	
 	<update id="updateAllByPrimaryKey" parameterType="Object">
-		update sys_param
+		update shop_photos
 		<trim prefix="set" suffixOverrides=",">
 		    <if test="enable != null " >
 		  	<![CDATA[  enable = #{enable}, ]]>
@@ -164,17 +154,14 @@
 			<if test="id != null">
 				and id = #{id}
 			</if>
-			<if test="paramKey != null and paramKey != ''">
-				and param_key = #{paramKey}
+			<if test="path != null and path != ''">
+				and path = #{path}
 			</if>
-			<if test="paramValue != null and paramValue != ''">
-				and param_value = #{paramValue}
+			<if test="tableName != null and tableName != ''">
+				and table_name = #{tableName}
 			</if>
 			<if test="enable != null">
 				and enable = #{enable}
-			</if>
-			<if test="remark != null">
-				and remark = #{remark}
 			</if>
 		</where>
 	</sql>

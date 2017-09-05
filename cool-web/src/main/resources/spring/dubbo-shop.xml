@@ -14,4 +14,5 @@
 	<!-- 商城 -->
 	<dubbo:reference id="shopShopsService" interface="com.cool.api.ShopShopsService"></dubbo:reference>
 	<dubbo:reference id="shopGoodsService" interface="com.cool.api.ShopGoodsService"></dubbo:reference>
+	<dubbo:reference id="shopPhotosService" interface="com.cool.api.ShopPhotosService"></dubbo:reference>
 </beans>

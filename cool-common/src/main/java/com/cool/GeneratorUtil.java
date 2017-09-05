@@ -27,7 +27,7 @@ public class GeneratorUtil {
 
 	private final String diskPath = "/Users/panlei/code/";
 	// 表名称
-	private final String tableName = "shop_goods";
+	private final String tableName = "shop_photos";
 	// 系统名称
 	private final String sysName = "shop";
 
@@ -67,7 +67,7 @@ public class GeneratorUtil {
 		// 生成js文件
 		generateJSFile(resultSet, list);
 		//生产html文件
-		generateHtmlFile(resultSet, list);
+		//generateHtmlFile(resultSet, list);
 		// 生成Model文件
 		generateModelFile(resultSet, list);
 

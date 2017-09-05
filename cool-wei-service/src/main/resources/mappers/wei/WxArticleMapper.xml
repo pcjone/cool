@@ -166,7 +166,7 @@
 				and id = #{id}
 			</if>
 			<if test="articleCount != null">
-				and article_count = #{articleCount},
+				and article_count = #{articleCount}
 			</if>
 			<if test="title != null and title != ''">
 				and title = #{title}
