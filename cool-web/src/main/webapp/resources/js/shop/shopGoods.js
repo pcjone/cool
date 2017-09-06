@@ -1,4 +1,7 @@
 $(function() {
+	//加载字典
+	var categorys=['ENABLE','GOODS_TYPE','GOODS_STATUS'];
+	loadDic(categorys);
 	// 1.初始化Table
 	var oTable = new TableInit();
 	oTable.Init();
@@ -76,6 +79,7 @@ var TableInit = function() {
 				title : '商铺id',
 				valign: 'middle',
 				sortable:true,
+				visible : false,
 			},
 			{
 				field : 'goodsName',
@@ -91,9 +95,12 @@ var TableInit = function() {
 			},
 			{
 				field : 'amount',
-				title : '金额（分）',
+				title : '金额（元）',
 				valign: 'middle',
 				sortable:true,
+				formatter:function(value){
+					return value/100;
+				},
 			},
 			{
 				field : 'count',
@@ -106,6 +113,9 @@ var TableInit = function() {
 				title : '商品图片',
 				valign: 'middle',
 				sortable:true,
+				formatter:function(value){
+					return "<img src='../image/view?path="+value+"' style='width:100px'/>";
+				}
 			},
 			{
 				field : 'goodsType',
@@ -116,12 +126,6 @@ var TableInit = function() {
 			{
 				field : 'goodsStatus',
 				title : '商品状态',
-				valign: 'middle',
-				sortable:true,
-			},
-			{
-				field : 'version',
-				title : '版本号',
 				valign: 'middle',
 				sortable:true,
 			},
@@ -177,7 +181,8 @@ var ButtonInit = function() {
 		
 		//新增功能
 		$("#add").click(function(){
-			$(".modal-title").html("新增数据字典");
+			$(".modal-title").html("新增商品");
+			$("#preview").attr("src","");
 			$('#signupForm')[0].reset();
 			$("#myModal").modal('show');
 		});
@@ -190,7 +195,14 @@ var ButtonInit = function() {
 				return;
 			}
 			$("#id").val(rows[0].id);
-			
+			$("#goodsName").val(rows[0].goodsName);
+			$("#goodsDetail").val(rows[0].goodsDetail);
+			$("#amount").val(rows[0].amount/100);
+			$("#count").val(rows[0].count);
+			$("#goodsType").val(rows[0].goodsType);
+			$("#goodsStatus").val(rows[0].goodsStatus);
+			$("#preview").attr("src","../image/view?path="+rows[0].goodsIcon);
+			$(".modal-title").html("编辑商品");
 			$("#myModal").modal('show');
 		});
 		
@@ -294,7 +306,22 @@ function initOtherFunction(){
 			clearForm : true, // 表示成功提交后清除所有表单字段值
 			resetForm : true,// 表示成功提交后重置所有字段
 			beforeSubmit:function(){
-				
+				var goodsName = $("#goodsName").val();
+				if(goodsName.trim() == ""){
+					swal("请输入商品名称", "", "warning");
+				}
+				var goodsDetail = $("#goodsDetail").val();
+				if(goodsDetail.trim() == ""){
+					swal("请输入详情", "", "warning");
+				}
+				var amount = $("#amount").val();
+				if(amount == "" || amount<0){
+					swal("请输入金额（元）", "", "warning");
+				}
+				var count = $("#count").val();
+				if(count == ""|| count <0){
+					swal("请输入库存数量", "", "warning");
+				}
 			},
 			success : function(data) {
 				if (data.success) {
@@ -312,4 +339,30 @@ function initOtherFunction(){
 		};
 		$("#signupForm").ajaxSubmit(options);
 	});
+}
+//预览照片
+function imgPreview(fileDom){
+    //判断是否支持FileReader
+    if (window.FileReader) {
+        var reader = new FileReader();
+    } else {
+        alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+    }
+
+    //获取文件
+    var file = fileDom.files[0];
+    var imageType = /^image\//;
+    //是否是图片
+    if (!imageType.test(file.type)) {
+        alert("请选择图片！");
+        return;
+    }
+    //读取完成
+    reader.onload = function(e) {
+        //获取图片dom
+        var img = document.getElementById("preview");
+        //图片路径设置为读取的图片
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
 }

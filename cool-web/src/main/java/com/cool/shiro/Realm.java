@@ -20,9 +20,12 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cool.Constants;
+import com.cool.api.ShopShopsService;
 import com.cool.api.SysMenuService;
 import com.cool.api.SysUserMenuService;
 import com.cool.api.SysUserService;
+import com.cool.generator.ConstantsEnum;
+import com.cool.model.ShopShops;
 import com.cool.model.SysMenu;
 import com.cool.model.SysUser;
 import com.cool.session.UserSession;
@@ -48,6 +51,9 @@ public class Realm extends AuthorizingRealm{
 	
 	@Autowired
 	protected SysMenuService sysMenuService;
+	
+	@Autowired
+	protected ShopShopsService shopShopsService;
 	
 	public String getName() {
 		return "myRealName";
@@ -100,6 +106,11 @@ public class Realm extends AuthorizingRealm{
 		userSession.setId(user.getId());
 		userSession.setAccount(user.getAccount());
 		userSession.setUserType(user.getUserType());
+		//普通用户去查询商铺
+		if(user.getUserType().equals(ConstantsEnum.UserType.RegisterUser.key)) {
+			ShopShops shop = shopShopsService.queryShopByUserId(user.getId());
+			userSession.setShopId(shop.getId());
+		}
 		//根据用户id查询权限菜单
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("userId", user.getId());

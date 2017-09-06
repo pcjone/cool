@@ -45,22 +45,22 @@
 				</div>
 				<hr>
 				<div class="btn-group hidden-xs" id="toolbar" role="group">
-					<@shiro.hasPermission name="task.group.add"> 
+					<@shiro.hasPermission name="shop.shopGoods.add"> 
 					<button id="add" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>&nbsp;新增
 					</button>
 					</@shiro.hasPermission>
-					<@shiro.hasPermission name="task.group.update"> 
+					<@shiro.hasPermission name="shop.shopGoods.update"> 
 					<button id="edit" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>&nbsp;编辑
 					</button>
 					</@shiro.hasPermission>
-					<@shiro.hasPermission name="task.group.cancel"> 
+					<@shiro.hasPermission name="shop.shopGoods.cancel"> 
 					<button id="cancel" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;锁定
 					</button>
 					</@shiro.hasPermission>
-					<@shiro.hasPermission name="task.group.delete"> 
+					<@shiro.hasPermission name="shop.shopGoods.delete"> 
 					<button id="delete" type="button" class="btn btn-outline btn-default">
 						<i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>&nbsp;删除
 					</button>
@@ -84,8 +84,15 @@
 					<h1 class="modal-title"></h1>
 				</div>
 				<div class="modal-body">
-					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm">
+					 <form class="form-horizontal m-t" action="save" method="post" id="signupForm" enctype="multipart/form-data">
 					 		<input id="id" name="id" type="text" style="display:none"/>
+					 		<@input_local id="goodsName" name="goodsName" value="" text="商品名称：" />
+					 		<@img_local id="inputImage" name="image" text="商品照片" width="80px" height="80px"/>
+					 		<@input_local id="goodsDetail" name="goodsDetail" value="" text="商品详情：" />
+					 		<@input_local id="amount" name="amount" value="" text="商品价格：" />
+					 		<@input_local id="count" name="count" value="" text="库存：" />
+					 		<@input_local id="goodsType" name="goodsType" value="" text="商品类型：" />
+					 		<@input_local id="goodsStatus" name="goodsStatus" value="" text="状态：" />
 					 	</form>
 				</div>
 				<div class="modal-footer">

@@ -3,6 +3,7 @@
 <mapper namespace="com.cool.dao.ShopGoodsMapper">
 	<resultMap type="com.cool.model.ShopGoods" id="resultMap">
 		<id column="id" property="id"/>
+		<result column="uuid" property="uuid"/>
 		<result column="shop_id" property="shopId"/>
 		<result column="goods_name" property="goodsName"/>
 		<result column="goods_detail" property="goodsDetail"/>
@@ -21,6 +22,7 @@
 	</resultMap>
 	<sql id="allFields">
 	id,
+	uuid,
 				shop_id,
 				goods_name,
 				goods_detail,
@@ -38,6 +40,9 @@
 			<if test="id != null">
 				id,
 			</if>
+			<if test="uuid != null">
+				uuid,
+			</if>
 			<if test="shopId != null">
 				shop_id,
 			</if>
@@ -53,7 +58,7 @@
 			<if test="count != null">
 				count,
 			</if>
-			<if test="goodsIcon != null and goodsIcon != ''">
+			<if test="goodsIcon != null">
 				goods_icon,
 			</if>
 			<if test="goodsType != null">
@@ -83,6 +88,9 @@
 			<if test="id != null">
 				#{id},
 			</if>
+			<if test="uuid != null and uuid != ''">
+				#{uuid},
+			</if>
 			<if test="shopId != null">
 				#{shopId},
 			</if>
@@ -98,7 +106,7 @@
 			<if test="count != null">
 				#{count},
 			</if>
-			<if test="goodsIcon != null and goodsIcon != ''">
+			<if test="goodsIcon != null">
 				#{goodsIcon},
 			</if>
 			<if test="goodsType != null">
@@ -159,6 +167,9 @@
 	<update id="updateByPrimaryKey" parameterType="Object">
 		update shop_goods
 		<trim prefix="set" suffixOverrides=",">
+			<if test="uuid != null and uuid != '' ">
+				uuid = #{uuid},
+			</if>
 			<if test="shopId != null">
 				shop_id = #{shopId},
 			</if>
@@ -174,7 +185,7 @@
 			<if test="count != null">
 				count = #{count},
 			</if>
-			<if test="goodsIcon != null and goodsIcon != ''">
+			<if test="goodsIcon != null">
 				goods_icon = #{goodsIcon},
 			</if>
 			<if test="goodsType != null">
@@ -231,6 +242,9 @@
 			<if test="id != null">
 				and id = #{id}
 			</if>
+			<if test="uuid != null and uuid != ''">
+				and uuid = #{uuid}
+			</if>
 			<if test="shopId != null">
 				and shop_id = #{shopId}
 			</if>
@@ -246,7 +260,7 @@
 			<if test="count != null">
 				and count = #{count}
 			</if>
-			<if test="goodsIcon != null and goodsIcon != ''">
+			<if test="goodsIcon != null">
 				and goods_icon = #{goodsIcon}
 			</if>
 			<if test="goodsType != null">

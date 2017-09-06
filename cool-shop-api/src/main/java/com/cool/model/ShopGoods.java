@@ -2,8 +2,6 @@ package com.cool.model;
 
 import com.cool.base.BaseModel;
 
-import java.util.Date;
-
 public class ShopGoods extends BaseModel{
 
 	/** 
@@ -11,6 +9,8 @@ public class ShopGoods extends BaseModel{
 	*/ 
 	private static final long serialVersionUID = 1L;
 
+	private String uuid;
+	
 	/**
 	*商铺id
 	*/
@@ -49,7 +49,7 @@ public class ShopGoods extends BaseModel{
 	/**
 	*商品图片
 	*/
-	private String goodsIcon;	
+	private Long goodsIcon;	
 	    
 	
 	    
@@ -122,17 +122,14 @@ public class ShopGoods extends BaseModel{
 		this.count = count;
 	}		
 	
-	public String getGoodsIcon() {
+	public Long getGoodsIcon() {
 		return this.goodsIcon;
 	}
 	
-	public void setGoodsIcon(String goodsIcon) {
+	public void setGoodsIcon(Long goodsIcon) {
 		this.goodsIcon = goodsIcon;
 	}
-	
-	
-	
-	
+
 	public Long getGoodsType() {
 		return this.goodsType;
 	}
@@ -157,7 +154,14 @@ public class ShopGoods extends BaseModel{
 		
 	public void setVersion(Long version) {
 		this.version = version;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}		
-	
 
 }

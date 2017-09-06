@@ -58,8 +58,10 @@
                                         <h3>商铺介绍</h3>
 									   <p>${shop.shopIntroduce}</p>
                                         <br>
+                                        <@shiro.hasPermission name="shop.shopShops.update"> 
                                         <button type="button" id="update" class="btn btn-primary btn-sm btn-block">修改
                                         </button>
+                                        </@shiro.hasPermission>
                                     </div>
                                 </div>
 							</div>
@@ -76,7 +78,9 @@
                 <div class="middle-box text-center animated fadeInRightBig">
                     <h3 class="font-bold">您还没有商铺哦！</h3>
                     <div class="error-desc">
+                    		<@shiro.hasPermission name="shop.shopShops.add"> 
                         <br/><a href="javascript:createShop()" class="btn btn-primary m-t">创建商铺</a>
+                        </@shiro.hasPermission>
                     </div>
                 </div>
             </div>

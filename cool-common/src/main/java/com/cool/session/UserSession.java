@@ -22,6 +22,8 @@ public class UserSession implements Serializable {
 	private String account;
 	
 	private String userType;
+	
+	private Long shopId;
 	/**
 	 * 用户权限
 	 */
@@ -50,6 +52,12 @@ public class UserSession implements Serializable {
 	}
 	public void setPermissionList(List<String> permissionList) {
 		this.permissionList = permissionList;
+	}
+	public Long getShopId() {
+		return shopId;
+	}
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
 	
 }

@@ -140,7 +140,8 @@ public class ShopShopsController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping(value="/save",method = RequestMethod.POST)
-	public void save(HttpServletRequest request, HttpServletResponse response,@RequestParam(value="image",required = false) MultipartFile multipartFile) {
+	public void save(HttpServletRequest request, HttpServletResponse response,
+						@RequestParam(value="image",required = false) MultipartFile multipartFile) {
 		ShopShops record = Request2ModelUtil.covert(ShopShops.class,request);
 		if(record != null) {
 			if(multipartFile != null && !multipartFile.isEmpty()) {
